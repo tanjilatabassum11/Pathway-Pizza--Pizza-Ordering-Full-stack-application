@@ -15,22 +15,19 @@ CREATE TABLE users (
 	is_approved boolean NOT NULL DEFAULT (false),
 	CONSTRAINT PK_user PRIMARY KEY (user_id)
 );
-
-CREATE TABLE orders(
+CREATE TABLE orders (
     order_id SERIAL PRIMARY KEY,
-    order_name varchar(50),
-    phone_number varchar(15),
+    order_name VARCHAR(50),
+    phone_number VARCHAR(15),
     order_date_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    is_delivery BOOLEAN not NULL,
-    address varchar(100),
+    is_delivery BOOLEAN NOT NULL DEFAULT false,
+    address VARCHAR(100),
     delivery_date_time TIMESTAMP,
-    payment_info varchar(50) NOT NULL,
-    total_cost NUMERIC(5,2) not null,
-    order_status varchar(25) DEFAULT 'pending',
-    email_address varchar(100)
-
+    payment_info VARCHAR(50) NOT NULL,
+    total_cost NUMERIC(5, 2) NOT NULL CHECK (total_cost >= 0),
+    order_status VARCHAR(25) DEFAULT 'pending',
+    email_address VARCHAR(100)
 );
-
 CREATE TABLE pizzas(
     pizza_id SERIAL PRIMARY KEY,
     pizza_name varchar(50),
