@@ -1,6 +1,7 @@
 package com.techelevator.controller;
 
 import com.techelevator.dao.PizzaDao;
+import com.techelevator.dao.ToppingDao;
 import com.techelevator.model.Pizza;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,6 +16,9 @@ import java.util.List;
 public class PizzaController {
     @Autowired
     private PizzaDao pizzaDao;
+
+    @Autowired
+    private ToppingDao toppingDao;
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(path="/specialty", method= RequestMethod.POST)
     public Pizza createSpecialtyPizza(@RequestBody Pizza pizza) {
@@ -43,5 +47,15 @@ public class PizzaController {
     @RequestMapping(path="/specialty", method=RequestMethod.GET)
     public List<Pizza> getAllSpecialtyPizzas(){
         return pizzaDao.getAllSpecialtyPizzas();
+    }
+
+    @RequestMapping(path = "/{pizzaId}/add/{toppingId}", method = RequestMethod.POST)
+    public void addToppingToPizza(@PathVariable int pizzaId, @PathVariable int toppingId){
+        toppingDao.addToppingToPizza(toppingId, pizzaId);
+    }
+
+    @RequestMapping(path = "/{pizzaId}/remove/{toppingId}", method = RequestMethod.DELETE)
+    public void deleteToppingFromPizza(@PathVariable int pizzaId, @PathVariable int toppingId){
+        toppingDao.deleteToppingFromPizza(toppingId, pizzaId);
     }
 }
