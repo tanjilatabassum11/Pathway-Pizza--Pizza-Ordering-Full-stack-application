@@ -32,13 +32,15 @@ public class OrderController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Order not found"));
     }
 
-//    @RequestMapping(path = "/create", method = RequestMethod.POST)
-//    @ResponseStatus(HttpStatus.CREATED)
-//    public Order createOrder(@RequestBody Order order) {
-//        return orderDao.createOrder(order)
-//                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "created order not found"));
-
-
-
+    @RequestMapping(path = "/create", method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.CREATED)
+    public Order createOrder(@RequestBody Order order) {
+        Order newOrder = orderDao.createOrder(order);
+        if (newOrder == null) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Order creation failed");
+        }
+        return newOrder;
     }
+
+}
 
