@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="home">
       <div>
           <button>Place order</button>
       </div>
@@ -49,5 +49,10 @@ button{
     height: 50px;
     width: 150px;
     font-size: 1.1em;
+}
+#home{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 </style>

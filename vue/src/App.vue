@@ -4,10 +4,13 @@
       <router-link v-bind:to="{ name: 'home' }">Home</router-link>&nbsp;|&nbsp;
       <router-link v-bind:to="{ name: 'logout' }" v-if="$store.state.token != ''">Logout</router-link>
     </div> -->
-    <router-link :to="{name: 'home'}"></router-link>
     <LogoComponent />
+    
     <router-view />
-    <FooterComponent />
+
+    <div id="foot">
+      <FooterComponent />
+    </div>
   </div>
 </template>
 
@@ -19,3 +22,19 @@ export default{
 
 }
 </script>
+
+<style scoped>
+template{
+  min-height: 100vh;
+}
+#capstone-app{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#foot{
+  margin-top: auto;
+}
+
+
+</style>

@@ -40,11 +40,12 @@ footer{
     color: #5FA873;
     justify-self: flex-end;
     width: 350px;
-    height: 150px;
+    height: 100px;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     padding: 15px;
+    margin-top: auto;
 }
 a{
     color: #BB554A;
