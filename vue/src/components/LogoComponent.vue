@@ -1,21 +1,25 @@
 <template>
-    <div>
-      <div>
-          <button>Place order</button>
-      </div>
-      <PizzaCard />
-      <PizzaCard />
-      <PizzaCard />
+  <div id="brand">
+        <img v-on:click="goHome()" id="logo" src="../images/byosmall.png">
+        <div>
+            <h1 v-on:click="goHome()" id="with-line">Pathway Pizza</h1>
+            <p>This is the way</p>
+        </div>
     </div>
 </template>
-
+    
 <script>
-import PizzaCard from '../components/PizzaCard.vue';
-export default {
-  components:{PizzaCard},
 
-  name: 'HomeView',
-};
+const brandGreenColor = '#5FA873';
+
+export default {
+    methods:{
+        goHome(){
+            this.$router.push({name: 'home'});
+        }
+    }
+
+}
 </script>
 
 <style scoped>
@@ -35,19 +39,25 @@ export default {
     --brand-darkred-color: #BB554A;
     --brand-white-color: #FFFFFF;
 }
-
 *{
     font-family: 'Mandalore Laser Title';
-
 }
-button{
-    margin: 10px;
-    background-color: #a18f6380;
+#with-line{
+    border-bottom: #A18F63 5px solid;
+}
+h1{
+    color: #5FA873;
+}
+p{
     color: #BB554A;
-    border: #5FA873 5px solid;
-    border-radius: 10px;
-    height: 50px;
-    width: 150px;
-    font-size: 1.1em;
+    letter-spacing: -.2em;
+}
+#logo{
+    width: 100px;
+    
+}
+#brand{
+    display: flex;
+    border-bottom: #5FA873 5px solid;
 }
 </style>
