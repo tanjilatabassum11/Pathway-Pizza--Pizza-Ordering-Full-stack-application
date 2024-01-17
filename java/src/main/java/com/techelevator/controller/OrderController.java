@@ -1,8 +1,10 @@
 package com.techelevator.controller;
 
+import com.techelevator.exception.DaoException;
 import com.techelevator.model.Order;
 import com.techelevator.dao.OrderDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -42,5 +44,21 @@ public class OrderController {
         return newOrder;
     }
 
+    @RequestMapping(path = "/update/{orderId}", method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public Order updateOrder(@PathVariable int orderId, @RequestBody Order order){
+        try {
+            order.setOrderId(orderId);
+            return orderDao.updateOrder(order);
+        } catch(DaoException ex){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "We could not find the order");
+        }
+    }
+
+    //delete
+    @RequestMapping(path="/delete/{orderId}", method=RequestMethod.DELETE)
+    public void deleteOrder(@PathVariable int orderId){
+        orderDao.deleteOrder(orderId);
+    }
 }
 
