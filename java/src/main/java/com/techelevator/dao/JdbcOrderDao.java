@@ -1,112 +1,105 @@
 package com.techelevator.dao;
 
-
 import com.techelevator.model.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class JdbcOrderDao implements OrderDao {
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
+    private final Logger logger = LoggerFactory.getLogger(JdbcOrderDao.class);
 
+    @Autowired
+    public JdbcOrderDao(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @Override
     public List<Order> getOrders() {
-        List<Order> orders = new ArrayList<>();
-        String sql = "SELECT *\n" +
-                "FROM orders;";
+        String sql = "SELECT * FROM orders;";
+        return jdbcTemplate.query(sql, new OrderRowMapper());
+    }
+
+    @Override
+    public Optional<Order> getOrderById(int orderId) {
+        String sql = "SELECT * FROM orders WHERE order_id = ?";
         try {
-            SqlRowSet rs = jdbcTemplate.queryForRowSet(sql);
-            while (rs.next()){
-                Order order = mapRowToOrder(rs);
-                orders.add(order);
-            }
-
-        } catch (Exception ex){
-            System.out.println("Something went wrong" + ex.getMessage());
+            return Optional.ofNullable(jdbcTemplate.queryForObject(sql, new OrderRowMapper(), orderId));
+        } catch (Exception e) {
+            logger.error("Error retrieving order with ID " + orderId, e);
+            return Optional.empty();
         }
-        return orders;
     }
 
     @Override
-    public Order getOrderById(int orderId) {
-       //Step 1
-        Order order = null;
-
-        //Step 2
-        String sql = "SELECT order_id, order_name, phone_number, order_date_time, is_delivery, address, delivery_date_time, payment_info, total_cost, order_status, email_address\n" +
-                "FROM order\n" +
-                "WHERE order_id = ?;";
-
-
-
-        //Step 3
-        try{
-            SqlRowSet rs = jdbcTemplate.queryForRowSet(sql, orderId);
-
-            //Step 4
-            while (rs.next()){
-                order = mapRowToOrder(rs);
-            }
-
-        }catch (Exception ex){
-            System.out.println("Something went wrong" + ex.getMessage());
-        }
-
-        //step 5
-        return order;
-    }
-
-    @Override
+    @Transactional
     public Order createOrder(Order order) {
         //Step 1
-        Order newOrder = null;
-
+        String sql = "INSERT INTO orders(order_name, phone_number, order_date_time, is_delivery, address, delivery_date_time, payment_info, total_cost, order_status, email_address) " +
+                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING order_id;";
         //Step 2
-        String sql = "INSERT INTO orders(order_name, phone_number, order_date_time, is_delivery, address, delivery_date_time, payment_info, total_cost, order_status, email_address)\n" +
-                "VALUES(?,?,?,?,?,?,?,?,?,?) RETURNING order_id;";
-
-        //Step 3
-        try{
-            int orderId = jdbcTemplate.queryForObject(sql, int.class, order.getOrderName(), order.getPhoneNumber(), order.getOrderDateTime(),order.isDelivery(), order.getAddress(), order.getDeliveryDateTime(),
-                    order.getPaymentInfo(), order.getTotalCost(), order.getEmailAddress());
-
-            //Step 4
-            newOrder = getOrderById(orderId);
-
-        }catch (Exception ex){
-            System.out.println("Something went wrong" + ex.getMessage());
+        try {
+            int orderId = jdbcTemplate.queryForObject(sql, Integer.class, order.getOrderName(), order.getPhoneNumber(), order.getOrderDateTime(), order.isDelivery(), order.getAddress(), order.getDeliveryDateTime(), order.getPaymentInfo(), order.getTotalCost(), order.getOrderStatus(), order.getEmailAddress());
+            return getOrderById(orderId).orElse(null);
+        } catch (Exception e) {
+            logger.error("Error creating order", e);
+            return null;
         }
-
-        //step 5
-        return  newOrder;
     }
 
-    //private static final OrderRowMapper implements RowMapper<>{
-     //   @Override
-   // import org.springframework.jdbc.core.RowMapper;
-    // }
+    @Override
+    @Transactional
+    public Order updateOrder(Order order) {
+        String sql = "UPDATE orders SET order_name = ?, phone_number = ?, order_date_time = ?, is_delivery = ?, address = ?, delivery_date_time = ?, payment_info = ?, total_cost = ?, order_status = ?, email_address = ? " +
+                "WHERE order_id = ?";
+        try {
+            jdbcTemplate.update(sql, order.getOrderName(), order.getPhoneNumber(), order.getOrderDateTime(), order.isDelivery(), order.getAddress(), order.getDeliveryDateTime(), order.getPaymentInfo(), order.getTotalCost(), order.getOrderStatus(), order.getEmailAddress(), order.getOrderId());
+            return getOrderById(order.getOrderId()).orElse(null);
+        } catch (Exception e) {
+            logger.error("Error updating order with ID " + order.getOrderId(), e);
+            return null;
+        }
+    }
 
-
-    private Order mapRowToOrder(SqlRowSet rs){
-    Order order = new Order();
-    order.setOrderId(rs.getInt("order_id"));
-    order.setOrderName(rs.getString("order_name"));
-    order.setPhoneNumber(rs.getString("phone_number"));
-    order.setOrderDateTime(rs.getTimestamp("order_date_time"));
-    order.setDelivery(rs.getBoolean("is_delivery"));
-    order.setAddress(rs.getString("address"));
-    order.setDeliveryDateTime(rs.getTimestamp("delivery_date_time"));
-    order.setPaymentInfo(rs.getString("payment_info"));
-    return order;
+    @Override
+    @Transactional
+    public boolean deleteOrder(int orderId) {
+        String sql = "DELETE FROM orders WHERE order_id = ?";
+        try {
+            int rowsAffected = jdbcTemplate.update(sql, orderId);
+            return rowsAffected > 0;
+        } catch (Exception e) {
+            logger.error("Error deleting order with ID " + orderId, e);
+            return false;
+        }
+    }
+    private static final class OrderRowMapper implements RowMapper<Order> {
+        @Override
+        public Order mapRow(ResultSet rs, int rowNum) throws SQLException {
+            Order order = new Order();
+            order.setOrderId(rs.getInt("order_id"));
+            order.setOrderName(rs.getString("order_name"));
+            order.setPhoneNumber(rs.getString("phone_number"));
+            order.setOrderDateTime(rs.getTimestamp("order_date_time"));
+            order.setDelivery(rs.getBoolean("is_delivery"));
+            order.setAddress(rs.getString("address"));
+            order.setDeliveryDateTime(rs.getTimestamp("delivery_date_time"));
+            order.setPaymentInfo(rs.getString("payment_info"));
+            order.setTotalCost(rs.getBigDecimal("total_cost"));
+            order.setOrderStatus(rs.getString("order_status"));
+            order.setEmailAddress(rs.getString("email_address"));
+            return order;
+        }
     }
 }
