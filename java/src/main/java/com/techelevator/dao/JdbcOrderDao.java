@@ -1,9 +1,11 @@
 package com.techelevator.dao;
 
 import com.techelevator.model.Order;
+import com.techelevator.model.Pizza;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.slf4j.Logger;
@@ -11,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -84,6 +87,19 @@ public class JdbcOrderDao implements OrderDao {
             return false;
         }
     }
+
+    @Override
+   public void addPizzasToOrder(int orderId, int pizzaId){
+    String sql = "INSERT INTO orders_pizzas(order_id, pizza_id)\n" +
+            "VALUES(?,?);";
+    try {
+        jdbcTemplate.update(sql, orderId, pizzaId);
+    } catch(Exception e){
+        System.out.println("Something went wrong adding pizza to order, please try again");
+    }
+
+   }
+
     private static final class OrderRowMapper implements RowMapper<Order> {
         @Override
         public Order mapRow(ResultSet rs, int rowNum) throws SQLException {

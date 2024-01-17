@@ -55,10 +55,17 @@ public class OrderController {
         }
     }
 
-    //delete
+
     @RequestMapping(path="/delete/{orderId}", method=RequestMethod.DELETE)
     public void deleteOrder(@PathVariable int orderId){
         orderDao.deleteOrder(orderId);
+    }
+
+
+    //adding a pizza to orders table
+    @RequestMapping(path="/addPizzaToOrder/{orderId}/{pizzaId}", method = RequestMethod.PUT)
+    public void addPizza(@PathVariable int orderId, @PathVariable int pizzaId){
+        orderDao.addPizzasToOrder(orderId, pizzaId);
     }
 }
 
