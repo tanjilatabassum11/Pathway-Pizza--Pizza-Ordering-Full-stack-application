@@ -45,10 +45,10 @@ const routes = [
   },
   {
     path: '/orders/create',
-    name: 'orderForm',
+    name: 'order-create',
     component: OrderView,
     meta: {
-      requiresAuth: false
+      requiresAuth: true
     }
   },
  

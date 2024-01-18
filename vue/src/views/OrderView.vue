@@ -1,61 +1,60 @@
-
 <template>
-  <h1>Order Details</h1>
-  <form v-on:submit.prevent="createOrder()">
-      <div>
-          <label>First Name :</label>
-          <input type="text" />
-      </div>
-      <div>
-          <label>Last Name :</label>
-          <input type="text"  />
-      </div>
-      <div>
-          <label>Phone Number :</label>
-          <input type="number"  />
-      </div>
-      <div>
-          <label>Email Address :</label>
-          <input type="email"  />
-      </div>
-      <div>
-          <label>Address :</label>
-          <input type="text"  />
-      </div>
-      <div>
-          <label>Zipcode :</label>
-          <input type="number" />
-      </div>
-     <div>
-      <input type="submit" />
-     </div>
-  </form>
-</template>
-
-<script>
-import OrderService from '../services/OrderService.js'
-export default {
-    data(){
-        return {
-            order: {}
-        }
+    <div class="order-view">
+      <h1>Place Your Pizza Order</h1>
+      <OrderForm @submitOrder="submitOrder" />
+      <PizzaSelection @selectPizza="selectPizza" />
+      <button @click="confirmOrder">Confirm Order</button>
+      <ConfirmationDialog 
+        v-if="showConfirmation" 
+        :orderDetails="orderDetails" 
+        @closeDialog="showConfirmation = false" 
+      />
+    </div>
+  </template>
+  
+  <script>
+  import OrderForm from '../components/OrderForm.vue';
+  import PizzaSelection from '../components/PizzaSelection.vue';
+  import ConfirmationDialog from '../components/ConfirmationDialog.vue';
+  
+  export default {
+    components: {
+      OrderForm,
+      PizzaSelection,
+      ConfirmationDialog
     },
-    
+    data() {
+      return {
+        orderDetails: {
+          customerInfo: null,
+          pizzaSelection: null
+        },
+        showConfirmation: false
+      };
+    },
     methods: {
-        createOrder(){
-            OrderService.createOrder(this.order)
-                         .then(
-                             (response) => {
-                                 this.$router.push({name: "HomeView"})
-                             }
-                         )
+      submitOrder(customerInfo) {
+        this.orderDetails.customerInfo = customerInfo;
+      },
+      selectPizza(pizzaSelection) {
+        this.orderDetails.pizzaSelection = pizzaSelection;
+      },
+      confirmOrder() {
+        if (this.orderDetails.customerInfo && this.orderDetails.pizzaSelection) {
+          this.showConfirmation = true;
+        } else {
+          alert('Please complete the order form and select your pizza.');
         }
-        
+      }
     }
-}
-
-</script>
-
-<style>
-
-</style>
+  };
+  </script>
+  
+  <style scoped>
+  .order-view {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  </style>
+  

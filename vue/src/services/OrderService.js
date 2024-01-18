@@ -1,10 +1,16 @@
-import axios from 'axios';
+// import axios from 'axios';
 
-export default {
+// const API_URL = 'http://localhost:9000';
 
-    createOrder(order, orderId){
-        const url = "/orders/create";
-        return axios.post(url,order);
-    }
-
-}
+// export default {
+//   createOrder(orderData) {
+//     return axios.post(API_URL, orderData)
+//                 .then(response => {
+//                   return response.data;
+//                 })
+//                 .catch(error => {
+//                   console.error('Error creating order:', error);
+//                   throw error;
+//                 });
+//   }
+// };
