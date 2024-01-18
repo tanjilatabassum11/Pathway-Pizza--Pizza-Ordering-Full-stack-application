@@ -47,7 +47,10 @@
       submitPizzaSelection() {
         this.$emit('selectPizza', this.pizzaSelection);
         this.pizzaSelection = { type: '', size: '', toppings: [] }; // Reset selection
-      }
+      }, 
+      savePizzaChoice(){
+        this.$store.commit('SET_PIZZA_ORDER', this.pizzaSelection);
+      },
     }
   };
   </script>

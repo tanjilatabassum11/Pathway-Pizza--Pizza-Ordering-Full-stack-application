@@ -48,7 +48,7 @@ const routes = [
     name: 'order-create',
     component: OrderView,
     meta: {
-      requiresAuth: true
+      requiresAuth: false
     }
   },
  

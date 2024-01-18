@@ -1,28 +1,28 @@
 <template>
     <form>
       <div class="form-group">
-        <label for="firstName">First Name:</label>
-        <input id="firstName" v-model="order.firstName" type="text" required />
+        <label for="fullName">Full Name: </label>
+        <input v-on:change="saveOrder" id="fullName" v-model="customerOrder.orderName" type="text" required placeholder="(ex: John Doe)" />
       </div>
-      <div class="form-group">
-        <label for="lastName">Last Name:</label>
-        <input id="lastName" v-model="order.lastName" type="text" required />
-      </div>
+
       <div class="form-group">
         <label for="phoneNumber">Phone Number:</label>
-        <input id="phoneNumber" v-model="order.phoneNumber" type="tel" required />
+        <input id="phoneNumber" v-model="customerOrder.phoneNumber" type="tel" required />
       </div>
       <div class="form-group">
         <label for="email">Email Address:</label>
-        <input id="email" v-model="order.email" type="email" required />
+        <input id="email" v-model="customerOrder.emailAddress" type="email" required  placeholder="example@example.com"/>
       </div>
       <div class="form-group">
-        <label for="address">Address:</label>
-        <input id="address" v-model="order.address" type="text" required />
+        <label for="address">Full Address:</label>
+        <input id="address" v-model="customerOrder.address" type="text" required placeholder="123 Example pl. Example, Ohio 43231" />
       </div>
       <div class="form-group">
-        <label for="zipcode">Zipcode:</label>
-        <input id="zipcode" v-model="order.zipcode" type="text" required />
+        <label for="paymentInfo">Please Enter Your Card #: </label>
+        <input id="paymentInfo" v-model="customerOrder.paymentInfo" type="text" placeholder="1234567" />
+      </div>
+      <div>
+        <button value="Save Personal Info" @click="saveCustomerInfo">Save Personal Information Before Selecting Pizzas</button>
       </div>
     </form>
   </template>
@@ -38,9 +38,29 @@
           email: '',
           address: '',
           zipcode: ''
+        },
+        customerOrder: {
+          orderName: '',
+          phoneNumber: '',
+          orderDateTime: '',
+          isDelivery: '',
+          address: '',
+          deliveryDateTime: '',
+          paymentInfo: '',
+          totalCost: '',
+          orderStatus: '',
+          emailAddress: ''
         }
       };
     },
+    computed : {
+      
+    },
+    methods: {
+      saveCustomerInfo(){
+        this.$store.commit('SET_ORDER', this.customerOrder);
+      },
+    }
   };
   </script>
   
