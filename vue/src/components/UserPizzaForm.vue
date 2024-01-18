@@ -1,6 +1,6 @@
 <template>
     <h1>Specialty Pizzas</h1>
-    <button @click="isAddPizzaVisible = !isAddPizzaVisible" :disabled="isPizzaBeingUpdated">{{addPizzaButtonText}}</button>
+    <button class="add-pizza" @click="isAddPizzaVisible = !isAddPizzaVisible" :disabled="isPizzaBeingUpdated">{{addPizzaButtonText}}</button>
     <table>
         
         <thead>
@@ -11,7 +11,7 @@
                 <th id="thead-max-toppings">Max Toppings</th>
                 <th id="thead-note">Note</th>
                 <th id="thead-available">available</th>
-                <th></th>
+                <th id="thead-blank"></th>
             </tr>
         </thead>
         <tbody>
@@ -27,7 +27,7 @@
                 <td><input type="number" v-model="pizzaToAdd.max_toppings"></td>
                 <td><input type="text" v-model="pizzaToAdd.note"></td>
                 <td><label for="addAvailable">y/n</label><input name="addAvailable" type="checkbox" v-model="pizzaToAdd.is_available"></td>
-                <td><button :disabled="isPizzaBeingUpdated">add</button></td>
+                <td><button class="cancel-button" :disabled="isPizzaBeingUpdated">add</button></td>
             </tr>
             <template v-for="pizza in pizzas" :key="pizza.pizza_id">
                 <tr class="pizza-row">
@@ -62,9 +62,9 @@
 
 
                     </td>
-                    <td>
-                        <button :disabled="computeIsPizzaBeingUpdated && !pizza.isPizzaEdit" @click="editPizza(pizza.pizza_id, $event)">{{ pizza.isPizzaEdit ? 'Update':'Edit'  }}</button>
-                        <button @click="cancelUpdate(pizza.pizza_id)" v-if="pizza.isPizzaEdit">Cancel</button>
+                    <td class="button-div">
+                        <button class="edit-button" :disabled="(computeIsPizzaBeingUpdated && !pizza.isPizzaEdit) || isAddPizzaVisible" @click="editPizza(pizza.pizza_id, $event)">{{ pizza.isPizzaEdit ? 'Update':'Edit'  }}</button>
+                        <button class="cancel-button" @click="cancelUpdate(pizza.pizza_id)" v-if="pizza.isPizzaEdit">Cancel</button>
                     </td>
                     
                     
@@ -155,26 +155,6 @@ export default {
             });
             return this.isPizzaBeingUpdated;
         }
-        // availableToppings(){
-        //     let toppingsArray = this.allToppings.filter((topping)=>{
-
-        //         let contains = this.pizzaToppings.find((pizzaTopping)=>{
-        //             return topping.topping_id == pizzaTopping.topping_id;
-        //         });
-        //         if(contains != undefined){
-        //             topping.isOnPizza = true;
-        //         }else{
-        //             topping.isOnPizza = false;
-        //         }
-        //         return topping.isOnPizza;
-        //     });
-
-            // this.allToppings.forEach((topping)=>{
-            //     if(this.pizzaToppings.includes())
-            // })
-
-        //     return toppingsArray;
-        // }
     },
     methods:{
         editPizza(pizzaId){
@@ -214,7 +194,8 @@ export default {
                 this.pizzaToUpdate = {};
                 this.pizzaToppings = [];
             }
-        }
+        },
+        
 
     }
 
@@ -235,7 +216,12 @@ export default {
     font-family: 'Mandalore Laser Title';
 
 }
+table {
+  border-collapse: collapse;
+  border-bottom: #5FA873 1px solid;
+}
 .pizza-row{
+    border-top: #5FA873 1px solid;
     
 }
 
@@ -251,6 +237,7 @@ export default {
 .topping-label,
 .topping-data{
     width: 350px;
+    border-top: #5FA873 1px solid;
 }
 .topping-label,
 .topping-data{
@@ -264,26 +251,86 @@ export default {
 .topping-label>span{
     font-weight: bold;
     font-size: .9em;
-    color: #BB554A;
+    color: #FFFFFF;
 }
-/* <th id="thead-name">Name</th>
-<th id="thead-size">Size</th>
-<th id="thead-cost">Cost</th>
-<th id="thead-max-toppings">Max Toppings</th>
-<th id="thead-note">Note</th>
-<th id="thead-available">available</th> */
+
 input[type="text" i]{
     width: 95%;
+}
+input[type="number" i]{
+    width: 90%;
+}
+input[type="checkbox" i]{
+    accent-color: #BB554A;
 }
 #thead-name{
     background-color: #5FA873;
     color: #FFFFFF;
-    width: 100px;
+    width: 150px;
 }
 #thead-size{
     background-color: #A18F63;
     color: #FFFFFF;
     width: 90px;
 }
+#thead-cost{
+    background-color: #AC685B;
+    color: #FFFFFF;
+    width: 60px;
+}
+#thead-max-toppings{
+    background-color: #5FA873;
+    color: #FFFFFF;
+    width: 60px;
+}
+#thead-note{
+    background-color: #A18F63;
+    color: #FFFFFF;
+    width: 300px;
+}
+#thead-available{
+    background-color: #BB554A;
+    color: #FFFFFF;
+    width: 60px;
+}
+#thead-blank{
+    background-color: #5FA873;
+    width: 80px;
+}
+.button-div{
+    display: flex;
+    flex-direction: column;
+}
+.edit-button,
+.cancel-button{
+    width: 90%;
+    margin: 5px;
+}
+.add-pizza{
+    margin: 10px;
+    font-size: 1.1em;
+    padding: 10px;
+}
+button{
+    box-sizing: border-box;
+    background-color: #a18f6380;
+    color: #BB554A;
+    border: #5FA873 2px solid;
+    border-radius: 5px;
+    transition: 250ms;
+}
+button:hover,
+button:active{
+    background-color: #ffffff;
+    color: #BB554A;
+    border-radius: 5px;
+    transition: 250ms;
+}
+button:disabled{
+    background-color: #a18f6380;
+    color: #A18F63;
+    border: #AC685B 2px solid;
+    transition: 250ms;
 
+}
 </style>
