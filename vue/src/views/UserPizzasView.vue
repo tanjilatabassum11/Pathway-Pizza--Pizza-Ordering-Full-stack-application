@@ -1,15 +1,13 @@
 <template>
     <UserNav />
-    <div>
-        <h2>Welcome, Employee!</h2>
-        <h4>Please select an option</h4>
-    </div>
+    <UserPizzaForm />
 </template>
 
 <script>
 import UserNav from '../components/UserNav.vue';
+import UserPizzaForm from '../components/UserPizzaForm.vue';
 export default {
-    components:{UserNav}
+    components:{UserNav, UserPizzaForm}
 
 }
 </script>

@@ -14,3 +14,7 @@
     --brand-darkred-color: #BB554A;
     --brand-white-color: #FFFFFF;
 }
+
+body{
+    margin: 0px;
+}

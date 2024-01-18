@@ -24,13 +24,12 @@ export default{
 </script>
 
 <style scoped>
-template{
-  min-height: 100vh;
-}
+
 #capstone-app{
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: 100vh;
 }
 #foot{
   margin-top: auto;
