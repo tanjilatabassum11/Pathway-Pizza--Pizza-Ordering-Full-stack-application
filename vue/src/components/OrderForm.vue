@@ -1,5 +1,5 @@
 <template>
-    <form @submit.prevent="submitForm">
+    <form>
       <div class="form-group">
         <label for="firstName">First Name:</label>
         <input id="firstName" v-model="order.firstName" type="text" required />
@@ -24,7 +24,6 @@
         <label for="zipcode">Zipcode:</label>
         <input id="zipcode" v-model="order.zipcode" type="text" required />
       </div>
-      <button type="submit">Submit Order</button>
     </form>
   </template>
   
@@ -42,11 +41,6 @@
         }
       };
     },
-    methods: {
-      submitForm() {
-        this.$emit('submitOrder', this.order);
-      }
-    }
   };
   </script>
   

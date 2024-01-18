@@ -1,8 +1,8 @@
 <template>
     <div class="order-view">
       <h1>Place Your Pizza Order</h1>
-      <OrderForm @submitOrder="submitOrder" />
       <PizzaSelection @selectPizza="selectPizza" />
+      <OrderForm @submitOrder="submitOrder" />
       <button @click="confirmOrder">Confirm Order</button>
       <ConfirmationDialog 
         v-if="showConfirmation" 
