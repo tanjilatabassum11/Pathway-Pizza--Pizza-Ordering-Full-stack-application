@@ -9,6 +9,7 @@ import RegisterView from '../views/RegisterView.vue';
 import OrderView from '../views/OrderView.vue';
 import UserView from '../views/UserView.vue';
 import UserPizzaView from '../views/UserPizzasView.vue';
+import UserToppingsView from '../views/UserToppingsView.vue';
 
 /**
  * The Vue Router is used to "direct" the browser to render a specific view component
@@ -39,6 +40,14 @@ const routes = [
     path: '/user/pizzas',
     name: 'user-pizzas',
     component: UserPizzaView,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/user/toppings',
+    name: 'user-toppings',
+    component: UserToppingsView,
     meta: {
       requiresAuth: true
     }
