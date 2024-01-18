@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -57,5 +58,13 @@ public class PizzaController {
     @RequestMapping(path = "/{pizzaId}/remove/{toppingId}", method = RequestMethod.DELETE)
     public void deleteToppingFromPizza(@PathVariable int pizzaId, @PathVariable int toppingId){
         toppingDao.deleteToppingFromPizza(toppingId, pizzaId);
+    }
+    @GetMapping("/types")
+    public List<String> getPizzaTypes() {
+        return Arrays.asList("Margherita", "Pepperoni", "Vegetarian", "Hawaiian");
+    }
+    @GetMapping("/sizes")
+    public List<String> getPizzaSizes() {
+        return Arrays.asList("Small", "Medium", "Large");
     }
 }
