@@ -41,14 +41,29 @@ export default {
 
 }
 button{
+    box-sizing: border-box;
     margin: 10px;
     background-color: #a18f6380;
     color: #BB554A;
-    border: #5FA873 5px solid;
+    border: #5FA873 2px solid;
     border-radius: 10px;
     height: 50px;
     width: 150px;
     font-size: 1.1em;
+    transition: 250ms;
+}
+button:hover,
+button:active{
+    box-sizing: border-box;
+    margin: 10px;
+    background-color: #ffffff;
+    color: #BB554A;
+    border: #5FA873 3px solid;
+    border-radius: 10px;
+    height: 50px;
+    width: 150px;
+    font-size: 1.1em;
+    transition: 250ms;
 }
 div{
     display: flex;

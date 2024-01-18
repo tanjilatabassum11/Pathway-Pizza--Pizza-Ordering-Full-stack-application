@@ -1,79 +1,83 @@
 <template>
-    <form>
+    <form @submit.prevent="saveCustomerInfo">
       <div class="form-group">
-        <label for="firstName">First Name:</label>
-        <input id="firstName" v-model="order.firstName" type="text" required />
+        <label for="fullName">Full Name:</label>
+        <input id="fullName" v-model="customerOrder.orderName" type="text" required placeholder="(ex: John Doe)" />
       </div>
-      <div class="form-group">
-        <label for="lastName">Last Name:</label>
-        <input id="lastName" v-model="order.lastName" type="text" required />
-      </div>
+  
       <div class="form-group">
         <label for="phoneNumber">Phone Number:</label>
-        <input id="phoneNumber" v-model="order.phoneNumber" type="tel" required />
+        <input id="phoneNumber" v-model="customerOrder.phoneNumber" type="tel" required />
       </div>
+  
       <div class="form-group">
         <label for="email">Email Address:</label>
-        <input id="email" v-model="order.email" type="email" required />
+        <input id="email" v-model="customerOrder.emailAddress" type="email" required placeholder="example@example.com" />
       </div>
+  
       <div class="form-group">
-        <label for="address">Address:</label>
-        <input id="address" v-model="order.address" type="text" required />
+        <label for="address">Full Address:</label>
+        <input id="address" v-model="customerOrder.address" type="text" required placeholder="123 Example St, City, State 12345" />
       </div>
+  
       <div class="form-group">
-        <label for="zipcode">Zipcode:</label>
-        <input id="zipcode" v-model="order.zipcode" type="text" required />
+        <label for="paymentInfo">Payment Card #:</label>
+        <input id="paymentInfo" v-model="customerOrder.paymentInfo" type="text" placeholder="1234567890123456" />
       </div>
+  
+      <button type="submit">Save Personal Information</button>
     </form>
   </template>
-  
-  <script>
-  export default {
-    data() {
-      return {
-        order: {
-          firstName: '',
-          lastName: '',
-          phoneNumber: '',
-          email: '',
-          address: '',
-          zipcode: ''
-        }
-      };
-    },
-  };
-  </script>
-  
-  <style scoped>
-  .form-group {
-    margin-bottom: 15px;
-  }
-  
-  label {
-    display: block;
-    margin-bottom: 5px;
-  }
-  
-  input[type="text"],
-  input[type="email"],
-  input[type="tel"] {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #45a049;
-  }
-  </style>
-  
+ <script>
+ export default {
+   data() {
+     return {
+       customerOrder: {
+         orderName: '',
+         phoneNumber: '',
+         emailAddress: '',
+         address: '',
+         paymentInfo: ''
+       }
+     };
+   },
+   methods: {
+     saveCustomerInfo() {
+       this.$store.commit('SET_ORDER', this.customerOrder);
+       alert('Customer information saved');
+     }
+   }
+ };
+ </script>
+<style scoped>
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"] {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+</style>
