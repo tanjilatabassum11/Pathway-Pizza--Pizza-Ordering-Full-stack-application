@@ -1,6 +1,6 @@
 <template>
   <h1>Toppings</h1>
-  <button> @click="isAddToppingVisible = !isAddToppingVisible" :disabled="isToppingBeingUpdated">{{addPizzaButtonText}} </button>
+  <button @click="isAddToppingVisible = !isAddToppingVisible" :disabled="isToppingBeingUpdated">{{addToppingButtonText}} </button>
   <table>
     <thead>
         <tr>
@@ -13,7 +13,14 @@
     <tbody>
 
         <tr id="add-topping" v-show="isAddToppingVisible">
-            <td><input type = "text" v-model="toppingToAdd.topping_name"></td>
+            
+        </tr>
+        <tr v-for="topping in allToppings" :key="topping.topping_id"> 
+            <td>
+
+            </td>
+            <td>{{topping.topping_name}}
+            </td>
         </tr>
     </tbody>
   </table>
@@ -25,13 +32,72 @@ export default {
     created(){
         ToppingService.getAllToppings()
         .then((response) => {
-            this.getAllToppings = response.data;
+            this.allToppings = response.data;
         });
-    }
+        ToppingService.getToppingByType("meats")
+        .then((response) => {
+            this.allMeatToppings = response.data;
+        });
+        ToppingService.getToppingByType("veggies")
+        .then((response) => {
+            this.allVeggieToppings = response.data;
+        });
+        ToppingService.getToppingByType("cheese")
+        .then((response) => {
+            this.allCheeseToppings = response.data;
+        });
+        ToppingService.getToppingByType("fruit")
+        .then((response) => {
+            this.allFruitToppings = response.data;
+        });
+    },
+    data(){
+        return{
+            allToppings: [],
+            toppingsToAdd: {},
+            allMeatToppings: [],
+            allVeggieToppings: [],
+            allCheeseToppings: [],
+            allFruitToppings: [],
+            isAddToppingVisible: false,
+        }
+    },
+    computed:{
+        addToppingButtonText(){
+            // let toppingsArray = this.allToppings.filter((topping) =>{
 
+            //     let contains = this.toppingsToAdd.find((toppingsToAdd) => {
+            //     return topping.topping_id == toppingsToAdd.topping_id;
+            //     });
+            //     if(contains != undefined){
+            //         topping.toppingToBeAdded = true;
+            //     }else{
+            //         topping.toppingToBeAdded - false;
+            //     }
+            // return topping.toppingToBeAdded;
+            // });
+            return this.isAddToppingVisible ?
+                        'confirm topping addition':
+                        'add topping';
+        },
+
+    },
 }
 </script>
 
-<style>
+<style scoped>
+@font-face {
+    font-family: 'Mandalore Laser Title';
+    src: url('../fonts/MandaloreLaserTitle.woff2') format('woff2'),
+        url('../fonts/MandaloreLaserTitle.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+*{
+    font-family: 'Mandalore Laser Title';
+
+}
 
 </style>
