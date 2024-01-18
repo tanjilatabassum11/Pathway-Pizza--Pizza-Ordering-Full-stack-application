@@ -1,8 +1,10 @@
 <template>
-    <button id="pizzas" @click="pizzaClick()">Pizzas</button>
-    <button id="toppings" @click="toppingClick()">Toppings</button>
-    <button id="orders" @click="ordersClick()">Orders</button>
-    <!-- <button id="users">Users</button> -->
+    <div>
+        <button id="pizzas" @click="pizzaClick()">Pizzas</button>
+        <button id="toppings" @click="toppingClick()">Toppings</button>
+        <button id="orders" @click="ordersClick()">Orders</button>
+        <!-- <button id="users">Users</button> -->
+    </div>
   
 </template>
 
@@ -47,5 +49,9 @@ button{
     height: 50px;
     width: 150px;
     font-size: 1.1em;
+}
+div{
+    display: flex;
+    justify-content: center;
 }
 </style>
