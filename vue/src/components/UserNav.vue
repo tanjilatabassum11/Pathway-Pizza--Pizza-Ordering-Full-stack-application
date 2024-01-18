@@ -15,13 +15,13 @@ export default {
             this.$router.push({name: 'user-pizzas'})
         },
         toppingClick(){
-            this.$router.push({name: 'UserToppingView'})
+            this.$router.push({name: 'user-toppings'})
 
         },
         ordersClick(){
             this.$router.push({name: 'UserOrderView'})
 
-        }
+        },
     }
 
 }
