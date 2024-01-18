@@ -1,7 +1,7 @@
 <template>
     <div id="home">
       <div>
-          <button>Place order</button>
+          <button v-on:click="createOrder()">Place order</button>
       </div>
       <PizzaCard />
       <PizzaCard />
@@ -10,11 +10,17 @@
 </template>
 
 <script>
+
 import PizzaCard from '../components/PizzaCard.vue';
 export default {
   components:{PizzaCard},
 
   name: 'HomeView',
+  methods: {
+      createOrder(orderId){
+          console.log('Order created in HomeView', orderId);
+      },
+  },
 };
 </script>
 
