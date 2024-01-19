@@ -32,16 +32,28 @@ export default {
     };
   },
   methods: {
+     methods: {
     submitPizzaSelection() {
+      this.$emit('selectPizza', {...this.pizzaSelection});
+      this.resetPizzaSelection();
+    },
+    resetPizzaSelection() {
+      this.pizzaSelection = { type: '', size: '', toppings: [] };
       // Implement the logic to add the selected pizza to the cart
     },
-    // ... (other methods)
+    savePizza(){
+      this.selectedPizzas.add(this.pizza);
+    },
+    
+     }
   },
-  created() {
-    PizzaService.getAvailableSpecialtyPizzas().then((response) => {
-      this.availablePizzas = response.data;
-    });
-  },
+  created(){
+      PizzaService.getAvailableSpecialtyPizzas()
+        .then((response) => {
+          this.availablePizzas = response.data
+        });
+    }
+
 };
 </script>
 
