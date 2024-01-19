@@ -37,6 +37,12 @@ export function createStore(currentToken, currentUser) {
       SET_PIZZA_ORDER(state, payload){
         state.pizzaSelection = payload;
       },
+      // UPDATE_ORDER_DATA will be used for getting information for orders
+      //on the OrderForm Component that gets customer billing info
+      //and the PizzaSelection Component that gets isDelivery and totalCost info
+      //The ... is a spread operator so that the newDataFields are the only 
+      //ones that change. In the PizzaSelection Component this will need to be 
+      //called, but someone else is making changes so I have to wait -B
       UPDATE_ORDER_DATA(state, newData){
         state.orderData = {...state.orderData, ...newData};
        }
