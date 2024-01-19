@@ -19,7 +19,7 @@ export default {
 
         },
         ordersClick(){
-            this.$router.push({name: 'UserOrderView'})
+            this.$router.push({name: 'user-orders'})
 
         },
     }

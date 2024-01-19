@@ -1,61 +1,81 @@
 <template>
   <div class="order-view">
-    <h1>Place Your Pizza Order:</h1>
+    <h1>Place Your Pizza Order</h1>
+    
     <PizzaSelection @selectPizza="selectPizza" />
-    <OrderForm @submitOrder="submitOrder" />
-    <button @click="confirmOrder">Confirm Order</button>
+    <OrderSummary :pizzaSelections="orderDetails.pizzaSelections" />
+    <DeliveryForm @updateDeliveryDetails="updateDeliveryDetails" />
+    <PaymentForm @updatePaymentInfo="updatePaymentInfo" />
+
+    <button @click="confirmOrder" :disabled="!isOrderReady">Confirm Order</button>
+    
     <ConfirmationDialog
       v-if="showConfirmation"
       :orderDetails="orderDetails"
-      @closeDialog="showConfirmation = false"
+      @closeDialog="closeConfirmation" 
     />
-    <div v-if="orderDetails.pizzaSelections.length">
-      <h2>Your Pizza Selections:</h2>
-      <ul>
-        <li v-for="(pizza, index) in orderDetails.pizzaSelections" :key="index">
-          {{ pizza.type }} - {{ pizza.size }} - {{ pizza.toppings.join(', ') }}
-        </li>
-      </ul>
-    </div>
   </div>
 </template>
+
 <script>
-import OrderForm from '../components/OrderForm.vue';
-import PizzaSelection from '../components/PizzaSelection.vue';
+import OrderSummary from '../components/OrderSummary.vue';
+import DeliveryForm from '../components/DeliveryForm.vue';
+import PaymentForm from '../components/PaymentForm.vue';
+import PizzaSelection from '../components/PizzaSelection.vue'; 
 import ConfirmationDialog from '../components/ConfirmationDialog.vue';
 
 export default {
   components: {
-    OrderForm,
+    OrderSummary,
+    DeliveryForm,
+    PaymentForm,
     PizzaSelection,
     ConfirmationDialog
   },
   data() {
     return {
       orderDetails: {
-        customerInfo: null,
+        customerInfo: null, 
+        deliveryInfo: null,
+        paymentInfo: null,
         pizzaSelections: []
       },
       showConfirmation: false
     };
   },
+  computed: {
+    isOrderReady() {
+      // Check if all necessary information is filled out
+      return this.orderDetails.deliveryInfo &&
+             this.orderDetails.paymentInfo &&
+             this.orderDetails.pizzaSelections.length > 0;
+    }
+  },
   methods: {
-    submitOrder(customerInfo) {
-      this.orderDetails.customerInfo = customerInfo;
+    updateDeliveryDetails(deliveryInfo) {
+      this.orderDetails.deliveryInfo = deliveryInfo;
     },
-    selectPizza(pizzaSelection) {
-      this.orderDetails.pizzaSelections.push(pizzaSelection);
+    updatePaymentInfo(paymentInfo) {
+      this.orderDetails.paymentInfo = paymentInfo;
+    },
+    selectPizza(pizza) {
+      this.orderDetails.pizzaSelections.push(pizza);
     },
     confirmOrder() {
-      if (this.orderDetails.customerInfo && this.orderDetails.pizzaSelections.length) {
+      if (this.isOrderReady) {
+        // Process order submission
         this.showConfirmation = true;
       } else {
-        alert('Please complete the order form and select at least one pizza.');
+        alert('Please complete all sections of the order form.');
       }
+    },
+    closeConfirmation() {
+      this.showConfirmation = false;
     }
   }
 };
 </script>
+
 <style scoped>
 .order-view {
   display: flex;
@@ -129,5 +149,13 @@ li {
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
+}
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
 }
 </style>
