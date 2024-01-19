@@ -1,85 +1,96 @@
 <template>
-    <div class="pizza-card">
-        <h3 class="pizza-name">The Jackson</h3>
-        <p class="pizza-desc">The pizza description</p>
+    <div class="pizza-card" @click="showDetails">
+      <img :src="pizza.imageUrl" alt="Pizza Image" class="pizza-image"/>
+      <div class="content">
+        <h3 class="pizza-name">{{ pizza.pizza_name }}</h3>
+        <p class="pizza-desc">{{ pizza.note }}</p>
+        <button class="add-to-cart-button" @click.stop="addToCart">Add to Cart</button>
+      </div>
     </div>
-</template>
-
-<script>
-export default {
-
-}
-</script>
-
-<style scoped>
-@font-face {
-    font-family: 'Mandalore Laser Title';
-    src: url('./fonts/MandaloreLaserTitle.woff2') format('woff2'),
-        url('./fonts/MandaloreLaserTitle.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-}
-
-:root{
-    --brand-green-color: #5FA873;
-    --brand-brown-color: #A18F63;
-    --brand-lightred-color: #AC685B;
-    --brand-darkred-color: #BB554A;
-    --brand-white-color: #FFFFFF;
-}
-
-
-*{
-    font-family: 'Mandalore Laser Title';
-
-}
-.pizza-card>p{
-    align-self: flex-end;
-    font-size: 0em;
-    transition: 500ms;
-}
-.pizza-card{
+  </template>
+  
+  <script>
+  export default {
+    props: {
+      pizza: {
+        type: Object,
+        required: true
+      }
+    },
+    methods: {
+      showDetails() {
+        this.$emit('showDetails', this.pizza);
+      },
+      addToCart() {
+        this.$emit('addToCart', this.pizza);
+      }
+    }
+  }
+  </script>
+  
+  <style scoped>
+  .pizza-card {
     box-sizing: border-box;
+    position: relative;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    align-items: center;
+    justify-content: center;
     margin: 10px;
     border-radius: 15px;
     width: 300px;
-    height: 150px;
-    background-image: url('../images/pizza.png');
-    
-    transition: 500ms;
-    padding: 5px;
-
-}
-.pizza-card:hover,
-.pizza-card:active{
-    width: 350px;
     height: 350px;
-    transition: 500ms;
-
-}
-.pizza-card:hover>p,
-.pizza-card:active>p{
-    transition: 500ms;
-    font-size: 1em;
-
-}
-.pizza-card:hover>h3,
-.pizza-card:active>h3{
-    transition: 500ms;
-    font-size: 1.5em;
-}
-.pizza-card>h3,
-.pizza-card>h3{
-    transition: 500ms;
-    font-size: 1.2em;
-}
-.pizza-name,
-.pizza-desc{
+    background-color: white;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+    overflow: hidden;
+  }
+  
+  .pizza-card:hover {
+    transform: scale(1.05);
+  }
+  
+  .pizza-card .content {
+    padding: 5px;
+  }
+  
+  .pizza-image {
+    width: 100%;
+    height: auto;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+  }
+  
+  .pizza-name {
+    margin: 10px 0 5px 0;
+  }
+  
+  .pizza-desc {
+    margin: 0;
+    font-size: 0.9em;
+  }
+  
+  .add-to-cart-button {
+    display: none;
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--brand-green-color);
     color: white;
-    text-shadow: black 2px 0 10px;
-}
-</style>
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+  }
+  
+  .pizza-card:hover .add-to-cart-button {
+    display: block;
+  }
+  
+  .add-to-cart-button:hover {
+    background-color: darken(var(--brand-green-color), 10%);
+  }
+  </style>
+  

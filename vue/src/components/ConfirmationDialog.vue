@@ -1,14 +1,15 @@
 <template>
-    <div class="order-view">
-      <h1>Place Your Pizza Order</h1>
-      <PizzaSelection @selectPizza="selectPizza" />
-      <OrderForm @submitOrder="submitOrder" />
-      <button @click="confirmOrder">Confirm Order</button>
+  <div class="order-view">
+    <h1>Place Your Pizza Order</h1>
+    <PizzaSelection @selectPizza="selectPizza" />
+    <OrderForm @submitOrder="submitOrder" />
+    <button @click="confirmOrder">Confirm Order</button>
+    <div v-if="showConfirmation" class="confirmation-section">
       <ConfirmationDialog 
-        v-if="showConfirmation" 
         :orderDetails="orderDetails" 
         @closeDialog="closeConfirmation" 
       />
+      <img src="../assets/thank-you.jpg" alt="Thank You" class="thank-you-image"/>
       <div v-if="orderDetails.pizzaSelections.length">
         <h2>Your Pizza Selections:</h2>
         <ul>
@@ -18,7 +19,9 @@
         </ul>
       </div>
     </div>
-  </template>
+  </div>
+</template>
+
  <script>
  import OrderForm from '../components/OrderForm.vue';
  import PizzaSelection from '../components/PizzaSelection.vue';
@@ -60,6 +63,17 @@
  </script>
  
 <style scoped>
+.confirmation-section {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.thank-you-image {
+  max-width: 100%;
+  height: auto;
+  margin-top: 20px;
+  border-radius: 8px;
+}
 .order-view {
   display: flex;
   flex-direction: column;

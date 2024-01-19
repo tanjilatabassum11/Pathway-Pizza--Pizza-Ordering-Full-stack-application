@@ -1,74 +1,63 @@
 <template>
   <div class="pizza-menu">
     <section>
-      <h1 class="menu-section-title">Specialty Pizzas :</h1>
+      <h1 class="menu-section-title">Specialty Pizzas</h1>
       <div class="pizza-card-parent">
         <div class="pizza-card" v-for="(pizza, index) in availablePizzas" :key="index">
+          <img :src="pizza.imageUrl" alt="Pizza image" class="pizza-image" />
           <h2>{{ pizza.pizza_name }}</h2>
           <p>{{ pizza.note }}</p>
           <div class="pizza-details">
             <span class="pizza-price">${{ pizza.pizza_cost.toFixed(2) }}</span>
-            <button class="add-to-cart-button" @click="submitPizzaSelection">Add to Cart</button>
+            <button class="add-to-cart-button" @click="addToCart(pizza)">Add to Cart</button>
           </div>
         </div>
       </div>
     </section>
 
     <section>
-      <h1 class="menu-section-title">Build Your Own</h1>
-      <!-- Add your Build Your Own pizza content here -->
+      <h1 class="menu-section-title">Build Your Own Pizza</h1>
     </section>
   </div>
 </template>
-
 <script>
 import PizzaService from '../services/PizzaService.js';
 
 export default {
   data() {
     return {
-      availablePizzas: [],
-      // ... (other data properties)
+      availablePizzas: []
     };
   },
-  methods: {
-     methods: {
-    submitPizzaSelection() {
-      this.$emit('selectPizza', {...this.pizzaSelection});
-      this.resetPizzaSelection();
-    },
-    resetPizzaSelection() {
-      this.pizzaSelection = { type: '', size: '', toppings: [] };
-      // Implement the logic to add the selected pizza to the cart
-    },
-    savePizza(){
-      this.selectedPizzas.add(this.pizza);
-    },
-    
-     }
+  created() {
+    this.fetchAvailablePizzas();
   },
-  created(){
+  methods: {
+    fetchAvailablePizzas() {
       PizzaService.getAvailableSpecialtyPizzas()
-        .then((response) => {
-          this.availablePizzas = response.data
+        .then(response => {
+          this.availablePizzas = response.data;
+        })
+        .catch(error => {
+          console.error('Error fetching pizzas:', error);
         });
+    },
+    addToCart(pizza) {
+      this.$emit('addToCart', pizza);
     }
-
+  }
 };
 </script>
-
 <style scoped>
 .pizza-menu {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 20px;
 }
 
 .menu-section-title {
   font-size: 1.8em;
   margin-bottom: 15px;
-  color: #333;
 }
 
 .pizza-card-parent {
@@ -84,6 +73,7 @@ export default {
   padding: 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease-in-out;
+  text-align: center;
 }
 
 .pizza-card:hover {
@@ -93,12 +83,16 @@ export default {
 .pizza-card h2 {
   font-size: 1.2em;
   margin-bottom: 10px;
-  color: #333;
 }
 
 .pizza-card p {
   margin-bottom: 15px;
-  color: #666;
+}
+
+.pizza-image {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
 }
 
 .pizza-details {
@@ -109,7 +103,6 @@ export default {
 
 .pizza-price {
   font-weight: bold;
-  color: #e44c26ec; /* Red color for price */
 }
 
 .add-to-cart-button {
