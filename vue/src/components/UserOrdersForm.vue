@@ -58,9 +58,9 @@ export default {
     methods:{
         showHide(){
             if(this.showCompletedAndCanceled){
-                
+                let i =1;
             }else{
-
+                let i =1;
             }
             this.showCompletedAndCanceled = !this.showCompletedAndCanceled;
         }
