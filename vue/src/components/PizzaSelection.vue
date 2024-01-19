@@ -1,120 +1,117 @@
 <template>
-    <div class="pizza_selection">
-
-    <h1 class="pizza-type-specialty"> Specialty  </h1>
-      <div class="pizza-type">
-        
-        <div class="pizzaCardParent">
-        <div class="pizzaCard" v-for="pizza in availablePizzas" :key="pizza.pizza_id" > 
-          <h1> {{pizza.pizza_name}} <span>{{pizza.pizza_cost}}</span> </h1>
-          <h5> {{pizza.note}} </h5>
-          <button id="pizzaCardButton" @click="submitPizzaSelection">Add Pizza</button>
-        </div>
-        </div>
-    
-    
-    
-  
-     <!-- <div class="toppings-selection">
-        <h3>Select Toppings:</h3>
-        <div v-for="topping in toppings" :key="topping">
-          <input type="checkbox" :id="topping" :value="topping" v-model="pizzaSelection.toppings">
-          <label :for="topping">{{ topping }}</label>
+  <div class="pizza-menu">
+    <section>
+      <h1 class="menu-section-title">Specialty Pizzas :</h1>
+      <div class="pizza-card-parent">
+        <div class="pizza-card" v-for="(pizza, index) in availablePizzas" :key="index">
+          <h2>{{ pizza.pizza_name }}</h2>
+          <p>{{ pizza.note }}</p>
+          <div class="pizza-details">
+            <span class="pizza-price">${{ pizza.pizza_cost.toFixed(2) }}</span>
+            <button class="add-to-cart-button" @click="submitPizzaSelection">Add to Cart</button>
+          </div>
         </div>
       </div>
-      -->
-    </div>
-      <h1> Build Your Own</h1>
-      
-    </div>
-  </template>
-<script>
+    </section>
 
+    <section>
+      <h1 class="menu-section-title">Build Your Own</h1>
+      <!-- Add your Build Your Own pizza content here -->
+    </section>
+  </div>
+</template>
+
+<script>
 import PizzaService from '../services/PizzaService.js';
 
 export default {
   data() {
     return {
       availablePizzas: [],
-      selectedPizzas: [],
-      pizzaSelection: {
-        type: '',
-        size: '',
-        toppings: []
-      },
-      pizzaTypes: ['Margherita', 'Pepperoni', 'Vegetarian', 'Hawaiian'],
-      pizzaSizes: ['Small', 'Medium', 'Large'],
-      toppings: ['Pepperoni', 'Mushrooms', 'Onions', 'Sausage', 'Bacon', 'Extra cheese', 'Peppers']
+      // ... (other data properties)
     };
   },
   methods: {
     submitPizzaSelection() {
-      this.$emit('selectPizza', {...this.pizzaSelection});
-      this.resetPizzaSelection();
+      // Implement the logic to add the selected pizza to the cart
     },
-    resetPizzaSelection() {
-      this.pizzaSelection = { type: '', size: '', toppings: [] };
-    },
-    savePizza(){
-      this.selectedPizzas.add(this.pizza);
-    },
-    
+    // ... (other methods)
   },
-  created(){
-      PizzaService.getAvailableSpecialtyPizzas()
-        .then((response) => {
-          this.availablePizzas = response.data
-        });
-    }
+  created() {
+    PizzaService.getAvailableSpecialtyPizzas().then((response) => {
+      this.availablePizzas = response.data;
+    });
+  },
 };
 </script>
+
 <style scoped>
-  .pizza-selection {
+.pizza-menu {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-top: 20px;
 }
-.pizza-type, .pizza-size, .toppings {
+
+.menu-section-title {
+  font-size: 1.8em;
   margin-bottom: 15px;
-}
-label {
-  display: block;
-  margin-bottom: 5px;
+  color: #333;
 }
 
-select, input[type="checkbox"] {
-  margin-right: 10px;
-}
-
-
-
-#pizzaCardButton {
+.pizza-card-parent {
   display: flex;
-  margin: 20px;
-  border-radius: 15px;
-}
-
-
-button:hover {
-  background-color: #45a049;
-}
-
-
-.pizzaCardParent {
-  display: flex;
-  padding-left: 25%;
-  padding-right: 25px;
   flex-wrap: wrap;
+  justify-content: center;
 }
-.pizzaCard {
-  background-color: #5FA873;
-  border-radius: 15px;
-  flex: 1;
-  text-align: center;
-  padding: 20px;
-  border: 1px inset #A18F63; 
-}
-</style>
 
-  
+.pizza-card {
+  background-color: #e6ee741a;
+  border-radius: 8px;
+  margin: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
+}
+
+.pizza-card:hover {
+  transform: scale(1.05);
+}
+
+.pizza-card h2 {
+  font-size: 1.2em;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.pizza-card p {
+  margin-bottom: 15px;
+  color: #666;
+}
+
+.pizza-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pizza-price {
+  font-weight: bold;
+  color: #e44c26ec; /* Red color for price */
+}
+
+.add-to-cart-button {
+  background-color: #af844c;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.add-to-cart-button:hover {
+  background-color: #a08545fb;
+}
+
+</style>
