@@ -124,35 +124,11 @@ export default {
     },
     computed:{
         addPizzaButtonText(){
-            // let toppingsArray = this.allToppings.filter((topping)=>{
-
-            //     let contains = this.pizzaToppings.find((pizzaTopping)=>{
-            //         return topping.topping_id == pizzaTopping.topping_id;
-            //     });
-            //     if(contains != undefined){
-            //         topping.isOnPizza = true;
-            //     }else{
-            //         topping.isOnPizza = false;
-            //     }
-            // return topping.isOnPizza;
-            // });
             return this.isAddPizzaVisible ?
                         'hide add pizza':
                         'add pizza';
         },
         computeIsPizzaBeingUpdated(){
-            // let toppingsArray = this.allToppings.filter((topping)=>{
-
-            //     let contains = this.pizzaToppings.find((pizzaTopping)=>{
-            //         return topping.topping_id == pizzaTopping.topping_id;
-            //     });
-            //     if(contains != undefined){
-            //         topping.isOnPizza = true;
-            //     }else{
-            //         topping.isOnPizza = false;
-            //     }
-            // return topping.isOnPizza;
-            // });
             return this.isPizzaBeingUpdated;
         },
         computePizzaToppings(){
@@ -183,7 +159,6 @@ export default {
                         }else{
                             topping.isOnPizza = false;
                         }
-                        // return topping.isOnPizza;
                     });
                 });
                 

@@ -39,8 +39,8 @@ footer{
     background-color: #a18f6366;
     color: #5FA873;
     justify-self: flex-end;
-    width: 350px;
-    height: 100px;
+    width: 90vw;
+    height: 90px;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
@@ -54,6 +54,12 @@ a{
     font-family: 'Mandalore Laser Title';
 
 }
+
+/* @media only screen and (max-width: 600px) {
+    footer{
+        width: 90vw;
+    }
+} */
 
 
 </style>
