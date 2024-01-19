@@ -29,7 +29,7 @@
   
       <button type="submit" >Save Personal Information</button>
     </form>
-  </div>
+    </div>
   </template>
  <script>
  export default {
