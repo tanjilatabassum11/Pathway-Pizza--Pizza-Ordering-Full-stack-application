@@ -37,7 +37,7 @@
                         <input type="text" v-model="pizzaToUpdate.pizza_name" v-if="pizza.isPizzaEdit">
                     </td>
                     <td>
-                        <span v-show="!pizza.isPizzaEdit">{{ pizza.pizza_size }}</span>
+                        <span class="Uppercase" v-show="!pizza.isPizzaEdit">{{ pizza.pizza_size }}</span>
                         <select v-if="pizza.isPizzaEdit" v-model="pizzaToUpdate.pizza_size">
                             <option value="small">Small</option>
                             <option value="medium">Medium</option>
@@ -57,7 +57,7 @@
                         <input type="text" v-model="pizzaToUpdate.note" v-if="pizza.isPizzaEdit">
                     </td>
                     <td>
-                        <span v-show="!pizza.isPizzaEdit">{{ pizza.is_available }}</span>
+                        <span class="Uppercase" v-show="!pizza.isPizzaEdit">{{ pizza.is_available }}</span>
                         <label for="updateAvailable" v-if="pizza.isPizzaEdit">y/n</label><input name="updateAvailable" type="checkbox" v-model="pizzaToUpdate.is_available" v-if="pizza.isPizzaEdit">
 
 
@@ -124,35 +124,11 @@ export default {
     },
     computed:{
         addPizzaButtonText(){
-            // let toppingsArray = this.allToppings.filter((topping)=>{
-
-            //     let contains = this.pizzaToppings.find((pizzaTopping)=>{
-            //         return topping.topping_id == pizzaTopping.topping_id;
-            //     });
-            //     if(contains != undefined){
-            //         topping.isOnPizza = true;
-            //     }else{
-            //         topping.isOnPizza = false;
-            //     }
-            // return topping.isOnPizza;
-            // });
             return this.isAddPizzaVisible ?
                         'hide add pizza':
                         'add pizza';
         },
         computeIsPizzaBeingUpdated(){
-            // let toppingsArray = this.allToppings.filter((topping)=>{
-
-            //     let contains = this.pizzaToppings.find((pizzaTopping)=>{
-            //         return topping.topping_id == pizzaTopping.topping_id;
-            //     });
-            //     if(contains != undefined){
-            //         topping.isOnPizza = true;
-            //     }else{
-            //         topping.isOnPizza = false;
-            //     }
-            // return topping.isOnPizza;
-            // });
             return this.isPizzaBeingUpdated;
         },
         computePizzaToppings(){
@@ -183,7 +159,6 @@ export default {
                         }else{
                             topping.isOnPizza = false;
                         }
-                        // return topping.isOnPizza;
                     });
                 });
                 
@@ -293,7 +268,7 @@ h1, button,th, .topping-label>span{
     font-family: 'Mandalore Laser Title';
 
 }
-span{
+*{
     font-family: 'Cooper Hewitt Book', sans-serif;
 }
 h1{
@@ -417,5 +392,8 @@ button:disabled{
     transition: 250ms;
     cursor: auto;
 
+}
+.Uppercase{
+    text-transform: uppercase;
 }
 </style>

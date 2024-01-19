@@ -9,5 +9,11 @@ export default{
     },
     getToppingByType(type){
         return axios.get(`/toppings/type/${type}`)
+    },
+    createTopping(topping){
+        return axios.post('/toppings', topping)
+    },
+    updateTopping(topping){
+        return axios.put('/toppings', topping)
     }
 }

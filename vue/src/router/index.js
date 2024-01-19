@@ -10,6 +10,7 @@ import UserView from '../views/UserView.vue';
 import UserPizzaView from '../views/UserPizzasView.vue';
 import UserToppingsView from '../views/UserToppingsView.vue';
 import OrderConfirmationView from '../views/OrderConfirmationView.vue';
+import UserOrdersView from '../views/UserOrdersView.vue';
 
 const routes = [
   {
@@ -40,6 +41,14 @@ const routes = [
     path: '/user/toppings',
     name: 'user-toppings',
     component: UserToppingsView,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/user/orders',
+    name: 'user-orders',
+    component: UserOrdersView,
     meta: {
       requiresAuth: true
     }
