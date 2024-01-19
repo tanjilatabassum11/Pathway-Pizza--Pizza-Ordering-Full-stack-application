@@ -13,4 +13,5 @@ public interface ToppingDao {
     public List<Topping> getToppingsByPizzaId(int pizzaId);
     public void addToppingToPizza(int toppingId, int pizzaId);
     public  void deleteToppingFromPizza(int toppingId, int pizzaId);
+    public List<Topping> getAvailableToppings();
 }

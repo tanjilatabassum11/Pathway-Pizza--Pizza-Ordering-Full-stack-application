@@ -11,9 +11,19 @@ public class Topping {
     private String toppingName;
     private String type;
     private BigDecimal cost;
+    @JsonProperty
+    private boolean isAvailable;
 
     public int getToppingId() {
         return toppingId;
+    }
+
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+
+    public void setAvailable(boolean available) {
+        isAvailable = available;
     }
 
     public void setToppingId(int toppingId) {

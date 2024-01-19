@@ -15,5 +15,8 @@ export default{
     },
     updateTopping(topping){
         return axios.put('/toppings', topping)
+    },
+    getAvailableToppings(){
+        return axios.get('/toppings/available')
     }
 }

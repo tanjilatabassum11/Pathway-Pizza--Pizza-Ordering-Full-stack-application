@@ -50,7 +50,8 @@ CREATE TABLE toppings(
     topping_id SERIAL PRIMARY KEY,
     topping_name varchar(50),
     type varchar(25),
-    cost NUMERIC(5,2)
+    cost NUMERIC(5,2),
+    is_available BOOLEAN
 );
 
 CREATE TABLE pizzas_toppings(

@@ -13,12 +13,12 @@ INSERT INTO pizzas(pizza_name, pizza_size, is_available, pizza_cost, max_topping
 INSERT INTO pizzas(pizza_name, pizza_size, is_available, pizza_cost, max_toppings, is_specialty, note) VALUES('The Miser', 'small', true, 6.00, 1, true, 'Just Pepperoni');
 INSERT INTO pizzas(pizza_name, pizza_size, is_available, pizza_cost, max_toppings, is_specialty, note) VALUES('Three Cheese Blend', 'medium', true, 85.00, 3, true, 'All three cheeses. Yes, there are only three.');
 
-INSERT INTO toppings(topping_name, type, cost) VALUES('pepperoni', 'meat', 1.00);
-INSERT INTO toppings(topping_name, type, cost) VALUES('pineapple', 'fruit', 1.00);
-INSERT INTO toppings(topping_name, type, cost) VALUES('jalapenos', 'veggies', 1.00);
-INSERT INTO toppings(topping_name, type, cost) VALUES('ricotta', 'cheese', 1.00);
-INSERT INTO toppings(topping_name, type, cost) VALUES('asiago', 'cheese', 1.00);
-INSERT INTO toppings(topping_name, type, cost) VALUES('fresh mozzarella', 'cheese', 1.00);
+INSERT INTO toppings(topping_name, type, cost, is_available) VALUES('pepperoni', 'meat', 1.00, true);
+INSERT INTO toppings(topping_name, type, cost, is_available) VALUES('pineapple', 'fruit', 1.00, true);
+INSERT INTO toppings(topping_name, type, cost, is_available) VALUES('jalapenos', 'veggies', 1.00, true);
+INSERT INTO toppings(topping_name, type, cost, is_available) VALUES('ricotta', 'cheese', 1.00, true);
+INSERT INTO toppings(topping_name, type, cost, is_available) VALUES('asiago', 'cheese', 1.00, false);
+INSERT INTO toppings(topping_name, type, cost, is_available) VALUES('fresh mozzarella', 'cheese', 1.00, true);
 
 INSERT INTO pizzas_toppings(pizza_id, topping_id) VALUES(1,1);
 INSERT INTO pizzas_toppings(pizza_id, topping_id) VALUES(1,2);
