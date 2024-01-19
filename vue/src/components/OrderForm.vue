@@ -2,42 +2,47 @@
     <form @submit.prevent="saveCustomerInfo">
       <div class="form-group">
         <label for="fullName">Full Name:</label>
-        <input id="fullName" v-model="customerOrder.orderName" type="text" required placeholder="(ex: John Doe)" />
+        <input id="fullName" v-model="orderData.orderName" type="text" required placeholder="(ex: John Doe)" />
       </div>
   
       <div class="form-group">
         <label for="phoneNumber">Phone Number:</label>
-        <input id="phoneNumber" v-model="customerOrder.phoneNumber" type="tel" required />
+        <input id="phoneNumber" v-model="orderData.phoneNumber" type="tel" required />
       </div>
   
       <div class="form-group">
         <label for="email">Email Address:</label>
-        <input id="email" v-model="customerOrder.emailAddress" type="email" required placeholder="example@example.com" />
+        <input id="email" v-model="orderData.emailAddress" type="email" required placeholder="example@example.com" />
       </div>
   
       <div class="form-group">
         <label for="address">Full Address:</label>
-        <input id="address" v-model="customerOrder.address" type="text" required placeholder="123 Example St, City, State 12345" />
+        <input id="address" v-model="orderData.address" type="text" required placeholder="123 Example St, City, State 12345" />
       </div>
   
       <div class="form-group">
         <label for="paymentInfo">Payment Card #:</label>
-        <input id="paymentInfo" v-model="customerOrder.paymentInfo" type="text" placeholder="1234567890123456" />
+        <input id="paymentInfo" v-model="orderData.paymentInfo" v-mask="['xxxx xxxx xxxx xxxx']" type="text" placeholder="1234567890123456" />
       </div>
   
-      <button type="submit">Save Personal Information</button>
+      <button type="submit" >Save Personal Information</button>
     </form>
   </template>
  <script>
  export default {
    data() {
      return {
-       customerOrder: {
+       orderData: {
          orderName: '',
          phoneNumber: '',
-         emailAddress: '',
+         orderDateTime: '',
+         isDelivery: '',
+         deliveryDateTime: '',
          address: '',
-         paymentInfo: ''
+         paymentInfo: '',
+         totalCost: '',
+         orderStatus: 'pending',
+         emailAddress: '',
        }
      };
    },

@@ -1,6 +1,6 @@
 <template>
     <div class="order-view">
-      <h1>Place Your Pizza Order</h1>
+      <h1>Place Your Pizza Order: </h1>
       <PizzaSelection @selectPizza="selectPizza" />
       <OrderForm @submitOrder="submitOrder" />
       <button @click="confirmOrder">Confirm Order</button>

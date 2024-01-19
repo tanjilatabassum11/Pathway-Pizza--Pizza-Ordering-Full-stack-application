@@ -10,6 +10,7 @@ import OrderView from '../views/OrderView.vue';
 import UserView from '../views/UserView.vue';
 import UserPizzaView from '../views/UserPizzasView.vue';
 import UserToppingsView from '../views/UserToppingsView.vue';
+import OrderConfirmationView from '../views/OrderConfirmationView.vue';
 
 /**
  * The Vue Router is used to "direct" the browser to render a specific view component
@@ -53,9 +54,17 @@ const routes = [
     }
   },
   {
-    path: '/orders/create',
-    name: 'order-create',
+    path: '/start-order',
+    name: 'start-order',
     component: OrderView,
+    meta: {
+      requiresAuth: false
+    }
+  },
+  {
+    path: '/orders/create',
+    name: 'confirm-order',
+    component: OrderConfirmationView,
     meta: {
       requiresAuth: false
     }
