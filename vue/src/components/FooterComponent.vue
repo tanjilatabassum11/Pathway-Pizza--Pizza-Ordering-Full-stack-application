@@ -45,7 +45,7 @@ footer{
     flex-direction: column;
     justify-content: flex-end;
     padding: 15px;
-    margin-top: auto;
+    margin-top: 10px;
 }
 a{
     color: #BB554A;

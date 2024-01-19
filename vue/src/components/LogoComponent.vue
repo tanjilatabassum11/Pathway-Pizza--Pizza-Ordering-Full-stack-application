@@ -43,6 +43,7 @@ export default {
     font-family: 'Mandalore Laser Title';
 }
 #with-line{
+    cursor: pointer;
     border-bottom: #A18F63 5px solid;
 }
 h1{
@@ -53,6 +54,7 @@ p{
     letter-spacing: -.2em;
 }
 #logo{
+    cursor: pointer;
     width: 100px;
     
 }

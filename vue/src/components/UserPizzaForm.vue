@@ -27,7 +27,7 @@
                 <td><input type="number" v-model="pizzaToAdd.max_toppings"></td>
                 <td><input type="text" v-model="pizzaToAdd.note"></td>
                 <td><label for="addAvailable">y/n</label><input name="addAvailable" type="checkbox" v-model="pizzaToAdd.is_available"></td>
-                <td><button class="cancel-button" :disabled="isPizzaBeingUpdated">add</button></td>
+                <td><button class="cancel-button" @click="createSpecialtyPizza()" :disabled="isPizzaBeingUpdated">add</button></td>
             </tr>
             <template v-for="pizza in pizzas" :key="pizza.pizza_id">
                 <tr class="pizza-row">
@@ -124,36 +124,41 @@ export default {
     },
     computed:{
         addPizzaButtonText(){
-            let toppingsArray = this.allToppings.filter((topping)=>{
+            // let toppingsArray = this.allToppings.filter((topping)=>{
 
-                let contains = this.pizzaToppings.find((pizzaTopping)=>{
-                    return topping.topping_id == pizzaTopping.topping_id;
-                });
-                if(contains != undefined){
-                    topping.isOnPizza = true;
-                }else{
-                    topping.isOnPizza = false;
-                }
-            return topping.isOnPizza;
-            });
+            //     let contains = this.pizzaToppings.find((pizzaTopping)=>{
+            //         return topping.topping_id == pizzaTopping.topping_id;
+            //     });
+            //     if(contains != undefined){
+            //         topping.isOnPizza = true;
+            //     }else{
+            //         topping.isOnPizza = false;
+            //     }
+            // return topping.isOnPizza;
+            // });
             return this.isAddPizzaVisible ?
                         'hide add pizza':
                         'add pizza';
         },
         computeIsPizzaBeingUpdated(){
-            let toppingsArray = this.allToppings.filter((topping)=>{
+            // let toppingsArray = this.allToppings.filter((topping)=>{
 
-                let contains = this.pizzaToppings.find((pizzaTopping)=>{
-                    return topping.topping_id == pizzaTopping.topping_id;
-                });
-                if(contains != undefined){
-                    topping.isOnPizza = true;
-                }else{
-                    topping.isOnPizza = false;
-                }
-            return topping.isOnPizza;
-            });
+            //     let contains = this.pizzaToppings.find((pizzaTopping)=>{
+            //         return topping.topping_id == pizzaTopping.topping_id;
+            //     });
+            //     if(contains != undefined){
+            //         topping.isOnPizza = true;
+            //     }else{
+            //         topping.isOnPizza = false;
+            //     }
+            // return topping.isOnPizza;
+            // });
             return this.isPizzaBeingUpdated;
+        },
+        computePizzaToppings(){
+            return this.allToppings.filter((topping)=>{
+                return topping.isOnPizza;
+            });
         }
     },
     methods:{
@@ -168,15 +173,61 @@ export default {
                 ToppingService.getToppingsByPizzaId(pizzaId)
                 .then((response)=>{
                     this.pizzaToppings = response.data;
+                    this.allToppings.forEach((topping)=>{
+
+                        let contains = this.pizzaToppings.find((pizzaTopping)=>{
+                            return topping.topping_id == pizzaTopping.topping_id;
+                        });
+                        if(contains != undefined){
+                            topping.isOnPizza = true;
+                        }else{
+                            topping.isOnPizza = false;
+                        }
+                        // return topping.isOnPizza;
+                    });
                 });
+                
 
             }else{
                 this.isPizzaBeingUpdated = false;
                 this.pizzas[indexOfPizza].isPizzaEdit = false;
+                //get new toppings
+                let toppingsToAdd = this.allToppings.filter((topping)=>{
+                    return topping.isOnPizza && !this.isAlreadyInPizzaToppings(topping);
+                });
+                // get toppings to be removed
+                let toppingsToRemove = this.allToppings.filter((topping)=>{
+                    return !topping.isOnPizza && this.isAlreadyInPizzaToppings(topping);
+                });
 
-                // add some stuff here to send the updated pizza to the server
-                this.pizzaToUpdate = {};
-                this.pizzaToppings = [];
+                // add toppings
+                if(toppingsToAdd.length > 0){
+                    toppingsToAdd.forEach((topping)=>{
+                        PizzaService.addToppingToPizza(pizzaId, topping.topping_id);
+                    });
+                }
+
+
+                //remove toppings
+                if(toppingsToRemove.length > 0){
+                    toppingsToRemove.forEach((topping)=>{
+                        PizzaService.removeToppingFromPizza(pizzaId, topping.topping_id);
+                    })
+                }
+
+                //update pizza
+                this.pizzaToUpdate.pizza_id = pizzaId;
+                PizzaService.updatePizza(this.pizzaToUpdate).then((response)=>{
+                    PizzaService.getAllSpecialtyPizzas()
+                    .then((response)=>{
+                        this.pizzas = response.data;
+                    });
+                    this.pizzaToUpdate = {};
+                    this.pizzaToppings = [];
+                })
+
+                
+                
             }
 
         },
@@ -195,6 +246,30 @@ export default {
                 this.pizzaToppings = [];
             }
         },
+        isAlreadyInPizzaToppings(topping){
+
+            let isAlreadyInPizzaToppings = false;
+            if(this.pizzaToppings.length > 0){
+                this.pizzaToppings.forEach((pizzaTopping)=>{
+                    if(pizzaTopping.topping_id == topping.topping_id){
+                        isAlreadyInPizzaToppings = true;
+                    }
+                });
+            }
+            return isAlreadyInPizzaToppings;
+        },
+        createSpecialtyPizza(){
+            PizzaService.createSpecialtyPizza(this.pizzaToAdd).then((response)=>{
+                this.pizzaToAdd = {};
+                PizzaService.getAllSpecialtyPizzas()
+                .then((response)=>{
+                    this.pizzas = response.data;
+                });
+                this.isAddPizzaVisible = !this.isAddPizzaVisible;
+            });
+
+        }
+
         
 
     }
@@ -203,6 +278,7 @@ export default {
 </script>
 
 <style scoped>
+@import url('https://fonts.cdnfonts.com/css/cooper-hewitt-book');
 @font-face {
     font-family: 'Mandalore Laser Title';
     src: url('../fonts/MandaloreLaserTitle.woff2') format('woff2'),
@@ -212,9 +288,16 @@ export default {
     font-display: swap;
 }
 
-*{
+
+h1, button,th, .topping-label>span{
     font-family: 'Mandalore Laser Title';
 
+}
+span{
+    font-family: 'Cooper Hewitt Book', sans-serif;
+}
+h1{
+    color: #A18F63;
 }
 table {
   border-collapse: collapse;
@@ -318,6 +401,7 @@ button{
     border: #5FA873 2px solid;
     border-radius: 5px;
     transition: 250ms;
+    cursor: pointer;
 }
 button:hover,
 button:active{
@@ -331,6 +415,7 @@ button:disabled{
     color: #A18F63;
     border: #AC685B 2px solid;
     transition: 250ms;
+    cursor: auto;
 
 }
 </style>

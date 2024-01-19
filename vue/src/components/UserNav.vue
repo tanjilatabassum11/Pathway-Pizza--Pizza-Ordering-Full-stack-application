@@ -51,6 +51,7 @@ button{
     width: 150px;
     font-size: 1.1em;
     transition: 250ms;
+    cursor: pointer;
 }
 button:hover,
 button:active{
