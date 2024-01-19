@@ -1,7 +1,7 @@
 <template>
     <div id="home">
       <div>
-          <button v-on:click="createOrder()">Place order</button>
+          <button v-on:click="$router.push({name: 'start-order'})" >Place order</button>
       </div>
       <PizzaCard />
       <PizzaCard />

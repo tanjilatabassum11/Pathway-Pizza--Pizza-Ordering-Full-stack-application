@@ -6,7 +6,7 @@ export function createStore(currentToken, currentUser) {
     state: {
       token: currentToken || '',
       user: currentUser || {},
-      customerOrder: {
+      orderData: {
 
       },
       pizzaSelection: {
@@ -31,12 +31,16 @@ export function createStore(currentToken, currentUser) {
         axios.defaults.headers.common = {};
       },
       SET_ORDER(state, payload){
-        state.customerOrder = payload;
+        state.orderData = payload;
       }
     },
       SET_PIZZA_ORDER(state, payload){
         state.pizzaSelection = payload;
-      }
+      },
+      UPDATE_ORDER_DATA(state, newData){
+        state.orderData = {...state.orderData, ...newData};
+       }
+
   });
   return store;
 }
