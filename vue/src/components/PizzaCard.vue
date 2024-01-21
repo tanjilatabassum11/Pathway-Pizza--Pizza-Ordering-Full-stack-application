@@ -1,6 +1,6 @@
 <template>
     <div class="pizza-card" @click="showDetails">
-      <img :src="pizza.imageUrl" alt="Pizza Image" class="pizza-image"/>
+      <img :src="pizza.imageUrl" alt="Pizza Image" class="C:\Users\Student\workspace\oct-blue-pizza-ordering\vue\src\images\pizzacard.png"/>
       <div class="content">
         <h3 class="pizza-name">{{ pizza.pizza_name }}</h3>
         <p class="pizza-desc">{{ pizza.note }}</p>

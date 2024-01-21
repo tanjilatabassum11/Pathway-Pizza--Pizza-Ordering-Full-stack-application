@@ -23,11 +23,9 @@
     },
     methods: {
       editPizza(index) {
-        // Logic to edit a pizza
         this.$emit('editPizza', index);
       },
       removePizza(index) {
-        // Logic to remove a pizza
         this.$emit('removePizza', index);
       }
     }

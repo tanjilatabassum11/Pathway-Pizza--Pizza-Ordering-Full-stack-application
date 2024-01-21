@@ -19,7 +19,7 @@
   
   <style scoped>
   .hero-section {
-    background-image: url('/path/to/hero-background.jpg'); 
+    background-image: url('C:\Users\Student\workspace\oct-blue-pizza-ordering\vue\src\images\Hero.png'); 
     background-size: cover;
     background-position: center;
     text-align: center;

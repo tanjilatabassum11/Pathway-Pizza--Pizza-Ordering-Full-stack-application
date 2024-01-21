@@ -1,14 +1,14 @@
 <template>
     <div id="home">
       <div>
-        <button @click="$router.push({name: 'start-order'})">Place order</button>
+        <button @click="$router.push({ name: 'start-order' })">Place Order</button>
       </div>
       <div class="featured-pizzas">
         <h2>Featured Pizzas</h2>
         <div class="pizza-list">
           <PizzaCard
-            v-for="(pizza, index) in featuredPizzas" 
-            :key="index" 
+            v-for="(pizza, index) in featuredPizzas"
+            :key="index"
             :pizza="pizza"
             @addToCart="handleAddToCart"
           />
@@ -18,9 +18,9 @@
         <h2>All Pizzas</h2>
         <div class="pizza-list">
           <PizzaCard
-            v-for="(pizza, index) in pizzas" 
-            :key="index" 
-            :pizza="pizza" 
+            v-for="(pizza, index) in pizzas"
+            :key="index"
+            :pizza="pizza"
             @addToCart="handleAddToCart"
           />
         </div>
@@ -38,12 +38,12 @@
     data() {
       return {
         pizzas: [],
-        featuredPizzas: [], 
+        featuredPizzas: [],
       };
     },
     created() {
       this.loadPizzas();
-      this.loadFeaturedPizzas(); 
+      this.loadFeaturedPizzas();
     },
     methods: {
       loadPizzas() {
@@ -56,11 +56,8 @@
           });
       },
       loadFeaturedPizzas() {
-        // Implement logic to fetch featured pizzas
-        // This can be a separate API call or a filtered list from all pizzas
       },
       handleAddToCart(pizza) {
-        // Logic for adding pizza to cart
       }
     }
   };
