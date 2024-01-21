@@ -7,8 +7,8 @@
             <th id="thead-type">Type</th>
             <th id="thead-name">Name</th>
             <th id="thead-cost">Cost</th>
+            <th id="thead-available">Available</th>
             <th id="thead-blank"></th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -22,6 +22,7 @@
             </select></td>
             <td><input type="text" v-model="toppingToAdd.topping_name"></td>
             <td><input type="number" v-model="toppingToAdd.cost"></td>
+            <td><label for="addAvailable">y/n</label><input name="addAvailable" type="checkbox" v-model="toppingToAdd.is_available"></td>
             <td><button class="add-button" @click="createTopping()" :disabled="isToppingBeingUpdated">add</button></td>
         </tr>
         <tr class="topping-row" v-for="topping in allToppings" :key="topping.topping_id"> 
@@ -41,6 +42,10 @@
             <td>
                 <span v-show="!topping.isToppingEdit">${{topping.cost}}</span>
                 <input type="number" v-model="toppingToUpdate.cost" v-if="topping.isToppingEdit">
+            </td>
+            <td>
+                <span class="Uppercase" v-show="!topping.isToppingEdit">{{topping.is_available}}</span>
+                <label for="updateAvailable" v-if="topping.isToppingEdit">y/n</label><input name="updateAvailable" type="checkbox" v-model="toppingToUpdate.is_available" v-if="topping.isToppingEdit">
             </td>
             <td class="button-div">
                 <button class="edit-button" :disabled="(computeIsToppingBeingUpdated && !topping.isToppingEdit) || isAddToppingVisible" @click="editTopping(topping.topping_id)">{{topping.isToppingEdit ? 'Update':'Edit'}}</button>
@@ -184,6 +189,11 @@ h1, button,th {
 }
 #thead-cost{
     background-color: #AC685B;
+    color: #FFFFFF;
+    width: 60px;
+}
+#thead-available{
+    background-color: #A18F63;
     color: #FFFFFF;
     width: 60px;
 }

@@ -47,6 +47,10 @@ public class ToppingController {
     public Topping updateTopping(@RequestBody Topping topping){
         return toppingDao.updateTopping(topping);
     }
+    @RequestMapping(path="/available", method=RequestMethod.GET)
+    public List<Topping> getAvailableToppings(){
+        return toppingDao.getAvailableToppings();
+    }
 
 
 

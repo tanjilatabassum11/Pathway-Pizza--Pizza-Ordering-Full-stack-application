@@ -19,7 +19,7 @@ public class JdbcToppingDao implements ToppingDao{
 
         List<Topping> toppings = new ArrayList<>();
 
-        String sql = "SELECT topping_id, topping_name, type, cost\n" +
+        String sql = "SELECT topping_id, topping_name, type, cost, is_available\n" +
                 "FROM toppings;";
 
         try{
@@ -42,7 +42,7 @@ public class JdbcToppingDao implements ToppingDao{
 
         Topping topping = null;
 
-        String sql = "SELECT topping_id, topping_name, type, cost\n" +
+        String sql = "SELECT topping_id, topping_name, type, cost, is_available\n" +
                 "FROM toppings\n" +
                 "WHERE topping_id = ?";
         try {
@@ -62,7 +62,7 @@ public class JdbcToppingDao implements ToppingDao{
     public List<Topping> getToppingsByType(String type) {
         List<Topping> toppings = new ArrayList<>();
 
-        String sql = "SELECT topping_id, topping_name, type, cost\n" +
+        String sql = "SELECT topping_id, topping_name, type, cost, is_available\n" +
                 "FROM toppings\n" +
                 "WHERE type = ?;";
 
@@ -86,14 +86,14 @@ public class JdbcToppingDao implements ToppingDao{
 
         Topping newTopping = null;
 
-        String sql = "INSERT INTO toppings(topping_name, type, cost)\n" +
-                "VALUES(?, ?, ?)\n" +
+        String sql = "INSERT INTO toppings(topping_name, type, cost, is_available)\n" +
+                "VALUES(?, ?, ?, ?)\n" +
                 "RETURNING topping_id;";
 
         try{
 
             int toppingId = jdbcTemplate.queryForObject(sql, int.class,
-                    topping.getToppingName(), topping.getType(), topping.getCost());
+                    topping.getToppingName(), topping.getType(), topping.getCost(), topping.isAvailable());
 
             newTopping = getToppingById(toppingId);
 
@@ -109,12 +109,12 @@ public class JdbcToppingDao implements ToppingDao{
         Topping updateTopping = null;
 
         String sql = "UPDATE toppings\n" +
-                "SET topping_name = ?, type = ?, cost = ?\n" +
+                "SET topping_name = ?, type = ?, cost = ?, is_available = ?\n" +
                 "WHERE topping_id = ?;";
 
         try{
             int numberOfRows = jdbcTemplate.update(sql, topping.getToppingName(),
-                    topping.getType(), topping.getCost(), topping.getToppingId());
+                    topping.getType(), topping.getCost(), topping.isAvailable(), topping.getToppingId());
             if(numberOfRows == 0){
                 throw new Exception();
             }else {
@@ -131,7 +131,7 @@ public class JdbcToppingDao implements ToppingDao{
 
         List<Topping> pizzaToppings = new ArrayList<>();
 
-        String sql = "SELECT toppings.topping_id, toppings.topping_name, toppings.type, toppings.cost\n" +
+        String sql = "SELECT toppings.topping_id, toppings.topping_name, toppings.type, toppings.cost, topping.is_available\n" +
                 "FROM toppings\n" +
                 "JOIN pizzas_toppings ON pizzas_toppings.topping_id = toppings.topping_id\n" +
                 "JOIN pizzas ON pizzas.pizza_id = pizzas_toppings.pizza_id\n" +
@@ -181,6 +181,28 @@ public class JdbcToppingDao implements ToppingDao{
         }
     }
 
+    @Override
+    public List<Topping> getAvailableToppings() {
+        List<Topping> availableToppings = new ArrayList<>();
+
+        String sql = "SELECT topping_id, topping_name, type, cost, is_available\n" +
+                "FROM toppings\n" +
+                "WHERE is_available";
+
+        try{
+
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+
+            while(results.next()) {
+                Topping topping = mapRowToTopping(results);
+                availableToppings.add(topping);
+            }
+        }catch(Exception e) {
+            System.out.println("Something went wrong with: isAvailable");
+        }
+        return availableToppings;
+    }
+
     public Topping mapRowToTopping(SqlRowSet results){
         Topping topping = new Topping();
 
@@ -188,6 +210,7 @@ public class JdbcToppingDao implements ToppingDao{
         topping.setToppingName(results.getString("topping_name"));
         topping.setType(results.getString("type"));
         topping.setCost(results.getBigDecimal("cost"));
+        topping.setAvailable(results.getBoolean("is_available"));
 
         return topping;
     }
