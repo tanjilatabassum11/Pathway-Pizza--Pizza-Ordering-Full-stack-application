@@ -20,7 +20,8 @@ public class JdbcToppingDao implements ToppingDao{
         List<Topping> toppings = new ArrayList<>();
 
         String sql = "SELECT topping_id, topping_name, type, cost, is_available\n" +
-                "FROM toppings;";
+                "FROM toppings\n" +
+                "order by type;";
 
         try{
 
@@ -135,7 +136,8 @@ public class JdbcToppingDao implements ToppingDao{
                 "FROM toppings\n" +
                 "JOIN pizzas_toppings ON pizzas_toppings.topping_id = toppings.topping_id\n" +
                 "JOIN pizzas ON pizzas.pizza_id = pizzas_toppings.pizza_id\n" +
-                "WHERE pizzas.pizza_id = ?;";
+                "WHERE pizzas.pizza_id = ?\n" +
+                "order by type;";
 
         try{
 
@@ -187,7 +189,8 @@ public class JdbcToppingDao implements ToppingDao{
 
         String sql = "SELECT topping_id, topping_name, type, cost, is_available\n" +
                 "FROM toppings\n" +
-                "WHERE is_available";
+                "WHERE is_available\n" +
+                "order by type;";
 
         try{
 

@@ -1,6 +1,16 @@
 <template>
     <h1>Orders</h1>
-    <button class="show-hide" @click="showHide()">{{showCompletedAndCanceled ? 'Show': 'Hide'}} Completed and Canceled orders</button>
+    <button class="show-hide" @click="showHide()">Filter {{filterOn ? 'On': 'Off'}}</button>
+    <label v-if="filterOn">Order Status:</label>
+    <select v-if="filterOn" v-model="filter">
+        <option value="pending">Pending</option>
+        <option value="out for delivery">Out For Delivery</option>
+        <option value="delivered">Delivered</option>
+        <option value="in kitchen">In Kitchen</option>
+        <option value="awaiting pickup">Awaiting Pickup</option>
+        <option value="complete">Complete</option>
+        <option value="canceled">Canceled</option>
+    </select>
     <table>
         <thead>
             <tr>
@@ -49,6 +59,8 @@ export default {
         return {
             orders:[],
             showCompletedAndCanceled: true,
+            filterOn: false,
+            filter: 'pending'
 
 
         }
@@ -56,9 +68,9 @@ export default {
     computed:{
         ordersToShow(){
             let displayedOrders = [];
-            if(this.showCompletedAndCanceled){
+            if(this.filterOn){
                 displayedOrders = this.orders.filter((order)=>{
-                    return order.orderStatus != 'complete' && order.orderStatus != 'canceled';
+                    return order.orderStatus == this.filter;
                 });
             }else{
                 displayedOrders = this.orders;
@@ -76,7 +88,7 @@ export default {
     },
     methods:{
         showHide(){
-            this.showCompletedAndCanceled = !this.showCompletedAndCanceled;
+            this.filterOn = !this.filterOn;
         },
         goToDetails(orderId){
             this.$router.push({name:'user-orders-details', params:{orderId: orderId}})
@@ -115,11 +127,16 @@ th{
 }
 table {
   border-collapse: collapse;
-  border-bottom: #5FA873 1px solid;
+    border-bottom: #BB554A 1px solid;
+  /* border-bottom: #5FA873 1px solid; */
+}
+select{
+    margin: 10px;
 }
 .order{
     
-    border-top: #5FA873 1px solid;
+    border-top: #BB554A 1px solid;
+    /* border-top: #5FA873 1px solid; */
     cursor: pointer;
     color: white;
     margin-top: 10px;
@@ -139,6 +156,7 @@ table {
 'out-for-delivery': order.orderStatus == 'out for delivery'}"  */
 .complete{
     background-color: #5FA873;
+    border-top: #BB554A 1px solid;
 }
 .pending{
     background-color: #a18f6380;

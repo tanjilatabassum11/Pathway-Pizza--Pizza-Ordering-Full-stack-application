@@ -20,8 +20,9 @@ public class Pizza {
     private int maxToppings;
     @JsonProperty("is_specialty")
     private boolean isSpecialty;
-
     private String note;
+    private String description;
+    private String imageUrl;
 
 
     public int getPizzaId() {
@@ -73,5 +74,20 @@ public class Pizza {
     }
     public void setNote(String note) {
         this.note = note;
+    }
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

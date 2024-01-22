@@ -30,15 +30,16 @@ CREATE TABLE orders (
 );
 CREATE TABLE pizzas(
     pizza_id SERIAL PRIMARY KEY,
-    pizza_name varchar(50),
-    pizza_size varchar(10),
-    is_available BOOLEAN not NULL,
+    pizza_name VARCHAR(50),
+    pizza_size VARCHAR(10),
+    is_available BOOLEAN NOT NULL,
     pizza_cost NUMERIC(5,2) NOT NULL,
     max_toppings INTEGER,
     is_specialty BOOLEAN,
-    note varchar(150)
+    note VARCHAR(150),
+    description TEXT,
+    image_url VARCHAR(255)
 );
-
 CREATE TABLE orders_pizzas(
     order_id INTEGER REFERENCES orders(order_id),
     pizza_id INTEGER REFERENCES pizzas(pizza_id),
@@ -59,5 +60,11 @@ CREATE TABLE pizzas_toppings(
     topping_id INTEGER REFERENCES toppings(topping_id),
     CONSTRAINT pk_pizzas_toppings PRIMARY KEY(pizza_id, topping_id)
 );
-
+CREATE TABLE menu (
+    menu_id SERIAL PRIMARY KEY,
+    pizza_id INTEGER REFERENCES pizzas(pizza_id),
+    special_offer VARCHAR(255),
+    combo_deal BOOLEAN NOT NULL DEFAULT false,
+    deal_cost NUMERIC(5,2)
+);
 COMMIT TRANSACTION;

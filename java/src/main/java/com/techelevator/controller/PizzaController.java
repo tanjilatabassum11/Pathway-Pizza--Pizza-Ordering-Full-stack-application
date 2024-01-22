@@ -68,6 +68,10 @@ public class PizzaController {
     public List<Pizza> getPizzasByOrderId(@PathVariable int orderId){
         return pizzaDao.getPizzasByOrderId(orderId);
     }
+    @RequestMapping(path = "/create-custom", method = RequestMethod.POST)
+    public Pizza createCustomPizza(@RequestBody Pizza pizza){
+        return pizzaDao.createCustomPizza(pizza);
+    }
     @GetMapping("/types")
     public List<String> getPizzaTypes() {
         return Arrays.asList("Margherita", "Pepperoni", "Vegetarian", "Hawaiian");
