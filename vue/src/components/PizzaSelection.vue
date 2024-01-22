@@ -99,15 +99,14 @@ export default {
   color: #333;
 }
 
-
-
 .pizza-card-parent {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
 }
 
-.pizza-card {
+.pizza-card 
+{
   background-color: #e6ee741a;
   border-radius: 8px;
   margin: 10px;

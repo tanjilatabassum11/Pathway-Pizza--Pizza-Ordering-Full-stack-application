@@ -59,7 +59,7 @@ export default {
   padding: 40px;
   border: 1px solid #ddd;
   border-radius: 10px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   background-color: #fff; 
 }
 
@@ -103,6 +103,7 @@ button {
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease-in-out;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }
 
 button:hover {
