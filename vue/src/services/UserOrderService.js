@@ -8,6 +8,6 @@ export default{
         return axios.get(`/orders/${orderId}`);
     },
     updateOrder(order){
-        return axios.put(`/orders/${order.orderId}`, order);
+        return axios.put(`/orders/update/${order.orderId}`, order);
     }
 }

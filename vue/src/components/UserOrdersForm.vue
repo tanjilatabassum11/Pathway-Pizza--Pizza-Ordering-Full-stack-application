@@ -86,7 +86,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 @import url('https://fonts.cdnfonts.com/css/cooper-hewitt-book');
 @font-face {
     font-family: 'Mandalore Laser Title';
@@ -147,7 +147,19 @@ table {
 .canceled{
     background-color: #BB554A;
 }
-
+.in-kitchen{
+    background: linear-gradient(45deg, #5FA873 25%, #a18f6380 50%);
+    
+}
+.awaiting-pickup{
+    background: linear-gradient(45deg, #5FA873 90%, #a18f6380 100%);
+}
+.out-for-delivery{
+    background: linear-gradient(45deg, #5FA873 75%, #a18f6380 100%);
+}
+.delivered{
+    background-color: #5FA873;
+}
 /* <th id="thead-name">Name</th>
 <th id="thead-ph">Phone Number</th>
 <th id="thead-date-ordered">Date Ordered</th>

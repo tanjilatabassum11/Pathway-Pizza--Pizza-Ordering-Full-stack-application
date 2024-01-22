@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -147,6 +148,47 @@ public class JdbcPizzaDao implements PizzaDao{
         }
         return pizza;
     }
+    public int getPizzaQuantityByPizzaIdAndOrderId(int pizzaId, int orderId){
+        int quantity = 0;
+
+        String sql = "Select orders_pizzas.quantity\n" +
+                "FROM pizzas\n" +
+                "Join orders_pizzas ON orders_pizzas.pizza_id = pizzas.pizza_id\n" +
+                "WHERE orders_pizzas.order_id = ?\n" +
+                "AND orders_pizzas.pizza_id = ?;";
+        try{
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, orderId,pizzaId);
+
+            if(results.next()){
+                quantity = results.getInt("quantity");
+            }
+
+        }catch(Exception e) {
+            System.out.println("Something went wrong with: getPizzaQuantityByPizzaIdAndOrderId " + e.getMessage());
+        }
+        return quantity;
+    }
+    public List<Pizza> getPizzasByOrderId(int orderId){
+        List<Pizza> pizzas = new ArrayList<>();
+
+        String sql = "Select pizzas.pizza_id, pizzas.pizza_name, pizzas.pizza_size, pizzas.is_available, pizzas.pizza_cost, pizzas.max_toppings, pizzas.is_specialty, pizzas.note\n" +
+                "FROM pizzas\n" +
+                "Join orders_pizzas ON orders_pizzas.pizza_id = pizzas.pizza_id\n" +
+                "WHERE orders_pizzas.order_id = ?;";
+        try{
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, orderId);
+
+            while (results.next()){
+                Pizza pizza = mapRowToPizza(results);
+                pizzas.add(pizza);
+            }
+
+        }catch(Exception e) {
+            System.out.println("Something went wrong with: getPizzasByOrderId " + e.getMessage());
+        }
+        return pizzas;
+    }
+
 
     private Pizza mapRowToPizza(SqlRowSet results) {
 

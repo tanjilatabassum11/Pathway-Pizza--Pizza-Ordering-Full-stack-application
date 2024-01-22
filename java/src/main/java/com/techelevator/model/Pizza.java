@@ -20,7 +20,6 @@ public class Pizza {
     private int maxToppings;
     @JsonProperty("is_specialty")
     private boolean isSpecialty;
-    private int quantity;
 
     private String note;
 
@@ -74,13 +73,5 @@ public class Pizza {
     }
     public void setNote(String note) {
         this.note = note;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
     }
 }
