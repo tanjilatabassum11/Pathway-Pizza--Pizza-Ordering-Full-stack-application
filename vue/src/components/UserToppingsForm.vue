@@ -4,7 +4,17 @@
   <table>
     <thead>
         <tr>
-            <th id="thead-type">Type</th>
+            <th id="thead-type">Type
+                <select id="type-select" v-bind:disabled="isToppingBeingUpdated || isAddToppingVisible" v-model="filterType">
+                    <option value = "all">All</option>
+                    <option value = "meat">Meat</option>
+                    <option value = "veggies">Veggies</option>
+                    <option value = "cheese">Cheese</option>
+                    <option value = "fruit">Fruit</option>
+                    <option value = "crust">Crust</option>
+                    <option value = "sauce">Sauce</option>
+                </select>
+            </th>
             <th id="thead-name">Name</th>
             <th id="thead-cost">Cost</th>
             <th id="thead-available">Available</th>
@@ -12,20 +22,24 @@
         </tr>
     </thead>
     <tbody>
-
         <tr id="add-topping" v-show="isAddToppingVisible">
             <td><select v-model="toppingToAdd.type">
                 <option value = "meat">Meat</option>
                 <option value = "veggies">Veggies</option>
                 <option value = "cheese">Cheese</option>
                 <option value = "fruit">Fruit</option>
+                <option value = "crust">Crust</option>
+                <option value = "sauce">Sauce</option>
             </select></td>
             <td><input type="text" v-model="toppingToAdd.topping_name"></td>
             <td><input type="number" v-model="toppingToAdd.cost"></td>
             <td><label class="Uppercase" for="addAvailable">y/n</label><input name="addAvailable" type="checkbox" v-model="toppingToAdd.isAvailable"></td>
             <td><button class="add-button" @click="createTopping()" :disabled="isToppingBeingUpdated">add</button></td>
         </tr>
-        <tr class="topping-row" v-for="topping in allToppings" :key="topping.topping_id"> 
+        <tr>
+ 
+        </tr>
+        <tr class="topping-row" v-for="topping in toppingsToShow" :key="topping.topping_id"> 
             <td>
                 <span class="Uppercase" v-show="!topping.isToppingEdit">{{topping.type}}</span>
                 <select v-if="topping.isToppingEdit" v-model="toppingToUpdate.type">
@@ -33,6 +47,8 @@
                     <option value="veggies">Veggies</option>
                     <option value="cheese">Cheese</option>
                     <option value="fruit">Fruit</option>
+                    <option value = "crust">Crust</option>
+                    <option value = "sauce">Sauce</option>
                 </select>
             </td>
             <td>
@@ -93,6 +109,7 @@ export default {
             allFruitToppings: [],
             allSauceToppings: [],
             allCrustToppings: [],
+            filterType: "all",
             toppingToUpdate: {},
             toppingToAdd: {},
             isAddToppingVisible: false,
@@ -107,6 +124,15 @@ export default {
         },
         computeIsToppingBeingUpdated(){
             return this.isToppingBeingUpdated;
+        },
+        toppingsToShow(){
+            if(this.filterType == "all"){
+                return this.allToppings;
+            }else{
+                return this.allToppings.filter(( topping ) => {
+                    return topping.type == this.filterType;
+                });
+            }
         }
     },
     methods:{
@@ -148,7 +174,12 @@ export default {
                 });
                 this.isAddToppingVisible = !this.isAddToppingVisible
             });
-        }
+        },
+        // displayType(){
+        //     if(this.filterType == "all"){
+
+        //     }
+        // }
     }
 }
 </script>
@@ -188,6 +219,12 @@ h1, button, th {
 .check-icon{
     width: 20px;
     fill: #5FA873;
+}
+#type-select{
+    border-block-color: #5FA873;;
+    margin: 5px;
+    background-color: #5FA873;
+    color: #FFFFFF;
 }
 #thead-type{
     background-color: #5FA873;
