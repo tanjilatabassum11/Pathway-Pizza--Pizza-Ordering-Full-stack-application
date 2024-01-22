@@ -58,7 +58,7 @@
                     </td>
                     <td>
                         <span class="Uppercase" v-show="!pizza.isPizzaEdit">{{ pizza.is_available }}</span>
-                        <label for="updateAvailable" v-if="pizza.isPizzaEdit">y/n</label><input name="updateAvailable" type="checkbox" v-model="pizzaToUpdate.is_available" v-if="pizza.isPizzaEdit">
+                        <label for="updateAvailable" class="Uppercase" v-if="pizza.isPizzaEdit">y/n</label><input name="updateAvailable" type="checkbox" v-model="pizzaToUpdate.is_available" v-if="pizza.isPizzaEdit">
 
 
                     </td>
