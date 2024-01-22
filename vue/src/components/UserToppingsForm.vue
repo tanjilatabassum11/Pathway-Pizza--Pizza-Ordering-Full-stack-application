@@ -22,7 +22,7 @@
             </select></td>
             <td><input type="text" v-model="toppingToAdd.topping_name"></td>
             <td><input type="number" v-model="toppingToAdd.cost"></td>
-            <td><label for="addAvailable">y/n</label><input name="addAvailable" type="checkbox" v-model="toppingToAdd.is_available"></td>
+            <td><label for="addAvailable">y/n</label><input name="addAvailable" type="checkbox" v-model="toppingToAdd.isAvailable"></td>
             <td><button class="add-button" @click="createTopping()" :disabled="isToppingBeingUpdated">add</button></td>
         </tr>
         <tr class="topping-row" v-for="topping in allToppings" :key="topping.topping_id"> 
@@ -44,8 +44,8 @@
                 <input type="number" v-model="toppingToUpdate.cost" v-if="topping.isToppingEdit">
             </td>
             <td>
-                <span class="Uppercase" v-show="!topping.isToppingEdit">{{topping.is_available}}</span>
-                <label for="updateAvailable" v-if="topping.isToppingEdit">y/n</label><input name="updateAvailable" type="checkbox" v-model="toppingToUpdate.is_available" v-if="topping.isToppingEdit">
+                <span class="Uppercase" v-show="!topping.isToppingEdit">{{topping.isAvailable}}</span>
+                <label for="updateAvailable" v-if="topping.isToppingEdit">y/n</label><input name="updateAvailable" type="checkbox" v-model="toppingToUpdate.isAvailable" v-if="topping.isToppingEdit">
             </td>
             <td class="button-div">
                 <button class="edit-button" :disabled="(computeIsToppingBeingUpdated && !topping.isToppingEdit) || isAddToppingVisible" @click="editTopping(topping.topping_id)">{{topping.isToppingEdit ? 'Update':'Edit'}}</button>
@@ -173,7 +173,7 @@ table {
     border-top: #5FA873 1px solid;
     
 }
-h1, button,th {
+h1, button, th {
     font-family: 'Mandalore Laser Title';
 
 }
