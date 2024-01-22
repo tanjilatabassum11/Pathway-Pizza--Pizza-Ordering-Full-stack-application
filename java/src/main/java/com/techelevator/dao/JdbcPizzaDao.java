@@ -221,7 +221,8 @@ public class JdbcPizzaDao implements PizzaDao{
         pizza.setMaxToppings(results.getInt("max_toppings"));
         pizza.setSpecialty(results.getBoolean("is_specialty"));
         pizza.setNote(results.getString("note"));
-
+        pizza.setDescription(results.getString("description"));
+        pizza.setImageUrl(results.getString("image_url"));
         return pizza;
     }
 }
