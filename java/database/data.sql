@@ -21,6 +21,14 @@ INSERT INTO toppings(topping_name, type, cost, is_available) VALUES('jalapenos',
 INSERT INTO toppings(topping_name, type, cost, is_available) VALUES('ricotta', 'cheese', 1.00, true);
 INSERT INTO toppings(topping_name, type, cost, is_available) VALUES('asiago', 'cheese', 1.00, false);
 INSERT INTO toppings(topping_name, type, cost, is_available) VALUES('fresh mozzarella', 'cheese', 1.00, true);
+INSERT INTO toppings(topping_name, type, cost, is_available) VALUES('traditional', 'sauce', 0.00, true);
+INSERT INTO toppings(topping_name, type, cost, is_available) VALUES('sweet', 'sauce', 0.00, true);
+INSERT INTO toppings(topping_name, type, cost, is_available) VALUES('spicy', 'sauce', 0.00, true);
+INSERT INTO toppings(topping_name, type, cost, is_available) VALUES('alfredo', 'sauce', 0.00, true);
+INSERT INTO toppings(topping_name, type, cost, is_available) VALUES('hand tossed', 'crust', 0.00, true);
+INSERT INTO toppings(topping_name, type, cost, is_available) VALUES('deep dish', 'crust', 1.00, true);
+INSERT INTO toppings(topping_name, type, cost, is_available) VALUES('thin', 'crust', 0.00, true);
+
 
 INSERT INTO pizzas_toppings(pizza_id, topping_id) VALUES(1,1);
 INSERT INTO pizzas_toppings(pizza_id, topping_id) VALUES(1,2);
