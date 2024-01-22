@@ -109,7 +109,7 @@ export default {
 };
 </script>
 <style scoped>
-.order-view {
+ .order-view {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -119,13 +119,26 @@ export default {
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   background-color: #fff;
 }
-
 h1 {
   color: #333;
   margin-bottom: 20px;
   font-size: 2rem;
 }
 
+button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 12px 24px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+  font-weight: bold;
+}
+
+button:hover {
+  background-color: #45a049;
+}
 .pizza-size-selection {
   margin-bottom: 20px;
 }
@@ -135,17 +148,6 @@ select {
   border-radius: 4px;
   border: 1px solid #ccc;
   margin-bottom: 20px;
-}
-
-button {
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  padding: 12px 24px;
-  cursor: pointer;
-  transition: background-color 0.3s ease-in-out;
-  font-weight: bold;
 }
 
 button:hover {
@@ -174,7 +176,8 @@ li {
   width: 100%;
   max-width: 600px;
   margin-bottom: 20px;
-}
+} 
+
 
 /* Additional styles can be added as per your design preference */
 </style>

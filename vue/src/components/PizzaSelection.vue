@@ -49,16 +49,24 @@ export default {
 };
 </script>
 <style scoped>
+@import url('https://fonts.cdnfonts.com/css/cooper-hewitt-book');
+*{
+    font-family: 'Cooper Hewitt Book', sans-serif;
+}
 .pizza-menu {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 20px;
 }
 
 .menu-section-title {
   font-size: 1.8em;
   margin-bottom: 15px;
+  color: #333;
 }
+
+
 
 .pizza-card-parent {
   display: flex;
@@ -73,7 +81,6 @@ export default {
   padding: 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease-in-out;
-  text-align: center;
 }
 
 .pizza-card:hover {
@@ -83,16 +90,12 @@ export default {
 .pizza-card h2 {
   font-size: 1.2em;
   margin-bottom: 10px;
+  color: #333;
 }
 
 .pizza-card p {
   margin-bottom: 15px;
-}
-
-.pizza-image {
-  width: 100%;
-  height: auto;
-  border-radius: 8px;
+  color: #666;
 }
 
 .pizza-details {
@@ -103,6 +106,7 @@ export default {
 
 .pizza-price {
   font-weight: bold;
+  color: #e44c26ec; /* Red color for price */
 }
 
 .add-to-cart-button {
