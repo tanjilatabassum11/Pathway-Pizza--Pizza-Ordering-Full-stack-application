@@ -20,13 +20,13 @@ public class JdbcPizzaDao implements PizzaDao{
     public Pizza createSpecialtyPizza(Pizza pizza) {
         Pizza newPizza = null;
 
-        String sql = "insert INTO pizzas(pizza_name, pizza_size, is_available, pizza_cost, max_toppings, is_specialty, note)\n" +
-                "VALUES(?, ?, ?, ?, ?, true, ?) RETURNING pizza_id;";
+        String sql = "insert INTO pizzas(pizza_name, pizza_size, is_available, pizza_cost, max_toppings, is_specialty, note, description, image_url)\n" +
+                "VALUES(?, ?, ?, ?, ?, true, ?,?,?) RETURNING pizza_id;";
 
         try{
 
             int pizzaId = jdbcTemplate.queryForObject(sql, int.class, pizza.getPizzaName(), pizza.getPizzaSize(), pizza.getIsAvailable(), pizza.getPizzaCost(),
-            pizza.getMaxToppings(), pizza.getNote());
+            pizza.getMaxToppings(), pizza.getNote(), pizza.getDescription(),pizza.getImageUrl());
 
             newPizza = getPizza(pizzaId);
 
@@ -40,7 +40,7 @@ public class JdbcPizzaDao implements PizzaDao{
     public List<Pizza> getAvailableSpecialtyPizzas() {
         List<Pizza> specialtyPizzas = new ArrayList<>();
 
-        String sql = "SELECT pizza_id, pizza_name, pizza_size, is_available, pizza_cost, max_toppings, is_specialty, note\n" +
+        String sql = "SELECT pizza_id, pizza_name, pizza_size, is_available, pizza_cost, max_toppings, is_specialty, note, description, image_url\n" +
                 "FROM pizzas\n" +
                 "WHERE is_specialty\n" +
                 "AND is_available;";
@@ -62,7 +62,7 @@ public class JdbcPizzaDao implements PizzaDao{
     public Pizza getPizza(int id) {
         Pizza pizza = null;
 
-        String sql = "SELECT pizza_id, pizza_name, pizza_size, is_available, pizza_cost, max_toppings, is_specialty, note\n" +
+        String sql = "SELECT pizza_id, pizza_name, pizza_size, is_available, pizza_cost, max_toppings, is_specialty, note, description, image_url\n" +
                 "FROM pizzas\n" +
                 "WHERE pizza_id = ?;";
 
@@ -85,12 +85,13 @@ public class JdbcPizzaDao implements PizzaDao{
         Pizza updatedPizza = null;
 
         String sql = "UPDATE pizzas\n" +
-                "SET pizza_name = ?, pizza_size = ?, is_available = ?, pizza_cost = ?, max_toppings = ?, is_specialty = ?, note = ?\n" +
+                "SET pizza_name = ?, pizza_size = ?, is_available = ?, pizza_cost = ?, max_toppings = ?, is_specialty = ?, note = ?, description = ?, image_url = ?\n" +
                 "WHERE pizza_id = ?;";
 
         try{
             int numberOfRows = jdbcTemplate.update(sql, pizza.getPizzaName(), pizza.getPizzaSize(), pizza.getIsAvailable(),
-                    pizza.getPizzaCost(), pizza.getMaxToppings(), pizza.getIsSpecialty(), pizza.getNote(), pizza.getPizzaId());
+                    pizza.getPizzaCost(), pizza.getMaxToppings(), pizza.getIsSpecialty(), pizza.getNote(),
+                    pizza.getDescription(), pizza.getImageUrl(), pizza.getPizzaId());
 
             if(numberOfRows == 0){
                 throw new Exception();
@@ -110,7 +111,7 @@ public class JdbcPizzaDao implements PizzaDao{
 
         List<Pizza> allPizzas = new ArrayList<>();
 
-        String sql = "SELECT pizza_id, pizza_name, pizza_size, is_available, pizza_cost, max_toppings, is_specialty, note\n" +
+        String sql = "SELECT pizza_id, pizza_name, pizza_size, is_available, pizza_cost, max_toppings, is_specialty, note, description, image_url\n" +
                 "FROM pizzas\n" +
                 "WHERE is_specialty;";
 
@@ -131,7 +132,7 @@ public class JdbcPizzaDao implements PizzaDao{
     public Pizza getAvailablePizza(int id) {
         Pizza pizza = null;
 
-        String sql = "SELECT pizza_id, pizza_name, pizza_size, is_available, pizza_cost, max_toppings, is_specialty, note\n" +
+        String sql = "SELECT pizza_id, pizza_name, pizza_size, is_available, pizza_cost, max_toppings, is_specialty, note, description, image_url\n" +
                 "FROM pizzas\n" +
                 "WHERE pizza_id = ?\n" +
                 "AND is_available;";
@@ -171,7 +172,7 @@ public class JdbcPizzaDao implements PizzaDao{
     public List<Pizza> getPizzasByOrderId(int orderId){
         List<Pizza> pizzas = new ArrayList<>();
 
-        String sql = "Select pizzas.pizza_id, pizzas.pizza_name, pizzas.pizza_size, pizzas.is_available, pizzas.pizza_cost, pizzas.max_toppings, pizzas.is_specialty, pizzas.note\n" +
+        String sql = "Select pizzas.pizza_id, pizzas.pizza_name, pizzas.pizza_size, pizzas.is_available, pizzas.pizza_cost, pizzas.max_toppings, pizzas.is_specialty, pizzas.note, pizzas.description, pizzas.image_url\n" +
                 "FROM pizzas\n" +
                 "Join orders_pizzas ON orders_pizzas.pizza_id = pizzas.pizza_id\n" +
                 "WHERE orders_pizzas.order_id = ?;";
