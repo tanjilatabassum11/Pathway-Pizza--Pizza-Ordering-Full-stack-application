@@ -1,49 +1,82 @@
 <template>
-  <div class="pizza-menu">
-    <section>
-      <h1 class="menu-section-title">Specialty Pizzas</h1>
+
+  <div id="pizza-menu">
+    <section id="specialty-pizzas">
+       
+      <h1 class="menu-section-title">Specialty Pizzas :</h1>
       <div class="pizza-card-parent">
-        <div class="pizza-card" v-for="(pizza, index) in availablePizzas" :key="index">
-          <img :src="pizza.imageUrl" alt="Pizza image" class="pizza-image" />
+        <div class="pizza-card" v-for="pizza in availablePizzas" :key="pizza.pizza_id">
           <h2>{{ pizza.pizza_name }}</h2>
           <p>{{ pizza.note }}</p>
           <div class="pizza-details">
+            <!--toFixed(2) shows decimal number by 2 precision after decimal -->
             <span class="pizza-price">${{ pizza.pizza_cost.toFixed(2) }}</span>
-            <button class="add-to-cart-button" @click="addToCart(pizza)">Add to Cart</button>
+            <button class="add-to-cart-button show-toppings" v-bind:="currentPizzaId"
+           @click="[changeCurrentPizzaId(pizza.pizza_id), changeStoredCurrentPizza(pizza.pizza_id)]" >Add to Cart</button>
           </div>
         </div>
+        
       </div>
     </section>
 
-    <section>
-      <h1 class="menu-section-title">Build Your Own Pizza</h1>
+
+     <section >
+     <!-- <div>
+        <h4 id="toppingsPopUp">Select your toppings: </h4>
+     
+        <button>Close</button>
+      </div>
     </section>
+    <ToppingsView />
+    <section>
+      <h1 class="menu-section-title">Build Your Own</h1>
+      <p v-bind:="getPizza"> {{ $store.state.currentPizzaId  }} </p>
+      -->
+      <!-- Add your Build Your Own pizza content here -->
+      
+    </section>
+
+
+
+   
+
   </div>
 </template>
 <script>
 import PizzaService from '../services/PizzaService.js';
-
+//import ToppingsView from '../views/ToppingsView.vue';
 export default {
+  components: {},
   data() {
     return {
-      availablePizzas: []
+      availablePizzas: [],
+      selectedPizzas: [],
+      currentPizzaId: 0,
     };
   },
-  created() {
-    this.fetchAvailablePizzas();
-  },
   methods: {
-    fetchAvailablePizzas() {
-      PizzaService.getAvailableSpecialtyPizzas()
-        .then(response => {
-          this.availablePizzas = response.data;
-        })
-        .catch(error => {
-          console.error('Error fetching pizzas:', error);
-        });
+     changeCurrentPizzaId(pizza_id){
+      this.currentPizzaId = pizza_id;
+      this.$router.push( {name: 'topping'})
     },
-    addToCart(pizza) {
-      this.$emit('addToCart', pizza);
+    changeStoredCurrentPizza(currentPizzaId){
+       this.$store.commit('CHANGE_CURRENT_PIZZA_ID', currentPizzaId);
+    },
+
+  //should store all pizza data in the data store?
+    // addToCart(pizza) {
+    //   this.$emit('addToCart', pizza);
+    // }
+  },
+   created() {
+     PizzaService.getAvailableSpecialtyPizzas()
+        .then((response) => {
+          this.availablePizzas = response.data
+        });
+  },
+  computed: {
+    getPizza() {
+      return this.$store.state.currentPizzaId;
     }
   }
 };

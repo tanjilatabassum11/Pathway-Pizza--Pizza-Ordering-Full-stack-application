@@ -1,0 +1,41 @@
+<template>
+<div id="back-button">
+<button id="back-button" v-on:click="this.$router.push({name: 'home'})">Go Back To Main Menu</button>
+</div>
+  <div>
+    <h1>Select Your Toppings:</h1>
+    <ToppingComponent :currentPizzaId="currentPizzaId" />
+  </div>
+</template>
+
+<script>
+import ToppingComponent from "../components/ToppingComponent.vue";
+
+export default {
+  components: { ToppingComponent },
+  computed: {
+    currentPizzaId() {
+      let currentPizzaId = this.$store.state.currentPizzaId;
+      return currentPizzaId;
+    },
+  },
+};
+</script>
+
+<style>
+ @import url('https://fonts.cdnfonts.com/css/cooper-hewitt-book');
+*{
+  font-family: 'Cooper Hewitt Book', sans-serif;
+}
+button {
+  padding: 10px;
+  margin: 8px;
+  background-color:  #A18F63;
+  border-radius: 5px;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+</style>

@@ -1,4 +1,7 @@
 <template>
+<div id="back-button">
+<button id="back-button" v-on:click="this.$router.push({name: 'home'})">Go Back</button>
+</div>
   <div class="order-view">
     <h1>Place Your Pizza Order</h1>
     
@@ -8,9 +11,9 @@
     <!-- Build Your Own Pizza -->
     <PizzaBuilder @pizzaCreated="handleAddToCart"/>
 
-    <!-- Toppings Selection -->
+    <!-- Toppings Selection 
     <ToppingsSelection @selectTopping="selectTopping" />
-
+-->
     <!-- Pizza Size Selection -->
     <div class="pizza-size-selection">
       <label for="pizzaSize">Select Pizza Size:</label>
@@ -46,7 +49,7 @@
 import OrderForm from '../components/OrderForm.vue';
 import PizzaSelection from '../components/PizzaSelection.vue';
 import PizzaBuilder from '../components/PizzaBuilder.vue';
-import ToppingsSelection from '../components/ToppingComponent.vue';
+//import ToppingsSelection from '../components/ToppingComponent.vue';
 import OrderSummary from '../components/OrderSummary.vue';
 import DeliveryForm from '../components/DeliveryForm.vue';
 import ConfirmationDialog from '../components/ConfirmationDialog.vue';
@@ -56,13 +59,14 @@ export default {
     OrderForm,
     PizzaSelection,
     PizzaBuilder,
-    ToppingsSelection,
+   // ToppingsSelection,
     OrderSummary,
     DeliveryForm,
     ConfirmationDialog
   },
   data() {
     return {
+      currentOrderId: 0,
       selectedPizzaSize: 'medium',
       orderDetails: {
         customerInfo: null, 
@@ -89,10 +93,10 @@ export default {
     selectPizza(pizza) {
       this.orderDetails.pizzaSelections.push({...pizza, size: this.selectedPizzaSize});
     },
-    selectTopping(topping) {
+   // selectTopping(topping) {
       // Logic to handle topping selection
       // Here, you'll need to define how you want to integrate selected toppings with your orderDetails
-    },
+   // },
     confirmOrder() {
       if (this.isOrderReady) {
         this.showConfirmation = true;

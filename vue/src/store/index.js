@@ -4,14 +4,14 @@ import axios from 'axios';
 export function createStore(currentToken, currentUser) {
   let store = _createStore({
     state: {
+      currentOrderId: 0,
+      currentPizzaId: 0,
       token: currentToken || '',
       user: currentUser || {},
       orderData: {
 
       },
-      pizzaSelection: {
-
-      }
+      pizzaSelection: [],
     },
     mutations: {
       SET_AUTH_TOKEN(state, token) {
@@ -32,9 +32,9 @@ export function createStore(currentToken, currentUser) {
       },
       SET_ORDER(state, payload){
         state.orderData = payload;
-      }
-    },
-      SET_PIZZA_ORDER(state, payload){
+      },
+
+       SET_PIZZA_ORDER(state, payload){
         state.pizzaSelection = payload;
       },
       // UPDATE_ORDER_DATA will be used for getting information for orders
@@ -45,7 +45,18 @@ export function createStore(currentToken, currentUser) {
       //called, but someone else is making changes so I have to wait -B
       UPDATE_ORDER_DATA(state, newData){
         state.orderData = {...state.orderData, ...newData};
-       }
+       },
+       UPDATE_CURRENT_ORDER_ID(state, newData){
+        state.currentOrderId = newData;
+      },
+      CHANGE_CURRENT_PIZZA_ID(state, selectedPizzaId){
+        state.currentPizzaId = selectedPizzaId;
+      },
+      SAVE_PIZZA_SELECTION(state, pizzaSelection){
+        state.pizzaSelection.push(pizzaSelection);
+      }
+    },
+     
 
   });
   return store;

@@ -13,6 +13,8 @@ import UserToppingsView from '../views/UserToppingsView.vue';
 import OrderConfirmationView from '../views/OrderConfirmationView.vue';
 import UserOrdersView from '../views/UserOrdersView.vue';
 import UserOrderDetailView from '../views/UserOrderDetailView.vue';
+import ToppingsView from '../views/ToppingsView.vue';
+
 
 /**
  * The Vue Router is used to "direct" the browser to render a specific view component
@@ -111,6 +113,14 @@ const routes = [
       requiresAuth: false
     }
   },
+  {
+   path: "/toppings",
+   name: "topping",
+   component: ToppingsView,
+   meta: {
+     requiresAuth: false
+   }
+  }
 ];
 
 // Create the router

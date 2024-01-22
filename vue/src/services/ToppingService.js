@@ -7,6 +7,9 @@ export default{
     getAllToppings(){
         return axios.get('/toppings');
     },
+    getToppings(){
+        return axios.get('/toppings')
+    },
     getToppingByType(type){
         return axios.get(`/toppings/type/${type}`)
     },
