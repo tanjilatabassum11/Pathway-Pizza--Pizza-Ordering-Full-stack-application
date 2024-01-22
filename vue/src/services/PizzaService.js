@@ -43,5 +43,11 @@ export default {
 
     getOrderConfirmation(orderId) {
         return axios.get(`/orders/confirmation/${orderId}`);
+    },
+    getPizzasByOrderId(orderId){
+        return axios.get(`/pizzas/order/${orderId}`);
+    },
+    getPizzaQuantityByPizzaIdAndOrderId(pizzaId,orderId){
+        return axios.get(`/pizzas/${pizzaId}/order/${orderId}/quantity`);
     }
 }

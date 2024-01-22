@@ -131,7 +131,7 @@ public class JdbcToppingDao implements ToppingDao{
 
         List<Topping> pizzaToppings = new ArrayList<>();
 
-        String sql = "SELECT toppings.topping_id, toppings.topping_name, toppings.type, toppings.cost, topping.is_available\n" +
+        String sql = "SELECT toppings.topping_id, toppings.topping_name, toppings.type, toppings.cost, toppings.is_available\n" +
                 "FROM toppings\n" +
                 "JOIN pizzas_toppings ON pizzas_toppings.topping_id = toppings.topping_id\n" +
                 "JOIN pizzas ON pizzas.pizza_id = pizzas_toppings.pizza_id\n" +

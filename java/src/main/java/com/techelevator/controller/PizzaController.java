@@ -59,6 +59,15 @@ public class PizzaController {
     public void deleteToppingFromPizza(@PathVariable int pizzaId, @PathVariable int toppingId){
         toppingDao.deleteToppingFromPizza(toppingId, pizzaId);
     }
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(path = "/{pizzaId}/order/{orderId}/quantity", method = RequestMethod.GET)
+    public int getPizzaQuantityByPizzaIdAndOrderId(@PathVariable int pizzaId, @PathVariable int orderId){
+        return pizzaDao.getPizzaQuantityByPizzaIdAndOrderId(pizzaId, orderId);
+    }
+    @RequestMapping(path = "/order/{orderId}", method = RequestMethod.GET)
+    public List<Pizza> getPizzasByOrderId(@PathVariable int orderId){
+        return pizzaDao.getPizzasByOrderId(orderId);
+    }
     @GetMapping("/types")
     public List<String> getPizzaTypes() {
         return Arrays.asList("Margherita", "Pepperoni", "Vegetarian", "Hawaiian");

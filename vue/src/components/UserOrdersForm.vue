@@ -22,7 +22,8 @@
                                         'awaiting-pickup': order.orderStatus == 'awaiting pickup',
                                         'canceled': order.orderStatus == 'canceled',
                                         'out-for-delivery': order.orderStatus == 'out for delivery'}" 
-                                        v-for="order in orders" :key="order.order_id">
+                                        v-for="order in ordersToShow" :key="order.orderId"
+                                        @click="goToDetails(order.orderId)">
                 <td class="uppercase">{{ order.orderName }}</td>
                 <td>{{ order.phoneNumber }}</td>
                 <td>{{ order.orderDateTime }}</td>
@@ -41,35 +42,51 @@
 
 <script>
 import OrderService from '../services/OrderService';
+import UserOrderService from '../services/UserOrderService';
 
 export default {
     data(){
         return {
             orders:[],
-            showCompletedAndCanceled: true
+            showCompletedAndCanceled: true,
+
 
         }
     },
+    computed:{
+        ordersToShow(){
+            let displayedOrders = [];
+            if(this.showCompletedAndCanceled){
+                displayedOrders = this.orders.filter((order)=>{
+                    return order.orderStatus != 'complete' && order.orderStatus != 'canceled';
+                });
+            }else{
+                displayedOrders = this.orders;
+            }
+            return displayedOrders;
+        }
+    },
     created(){
-        OrderService.getOrders().then((response)=>{
+        UserOrderService.getOrders().then((response)=>{
             this.orders = response.data;
         });
+        // OrderService.getOrders().then((response)=>{
+        //     this.orders = response.data;
+        // });
     },
     methods:{
         showHide(){
-            if(this.showCompletedAndCanceled){
-                let i =1;
-            }else{
-                let i =1;
-            }
             this.showCompletedAndCanceled = !this.showCompletedAndCanceled;
+        },
+        goToDetails(orderId){
+            this.$router.push({name:'user-orders-details', params:{orderId: orderId}})
         }
     }
 
 }
 </script>
 
-<style>
+<style scoped>
 @import url('https://fonts.cdnfonts.com/css/cooper-hewitt-book');
 @font-face {
     font-family: 'Mandalore Laser Title';
@@ -130,7 +147,19 @@ table {
 .canceled{
     background-color: #BB554A;
 }
-
+.in-kitchen{
+    background: linear-gradient(45deg, #5FA873 25%, #a18f6380 50%);
+    
+}
+.awaiting-pickup{
+    background: linear-gradient(45deg, #5FA873 90%, #a18f6380 100%);
+}
+.out-for-delivery{
+    background: linear-gradient(45deg, #5FA873 75%, #a18f6380 100%);
+}
+.delivered{
+    background-color: #5FA873;
+}
 /* <th id="thead-name">Name</th>
 <th id="thead-ph">Phone Number</th>
 <th id="thead-date-ordered">Date Ordered</th>
