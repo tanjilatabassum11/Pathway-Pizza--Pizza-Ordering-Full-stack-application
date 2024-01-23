@@ -1,7 +1,8 @@
 <template>
     <div class="pizza-card" v-for="pizza in availablePizzas" :key="pizza.pizza_id">
-        <h3 class="pizza-name"> {{pizza.pizza_name}} </h3>
-        <p class="pizza-desc"> {{pizza.note}} </p>
+         <img v-bind:src="geturl(pizza.imageUrl)"/>
+        <h3 class="pizza-name">{{ pizza.pizza_name }}</h3>
+        <p class="pizza-desc">{{ pizza.description || pizza.note }}</p>
     </div>
 </template>
 
@@ -9,19 +10,23 @@
 import PizzaService from '../services/PizzaService';
 
 export default {
-  data(){
+  data() {
     return {
       availablePizzas: []
     }
   },
-created() {
-      PizzaService.getAvailableSpecialtyPizzas()
-        .then((response) => {
-          this.availablePizzas = response.data
-        });
-    },
+  methods:{
+    geturl(name){
+        return new URL("../images/"+name, import.meta.url).href
+    }
+  },
+  created() {
+    PizzaService.getAvailableSpecialtyPizzas()
+      .then(response => {
+        this.availablePizzas = response.data;
+      });
+  },
 }
-
 </script>
 
 <style scoped>
@@ -39,7 +44,7 @@ created() {
     --brand-brown-color: #A18F63;
     --brand-lightred-color: #AC685B;
     --brand-darkred-color: #BB554A;
-    --brand-white-color: #FFFFFF;
+    --brand-white-color: #971414;
 }
 
 
@@ -61,12 +66,12 @@ created() {
     border-radius: 15px;
     width: 300px;
     height: 150px;
-    background-image: url('../images/pizza.png');
+    background-image: url('../images/Hero.png');
     
     transition: 500ms;
     padding: 5px;
-
 }
+
 .pizza-card:hover,
 .pizza-card:active{
     width: 350px;
@@ -95,4 +100,10 @@ created() {
     color: white;
     text-shadow: black 2px 0 10px;
 }
+.pizza-card {
+    background-size: cover; 
+    background-position: center; 
+}
+
+/* ... other styles ... */
 </style>

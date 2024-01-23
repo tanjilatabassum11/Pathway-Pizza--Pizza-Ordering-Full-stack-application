@@ -2,6 +2,7 @@ import { createRouter as createRouter, createWebHistory } from 'vue-router'
 import { useStore } from 'vuex'
 
 // Import components
+import MenuView from '../views/MenuView.vue';
 import HomeView from '../views/HomeView.vue';
 import LoginView from '../views/LoginView.vue';
 import LogoutView from '../views/LogoutView.vue';
@@ -29,6 +30,14 @@ const routes = [
     path: '/',
     name: 'home',
     component: HomeView,
+    meta: {
+      requiresAuth: false
+    }
+  },
+  {
+    path: '/menu',
+    name: 'menu',
+    component: MenuView,
     meta: {
       requiresAuth: false
     }

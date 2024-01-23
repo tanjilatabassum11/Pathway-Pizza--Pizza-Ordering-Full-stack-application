@@ -1,75 +1,80 @@
 <template>
   <div class="menu-view">
-    <h1>Our Pizza Menu</h1>
+    <h1>Welcome to Our Menu</h1>
 
-    <div class="specialty-pizzas">
-      <h2>Specialty Pizzas</h2>
-      <div class="pizza-list">
-        <PizzaCard
-          v-for="(pizza, index) in specialtyPizzas"
-          :key="index"
-          :pizza="pizza"
-          @addToCart="handleAddToCart"
-        />
-      </div>
+    <!-- Specialty Pizza List -->
+    <h2>Specialty Pizzas</h2>
+    <div class="pizza-list">
+      <PizzaCard 
+        v-for="pizza in pizzas" 
+        :key="pizza.pizza_id" 
+        :pizza="pizza"
+      />
     </div>
 
-    <div class="build-your-own">
-      <h2>Build Your Own Pizza</h2>
-      <PizzaBuilder @pizzaCreated="handleAddToCart" />
+    <!-- Toppings List -->
+    <h2>Choose Your Toppings</h2>
+    <div class="toppings-section">
+      <ul class="toppings-list">
+        <li v-for="topping in toppings" :key="topping.topping_id">
+          {{ topping.topping_name }}
+        </li>
+      </ul>
     </div>
+
+    <!-- Sides and Drinks Sections Here -->
+
+    <button @click="goToOrderPage" class="order-button">Place Your Order</button>
   </div>
 </template>
 
 <script>
 import PizzaCard from '../components/PizzaCard.vue';
-import PizzaBuilder from '../components/PizzaBuilder.vue';
 import PizzaService from '../services/PizzaService';
+import ToppingService from '../services/ToppingService.js';
 
 export default {
   components: {
-    PizzaCard,
-    PizzaBuilder
+    PizzaCard
   },
   data() {
     return {
-      specialtyPizzas: [],
+      pizzas: [],
+      toppings: [],
+      
     };
   },
   created() {
-    this.loadSpecialtyPizzas();
+    this.loadPizzas();
+    this.loadToppings();
   },
   methods: {
-    async loadSpecialtyPizzas() {
+    async loadPizzas() {
       try {
-        const response = await PizzaService.getSpecialtyPizzas();
-        this.specialtyPizzas = response.data;
+        const response = await PizzaService.getAllPizzas();
+        this.pizzas = response.data;
       } catch (error) {
-        console.error('Error fetching specialty pizzas:', error);
+        console.error('Error fetching pizzas:', error);
       }
     },
-    handleAddToCart(pizza) {
-      // Add logic to handle adding a pizza to the cart
-      console.log('Added to cart:', pizza);
-      // You might want to add this pizza to a cart data property or emit an event
-      this.$emit('addToCart', pizza);
-    }
+    async loadToppings() {
+      try {
+        const response = await ToppingService.getAllToppings();
+        this.toppings = response.data;
+      } catch (error) {
+        console.error('Error fetching toppings:', error);
+      }
+    },
+    goToOrderPage() {
+      this.$router.push({ name: 'OrderPage' });
+    },
+    // Add methods to load sides and drinks if needed
   }
 };
 </script>
 
 <style scoped>
-.menu-view {
-  text-align: center;
-}
+/* existing styles */
 
-.specialty-pizzas, .build-your-own {
-  margin-top: 20px;
-}
-
-.pizza-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
+/* Add styles for sides and drinks sections */
 </style>

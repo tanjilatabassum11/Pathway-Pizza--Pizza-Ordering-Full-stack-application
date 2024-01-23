@@ -10,10 +10,10 @@ INSERT INTO orders(order_name, phone_number, order_date_time, is_delivery, addre
 
 INSERT INTO pizzas (pizza_name, pizza_size, is_available, pizza_cost, max_toppings, is_specialty, note, description, image_url)
 VALUES
-('The Jackson', 'large', true, 85.00, 3, true, 'Pepperoni, pineapple, and jalapenos', 'A delightful mix of pepperoni, sweet pineapple, and spicy jalapenos. Perfect for those who love a sweet and spicy combination.', 'url_to_jackson_pizza_image'),
-('The Pineapple Express', 'large', true, 18.00, 1, true, 'More pineapple than you probably want', 'An overload of pineapple for those who can''t get enough of it. A tropical delight that''s both sweet and tangy.', 'url_to_pineapple_express_image'),
-('The Miser', 'small', true, 6.00, 1, true, 'Just Pepperoni', 'A classic choice for purists, featuring a generous amount of pepperoni on a perfectly baked crust.', 'url_to_miser_pizza_image'),
-('Three Cheese Blend', 'medium', true, 85.00, 3, true, 'All three cheeses. Yes, there are only three.', 'A cheese lover’s dream with a blend of three premium cheeses, melted to perfection.', 'url_to_three_cheese_blend_image');
+('The Jackson', 'large', true, 85.00, 3, true, 'Pepperoni, pineapple, and jalapenos', 'A delightful mix of pepperoni, sweet pineapple, and spicy jalapenos. Perfect for those who love a sweet and spicy combination.', 'The Jackson.png'),
+('The Pineapple Express', 'large', true, 18.00, 1, true, 'More pineapple than you probably want', 'An overload of pineapple for those who can''t get enough of it. A tropical delight that''s both sweet and tangy.', 'The Pineapple Express.png'),
+('The Miser', 'small', true, 6.00, 1, true, 'Just Pepperoni', 'A classic choice for purists, featuring a generous amount of pepperoni on a perfectly baked crust.', 'The Miser.png'),
+('Three Cheese Blend', 'medium', true, 85.00, 3, true, 'All three cheeses. Yes, there are only three.', 'A cheese lover’s dream with a blend of three premium cheeses, melted to perfection.', 'Three Cheese Blend.png');
 
 INSERT INTO toppings(topping_name, type, cost, is_available) VALUES('pepperoni', 'meat', 1.00, true);
 INSERT INTO toppings(topping_name, type, cost, is_available) VALUES('pineapple', 'fruit', 1.00, true);
@@ -47,7 +47,7 @@ INSERT INTO orders_pizzas(order_id, pizza_id, quantity) VALUES(2,2,1);
 INSERT INTO orders_pizzas(order_id, pizza_id, quantity) VALUES(3,4,2);
 INSERT INTO orders_pizzas(order_id, pizza_id, quantity) VALUES(4,1,1);
 
-INSERT INTO menu (pizza_id, special_offer, combo_deal, deal_cost)
+INSERT INTO home (pizza_id, special_offer, combo_deal, deal_cost)
 VALUES (1, 'Special Discount', false, 75.00),
        (2, 'Buy One Get One', true, 18.00),
        (3, 'Evening Special', false, 5.50),
