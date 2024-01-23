@@ -73,7 +73,7 @@ public class PizzaController {
         return pizzaDao.createCustomPizza(pizza);
     }
     @RequestMapping(path = "/create-specialty", method = RequestMethod.POST)
-    public Pizza createCustomSpecialty(@RequestBody Pizza pizza){
+    public Pizza createCustomSpecialtyPizza(@RequestBody Pizza pizza){
         return pizzaDao.createCustomSpecialtyPizza(pizza);
     }
 }
