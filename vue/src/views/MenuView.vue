@@ -11,16 +11,18 @@
         :pizza="pizza"
       />
     </div>
+    <MenuBYOPizza></MenuBYOPizza>
 
-    <!-- Toppings List -->
+    <!-- Toppings List
     <h2>Choose Your Toppings</h2>
+    <UserToppingsForm />
     <div class="toppings-section">
       <ul class="toppings-list">
         <li v-for="topping in toppings" :key="topping.topping_id">
           {{ topping.topping_name }}
         </li>
       </ul>
-    </div>
+    </div> -->
 
     <!-- Sides and Drinks Sections Here -->
 
@@ -32,10 +34,11 @@
 import PizzaCard from '../components/PizzaCard.vue';
 import PizzaService from '../services/PizzaService';
 import ToppingService from '../services/ToppingService.js';
+import MenuBYOPizza from '../components/MenuBYOPizza.vue';
 
 export default {
   components: {
-    PizzaCard
+    PizzaCard, MenuBYOPizza
   },
   data() {
     return {
