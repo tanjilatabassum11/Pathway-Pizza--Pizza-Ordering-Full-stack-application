@@ -33,11 +33,19 @@ INSERT INTO toppings(topping_name, type, cost, is_available) VALUES('thin', 'cru
 INSERT INTO pizzas_toppings(pizza_id, topping_id) VALUES(1,1);
 INSERT INTO pizzas_toppings(pizza_id, topping_id) VALUES(1,2);
 INSERT INTO pizzas_toppings(pizza_id, topping_id) VALUES(1,3);
+INSERT INTO pizzas_toppings(pizza_id, topping_id) VALUES(1,7);
+INSERT INTO pizzas_toppings(pizza_id, topping_id) VALUES(1,11);
 INSERT INTO pizzas_toppings(pizza_id, topping_id) VALUES(2,2);
+INSERT INTO pizzas_toppings(pizza_id, topping_id) VALUES(2,7);
+INSERT INTO pizzas_toppings(pizza_id, topping_id) VALUES(2,11);
 INSERT INTO pizzas_toppings(pizza_id, topping_id) VALUES(3,1);
+INSERT INTO pizzas_toppings(pizza_id, topping_id) VALUES(3,7);
+INSERT INTO pizzas_toppings(pizza_id, topping_id) VALUES(3,11);
 INSERT INTO pizzas_toppings(pizza_id, topping_id) VALUES(4,4);
 INSERT INTO pizzas_toppings(pizza_id, topping_id) VALUES(4,5);
 INSERT INTO pizzas_toppings(pizza_id, topping_id) VALUES(4,6);
+INSERT INTO pizzas_toppings(pizza_id, topping_id) VALUES(4,7);
+INSERT INTO pizzas_toppings(pizza_id, topping_id) VALUES(4,11);
 
 INSERT INTO orders_pizzas(order_id, pizza_id, quantity) VALUES(1,1,1);
 INSERT INTO orders_pizzas(order_id, pizza_id, quantity) VALUES(1,2,1);
@@ -47,10 +55,10 @@ INSERT INTO orders_pizzas(order_id, pizza_id, quantity) VALUES(2,2,1);
 INSERT INTO orders_pizzas(order_id, pizza_id, quantity) VALUES(3,4,2);
 INSERT INTO orders_pizzas(order_id, pizza_id, quantity) VALUES(4,1,1);
 
-INSERT INTO home (pizza_id, special_offer, combo_deal, deal_cost)
-VALUES (1, 'Special Discount', false, 75.00),
-       (2, 'Buy One Get One', true, 18.00),
-       (3, 'Evening Special', false, 5.50),
-       (4, 'Cheese Lovers Offer', false, 80.00);
+--INSERT INTO home (pizza_id, special_offer, combo_deal, deal_cost)
+--VALUES (1, 'Special Discount', false, 75.00),
+--       (2, 'Buy One Get One', true, 18.00),
+--       (3, 'Evening Special', false, 5.50),
+--       (4, 'Cheese Lovers Offer', false, 80.00);
 
 COMMIT TRANSACTION;
