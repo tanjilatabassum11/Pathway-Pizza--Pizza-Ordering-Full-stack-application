@@ -1,28 +1,8 @@
 <template>
   <form v-on:submit.prevent="submitToppingsForm">
     <div class="topping-card">
-      <h1 class="select-header">Included Toppings:</h1>
 
-      <div
-        class="toppings"
-        v-for="topping in includedToppings"
-        v-bind:key="topping.name"
-      >
-        <label for="{{topping.topping_name}}">
-          {{ topping.topping_name }}
-        </label>
-        <!--Need to update this checkbox to be automatically checked and 
-        the toppings to be automatically added to currentToppings. 
-        There is a mounted() method that is to be debugged for this.
-        It includes async/await functionality for when page loads-->
-        <input
-          type="checkbox"
-          id="{{topping.topping_name}}"
-         v-model="currentToppings"
-          :value="topping.topping_id"
-          :aria-checked="true"
-        />
-      </div>
+      
 
       <h1 class="select-header">Select Additional Toppings:</h1>
 
@@ -31,16 +11,16 @@
       <div
         class="toppings sauce"
         v-for="topping in sauces"
-        :key="topping.type"
+        :key="topping.topping_id"
       >
-        <label :for="topping.topping_name" class="sauce-option">
+        <label :for="topping.topping_id" class="sauce-option">
           {{ topping.topping_name }}
         </label>
         
           <input type="radio"
             :id="topping.topping_name"
-            v-model="currentSauceId"
-            :value="topping.topping_id"
+            v-bind:checked="topping.isOnPizza"
+            v-on:change="changeSauce(topping.topping_id)"
             name="sauceToppings"
           /> 
           
@@ -57,15 +37,14 @@
         <label for="crust-options" id="crust">
           {{ topping.topping_name }}
         </label>
-        <select name="crust-options" id="crust">
-          <option
-            id="{{topping.topping_name}}"
-            v-bind:select="currentToppings"
-            :value="topping.topping_id"
-          >
-            {{ topping.topping_name }}
-          </option>
-        </select>
+       
+          <input type="radio"
+            :id="topping.topping_name"
+            v-bind:checked="topping.isOnPizza"
+            v-on:change="changeCrust(topping.topping_id)"
+            name="crustOptions"
+          />
+
       </div>
 
       <br /><br />
@@ -83,8 +62,8 @@
         <input
           type="checkbox"
           id="{{topping.topping_name}}"
-          v-model="currentToppings"
-          :value="topping.topping_id"
+          v-model="topping.isOnPizza"
+         
         />
       </div>
       <br />
@@ -101,7 +80,7 @@
         <input
           type="checkbox"
           id="{{topping.topping_name}}"
-          v-model="currentToppings"
+          v-model="topping.isOnPizza"
           :value="topping.topping_id"
         />
       </div>
@@ -119,7 +98,7 @@
         <input
           type="checkbox"
           id="{{topping.topping_name}}"
-          v-model="currentToppings"
+          v-model="topping.isOnPizza"
           :value="topping.topping_id"
         />
       </div>
@@ -139,7 +118,7 @@
         <input
           type="checkbox"
           id="{{topping.topping_id}}"
-          v-model="currentToppings"
+          v-model="topping.isOnPizza"
           :value="topping.topping_id"
         />
       </div>
@@ -178,14 +157,6 @@ export default {
       allToppings: [],
       includedToppings: [],
       currentToppings: [],
-      currentSauceId: 7,
-
-      meatToppings: [],
-      cheeseToppings: [],
-      veggieToppings: [],
-      fruitToppings: [],
-      sauces: [],
-      crust: [],
 
       
     };
@@ -198,23 +169,82 @@ export default {
     //     return topping.isAvailable;
     //   });
     // },
+    // currentSauceId() {
+    //   return this.currentPizzaId
+    // }
+    crust(){
+      return this.allToppings.filter((topping) => {
+        return topping.type == 'crust';
+      });
+    },
+    sauces(){
+      return this.allToppings.filter((topping) => {
+        return topping.type == 'sauce';
+      });
+    },
+    fruitToppings(){
+      return this.allToppings.filter((topping) => {
+        return topping.type == 'fruit';
+      });
+    },
+    veggieToppings(){
+      return this.allToppings.filter((topping) => {
+        return topping.type == 'veggies';
+      });
+    },
+   cheeseToppings(){
+      return this.allToppings.filter((topping) => {
+        return topping.type == 'cheese';
+      });
+    },
+    meatToppings(){
+      return this.allToppings.filter((topping) => {
+        return topping.type == 'meat';
+      });
+    },
+    selectedToppingIds(){
+      let selectedToppings = [];
+      this.allToppings.forEach((topping) => {
+       if(topping.isOnPizza){
+         selectedToppings.push(topping.topping_id)
+       }
+      })
+      return selectedToppings;
+    }
+
+
   },
 
   methods: {
+
+    
 //updates the store with the current pizza selections ("in cart")
-    submitToppingsForm(currentToppings) {
-      this.changeSauce;
-      this.$store.commit("SAVE_PIZZA_SELECTION", currentToppings);
+    submitToppingsForm() {
+      this.$store.commit("SAVE_PIZZA_SELECTION", this.selectedToppingIds);
       this.$router.push({ name: "start-order" });
     },
 // changes pizzaID currently being stored in ("cart")
     changePizzaId(value) {
-      value = 0;
       this.$store.commit("UPDATE_CURRENT_ORDER_ID", value);
       this.$router.push({ name: "start-order" });
     },
-    changeSauce(){
-      this.currentToppings.push(this.currentSauceId);
+    changeSauce(sauceId){
+      this.sauces.forEach((sauce) => {
+        if(sauceId == sauce.topping_id){
+          sauce.isOnPizza = true;
+        } else {
+          sauce.isOnPizza = false;
+        }
+      })
+    },
+    changeCrust(crustId){
+      this.sauces.forEach((crust) => {
+        if(crustId == crust.topping_id){
+          crust.isOnPizza = true;
+        } else {
+          crust.isOnPizza = false;
+        }
+      })
     },
 
  /* ****Below Methods are for when the page loads**** */
@@ -225,8 +255,17 @@ export default {
       try {
         const response = await ToppingService.getToppingsByPizzaId(this.currentPizzaId);
           this.includedToppings = response.data;
-          
-          this.addCurrentToppings();
+          this.allToppings.forEach((topping) => {
+            let contains = this.includedToppings.find((pizzaTopping) => {
+              return topping.topping_id == pizzaTopping.topping_id;
+            })
+            if(contains != undefined){
+              topping.isOnPizza = true;
+            }
+            else {
+              topping.isOnPizza = false;
+            }
+          })
           
       } catch (error) {
             console.error('There was an error getting the pizza or toppings', error)
@@ -237,6 +276,7 @@ export default {
       try {
         const response = await ToppingService.getAvailableToppings();
         this.allToppings = response.data;
+
       } catch (error) {
         console.erorr('Unexpected Error Getting Toppings', error)
       }
@@ -247,13 +287,14 @@ export default {
    //comes back 'undefined'  
     addCurrentToppings() {
       this.includedToppings.forEach((topping) => {
-          this.currentToppings.push(topping.id);
+          this.currentToppings.push(topping.topping_id);
       });
     },
   },
  async mounted() {
-   await this.getToppings();
+   
    await  this.getAllToppings();
+   await this.getToppings();
   },
 
   created() {
