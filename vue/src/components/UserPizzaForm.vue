@@ -9,7 +9,7 @@
                 <th id="thead-size">Size</th>
                 <th id="thead-cost">Cost</th>
                 <th id="thead-max-toppings">Max Toppings</th>
-                <th id="thead-note">Note</th>
+                <th id="thead-note">Note<span class="th-note-extra" v-show="isPizzaBeingUpdated || isAddPizzaVisible"> / Description / URL</span></th>
                 <th id="thead-available">available</th>
                 <th id="thead-blank"></th>
             </tr>
@@ -17,16 +17,20 @@
         <tbody>
 
             <tr id="add-pizza" v-show="isAddPizzaVisible">
-                <td><input type="text" v-model="pizzaToAdd.pizza_name"></td>
+                <td><input type="text" v-model="pizzaToAdd.pizza_name" placeholder="Name"></td>
                 <td><select v-model="pizzaToAdd.pizza_size">
                     <option value="small">Small</option>
                     <option value="medium">Medium</option>
                     <option value="large">Large</option>
                 </select></td>
-                <td><input type="number" v-model="pizzaToAdd.pizza_cost"></td>
-                <td><input type="number" v-model="pizzaToAdd.max_toppings"></td>
-                <td><input type="text" v-model="pizzaToAdd.note"></td>
-                <td><label for="addAvailable">y/n</label><input name="addAvailable" type="checkbox" v-model="pizzaToAdd.is_available"></td>
+                <td><input type="number" v-model="pizzaToAdd.pizza_cost" placeholder="1.00"></td>
+                <td><input type="number" v-model="pizzaToAdd.max_toppings" placeholder="3"></td>
+                <td>
+                    <input type="text" v-model="pizzaToAdd.note" placeholder="Note">
+                    <input type="text" v-model="pizzaToAdd.description" placeholder="Description">
+                    <input type="text" v-model="pizzaToAdd.imageUrl" placeholder="/url/default">
+                </td>
+                <td><label class="Uppercase" for="addAvailable">y/n</label><input name="addAvailable" type="checkbox" v-model="pizzaToAdd.is_available"></td>
                 <td><button class="cancel-button" @click="createSpecialtyPizza()" :disabled="isPizzaBeingUpdated">add</button></td>
             </tr>
             <template v-for="pizza in pizzas" :key="pizza.pizza_id">
@@ -55,6 +59,8 @@
                     <td>
                         <span v-show="!pizza.isPizzaEdit">{{ pizza.note }}</span>
                         <input type="text" v-model="pizzaToUpdate.note" v-if="pizza.isPizzaEdit">
+                        <input type="text" v-model="pizzaToUpdate.description" v-if="pizza.isPizzaEdit">
+                        <input type="text" v-model="pizzaToUpdate.imageUrl" v-if="pizza.isPizzaEdit">
                     </td>
                     <td class="available">
                         <!-- <span class="Uppercase" v-show="!pizza.isPizzaEdit">{{ pizza.is_available }}</span> -->
@@ -266,7 +272,7 @@ export default {
 }
 
 
-h1, button,th, .topping-label>span{
+h1, button,th, .topping-label>span, .th-note-extra{
     font-family: 'Mandalore Laser Title';
 
 }
