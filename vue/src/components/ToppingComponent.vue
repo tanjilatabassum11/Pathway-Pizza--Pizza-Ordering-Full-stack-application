@@ -1,52 +1,50 @@
 <template>
-  <form v-on:submit.prevent="submitForm">
+  <form v-on:submit.prevent="submitToppingsForm">
     <div class="topping-card">
       <h1 class="select-header">Included Toppings:</h1>
 
       <div
         class="toppings"
         v-for="topping in includedToppings"
-        :key="topping.topping_id"
+        v-bind:key="topping.name"
       >
         <label for="{{topping.topping_name}}">
           {{ topping.topping_name }}
         </label>
-        <!--checkbox is connected to "currentOnPizza" if topping is on Pizza. Then, when form is submitted
-  the pizza information and topping information gets sent to the store as a pizza selection object-->
+        <!--Need to update this checkbox to be automatically checked and 
+        the toppings to be automatically added to currentToppings. 
+        There is a mounted() method that is to be debugged for this.
+        It includes async/await functionality for when page loads-->
         <input
           type="checkbox"
           id="{{topping.topping_name}}"
-          v-model="currentToppings"
+         v-model="currentToppings"
           :value="topping.topping_id"
+          :aria-checked="true"
         />
       </div>
 
       <h1 class="select-header">Select Additional Toppings:</h1>
-      <!-- <div
-        class="toppings"
-        v-for="topping in allToppings"
-        :key="topping.topping_id"
-      > -->
 
       <br />
       <span> Choose Your Sauce: </span>
       <div
         class="toppings sauce"
         v-for="topping in sauces"
-        v-bind:key="topping.type"
+        :key="topping.type"
       >
-        <label for="sauce-options" id="sauces">
+        <label :for="topping.topping_name" class="sauce-option">
           {{ topping.topping_name }}
         </label>
-        <select name="sauce-options" id="sauces">
-          <option
-            id="{{topping.topping_name}}"
-            v-bind:select="addToppingsToCurrentToppings"
+        
+          <input type="radio"
+            :id="topping.topping_name"
+            v-model="currentSauceId"
             :value="topping.topping_id"
-          >
-            {{ topping.topping_name }}
-          </option>
-        </select>
+            name="sauceToppings"
+          /> 
+          
+     
       </div>
       <br /><br />
 
@@ -62,7 +60,7 @@
         <select name="crust-options" id="crust">
           <option
             id="{{topping.topping_name}}"
-            v-bind:select="addToppingsToCurrentToppings"
+            v-bind:select="currentToppings"
             :value="topping.topping_id"
           >
             {{ topping.topping_name }}
@@ -146,16 +144,16 @@
         />
       </div>
 
-      <!-- </div> -->
+     
       <div class="buttons">
         <button id="back" v-on:click="changePizzaId">Go Back</button>
 
-        <!-- This button doesn't work yet, but it will send the data to the ("cart")-->
+        
         <input
           id="submit"
           value="submit"
           type="submit"
-          v-on:click="savePizzaSelection" />
+           />
         
       </div>
     </div>
@@ -180,6 +178,7 @@ export default {
       allToppings: [],
       includedToppings: [],
       currentToppings: [],
+      currentSauceId: 7,
 
       meatToppings: [],
       cheeseToppings: [],
@@ -202,57 +201,65 @@ export default {
   },
 
   methods: {
-    submitForm(pizzaSelection) {
-      this.$store.commit("SAVE_PIZZA_SELECTION", pizzaSelection);
+//updates the store with the current pizza selections ("in cart")
+    submitToppingsForm(currentToppings) {
+      this.changeSauce;
+      this.$store.commit("SAVE_PIZZA_SELECTION", currentToppings);
       this.$router.push({ name: "start-order" });
     },
-    addToppingsToCurrentToppings(currentTopping) {
-      this.currentToppings.push(currentTopping);
-      currentTopping.isOnPizza = true;
-      return this.currentToppings;
-    },
+// changes pizzaID currently being stored in ("cart")
     changePizzaId(value) {
       value = 0;
       this.$store.commit("UPDATE_CURRENT_ORDER_ID", value);
       this.$router.push({ name: "start-order" });
     },
-    updatePizzaSelection() {
-      //saves the values to the pizza and topping objects
+    changeSauce(){
+      this.currentToppings.push(this.currentSauceId);
     },
-    savePizzaSelection(pizzaSelection) {
-      //updates the store with the current pizza selections ("in cart")
-      this.$store.commit("SAVE_PIZZA_SELECTION", pizzaSelection);
-    },
-    getToppings() {
-      //gets toppings that are specific to the pizza id
-      ToppingService.getToppingsByPizzaId(this.currentPizzaId).then(
-        (response) => {
+
+ /* ****Below Methods are for when the page loads**** */
+ /* ********************************************************* */
+
+ //gets toppings that are specific to the pizza id
+    async getToppings() {
+      try {
+        const response = await ToppingService.getToppingsByPizzaId(this.currentPizzaId);
           this.includedToppings = response.data;
-        }
-      );
-    },
-    getAllToppings() {
-      //gets all available toppings from the database
-      ToppingService.getAvailableToppings().then((response) => {
+          
+          this.addCurrentToppings();
+          
+      } catch (error) {
+            console.error('There was an error getting the pizza or toppings', error)
+      }
+       },
+  //gets all available toppings from the database 
+    async getAllToppings() {
+      try {
+        const response = await ToppingService.getAvailableToppings();
         this.allToppings = response.data;
+      } catch (error) {
+        console.erorr('Unexpected Error Getting Toppings', error)
+      }
+     
+     
+    },
+   //should add includedToppings on pizza to currentToppings
+   //comes back 'undefined'  
+    addCurrentToppings() {
+      this.includedToppings.forEach((topping) => {
+          this.currentToppings.push(topping.id);
       });
     },
-    addCurrentToppings() {
-      //should display all of the current toppings on the pizza
-      this.currentToppings.push(this.currentPizzaId.getToppings());
-      return this.currentToppings;
-    },
+  },
+ async mounted() {
+   await this.getToppings();
+   await  this.getAllToppings();
   },
 
-  beforeMount() {
-    //gets the available toppings before the page loads
-  },
   created() {
-    this.getToppings();
-    this.getAllToppings();
-    this.includedToppings.forEach((topping) => {
-      this.currentToppings.push(topping.id);
-    });
+    
+    
+
     ToppingService.getToppingByType("meat").then((response) => {
       this.meatToppings = response.data;
     });
