@@ -5,7 +5,7 @@
 
       <div
         class="toppings"
-        v-for="topping in toppings"
+        v-for="topping in includedToppings"
         :key="topping.topping_id"
       >
         <label for="{{topping.topping_name}}">
@@ -16,35 +16,148 @@
         <input
           type="checkbox"
           id="{{topping.topping_name}}"
-          value="{{topping.topping_name}}"
-          v-bind:checked="addToppingsToCurrentToppings"
+          v-model="currentToppings"
+          :value="topping.topping_id"
         />
-        
       </div>
 
       <h1 class="select-header">Select Additional Toppings:</h1>
-      <div
+      <!-- <div
         class="toppings"
         v-for="topping in allToppings"
         :key="topping.topping_id"
+      > -->
+
+      <br />
+      <span> Choose Your Sauce: </span>
+      <div
+        class="toppings sauce"
+        v-for="topping in sauces"
+        v-bind:key="topping.type"
+      >
+        <label for="sauce-options" id="sauces">
+          {{ topping.topping_name }}
+        </label>
+        <select name="sauce-options" id="sauces">
+          <option
+            id="{{topping.topping_name}}"
+            v-bind:select="addToppingsToCurrentToppings"
+            :value="topping.topping_id"
+          >
+            {{ topping.topping_name }}
+          </option>
+        </select>
+      </div>
+      <br /><br />
+
+      <span> Choose Your Crust: </span>
+      <div
+        class="toppings crust"
+        v-for="topping in crust"
+        v-bind:key="topping.type"
+      >
+        <label for="crust-options" id="crust">
+          {{ topping.topping_name }}
+        </label>
+        <select name="crust-options" id="crust">
+          <option
+            id="{{topping.topping_name}}"
+            v-bind:select="addToppingsToCurrentToppings"
+            :value="topping.topping_id"
+          >
+            {{ topping.topping_name }}
+          </option>
+        </select>
+      </div>
+
+      <br /><br />
+
+      <span> Choose Your Meats: </span>
+      <div
+        class="toppings meat"
+        v-for="topping in meatToppings"
+        v-bind:key="topping.type"
       >
         <label for="{{topping.topping_name}}">
           {{ topping.topping_name }}
         </label>
+
         <input
           type="checkbox"
           id="{{topping.topping_name}}"
-          value="{{topping.topping_name}}"
-          v-bind:checked="addToppingsToCurrentToppings"
+          v-model="currentToppings"
+          :value="topping.topping_id"
         />
       </div>
-      <div class="buttons">
-      <!-- This button doesn't work yet, but it will send the data to the ("cart")-->
-      <input id="submit" value ="submit" type="submit" v-on:click="savePizzaSelection" />
+      <br />
+      <span> Choose Your Cheese: </span>
+      <div
+        class="toppings cheese"
+        v-for="topping in cheeseToppings"
+        v-bind:key="topping.type"
+      >
+        <label for="{{topping.topping_id}}">
+          {{ topping.topping_name }}
+        </label>
 
-      <button id="back" v-on:click="changePizzaId">Go Back</button>
+        <input
+          type="checkbox"
+          id="{{topping.topping_name}}"
+          v-model="currentToppings"
+          :value="topping.topping_id"
+        />
+      </div>
+      <br />
+      <span> Choose Your Veggies: </span>
+      <div
+        class="toppings veggies"
+        v-for="topping in veggieToppings"
+        v-bind:key="topping.type"
+      >
+        <label for="{{topping.topping_name}}">
+          {{ topping.topping_name }}
+        </label>
+
+        <input
+          type="checkbox"
+          id="{{topping.topping_name}}"
+          v-model="currentToppings"
+          :value="topping.topping_id"
+        />
       </div>
 
+      <br />
+      <br />
+      <span> Choose Your Fruit: </span>
+      <div
+        class="toppings fruit"
+        v-for="topping in fruitToppings"
+        v-bind:key="topping.type"
+      >
+        <label for="{{topping.topping_name}}">
+          {{ topping.topping_name }}
+        </label>
+
+        <input
+          type="checkbox"
+          id="{{topping.topping_id}}"
+          v-model="currentToppings"
+          :value="topping.topping_id"
+        />
+      </div>
+
+      <!-- </div> -->
+      <div class="buttons">
+        <button id="back" v-on:click="changePizzaId">Go Back</button>
+
+        <!-- This button doesn't work yet, but it will send the data to the ("cart")-->
+        <input
+          id="submit"
+          value="submit"
+          type="submit"
+          v-on:click="savePizzaSelection" />
+        
+      </div>
     </div>
   </form>
 </template>
@@ -56,42 +169,37 @@ export default {
   props: ["currentPizzaId"],
   data() {
     return {
+      //allToppings holds all available toppings and they get filterd 
+      //through the arrays below by "type"
+      //includedToppings are the getToppingsByPizzaId() result
+      //currentToppings holds the current customer selection for the 
+      //topping choices selected. It will need to be sent to the store
+      //upon clicking "submit"
+
+
       allToppings: [],
-      toppings: [],
+      includedToppings: [],
       currentToppings: [],
 
-      pizzaSelection: {
-        pizza: {
-          pizzaId: 0,
-          pizzaName: "",
-          pizzaSize: "",
-          isAvailable: true,
-          pizza_cost: 0,
-          maxToppings: 0,
-          isSpecialty: "",
-          note: "",
-        },
-        toppings: {
-          toppingId: 0,
-          toppingName: "",
-          type: "",
-          cost: 0,
-          isAvailable: true,
-        },
-      },
-      currentTopping: {
-        isOnPizza: false,
-        toppingDetails: {
-          topping_id: 0,
-          topping_name: "",
-          type: "",
-          cost: 0,
-          isAvailable: true,
-        },
-      },
+      meatToppings: [],
+      cheeseToppings: [],
+      veggieToppings: [],
+      fruitToppings: [],
+      sauces: [],
+      crust: [],
+
+      
     };
   },
-  computed: {},
+  computed: {
+    //Not currently using this. Got available toppings from
+    //the database instead, but might use it for future.
+    // allAvailableToppings() {
+    //   return this.allToppings.filter((topping) => {
+    //     return topping.isAvailable;
+    //   });
+    // },
+  },
 
   methods: {
     submitForm(pizzaSelection) {
@@ -119,13 +227,13 @@ export default {
       //gets toppings that are specific to the pizza id
       ToppingService.getToppingsByPizzaId(this.currentPizzaId).then(
         (response) => {
-          this.toppings = response.data;
-        })
+          this.includedToppings = response.data;
+        }
+      );
     },
     getAllToppings() {
       //gets all available toppings from the database
-      ToppingService.getAllToppings()
-      .then((response) => {
+      ToppingService.getAvailableToppings().then((response) => {
         this.allToppings = response.data;
       });
     },
@@ -133,31 +241,54 @@ export default {
       //should display all of the current toppings on the pizza
       this.currentToppings.push(this.currentPizzaId.getToppings());
       return this.currentToppings;
-    }
+    },
   },
 
   beforeMount() {
     //gets the available toppings before the page loads
+  },
+  created() {
     this.getToppings();
     this.getAllToppings();
+    this.includedToppings.forEach((topping) => {
+      this.currentToppings.push(topping.id);
+    });
+    ToppingService.getToppingByType("meat").then((response) => {
+      this.meatToppings = response.data;
+    });
+    ToppingService.getToppingByType("veggies").then((response) => {
+      this.veggieToppings = response.data;
+    });
+    ToppingService.getToppingByType("cheese").then((response) => {
+      this.cheeseToppings = response.data;
+    });
+    ToppingService.getToppingByType("fruit").then((response) => {
+      this.fruitToppings = response.data;
+    });
+    ToppingService.getToppingByType("sauce").then((response) => {
+      this.sauces = response.data;
+    });
+    ToppingService.getToppingByType("crust").then((response) => {
+      this.crust = response.data;
+    });
   },
 };
 </script>
   
   <style scoped>
-  @import url('https://fonts.cdnfonts.com/css/cooper-hewitt-book');
+@import url("https://fonts.cdnfonts.com/css/cooper-hewitt-book");
 * {
-  font-family: 'Cooper Hewitt Bold', sans-serif;
+  font-family: "Cooper Hewitt Bold", sans-serif;
 }
-input[type="checkbox" i]{
-    accent-color: #BB554A;
+input[type="checkbox" i] {
+  accent-color: #bb554a;
 }
 
 #submit {
   padding: 10px 15px 10px 15px;
   margin: 8px;
   border-radius: 5px;
-   background-color: #A18F63;
+  background-color: #a18f63;
   color: #fff;
   border: none;
   cursor: pointer;
@@ -167,7 +298,7 @@ input[type="checkbox" i]{
   padding-left: 25%;
 }
 
-.topping-card{
+.topping-card {
   color: #666;
   background-color: #e6ee741a;
   border-radius: 8px;

@@ -8,10 +8,33 @@ export function createStore(currentToken, currentUser) {
       currentPizzaId: 0,
       token: currentToken || '',
       user: currentUser || {},
+      //orderData is what will be sent back to the database
+      //to update each - orderData.customerDetails will need to be
+      //sent first and then we will recieve back an order_id
+      //the pizza_id and order_id  can be sent back to database to
+      //associate a pizza with an order
+      //and then the toppings (which holds an array of topping_ids) will
+      //need to be iterated through and each should be sent back with the pizza_id 
       orderData: {
+        customerDetails: {
+          orderId: 0,
+          orderName: "",
+          phoneNumber: "",
+          orderDateTime: "",
+          isDelivery: false,
+          address: "",
+          payment: "",
+          total: 0,
+          status: 'pending'
+        },
+        pizzaSelection: {
+          pizzaId: 0,
+          toppings: [],
+          quanitity: 0
+        }
 
       },
-      pizzaSelection: [],
+      
     },
     mutations: {
       SET_AUTH_TOKEN(state, token) {
@@ -46,15 +69,19 @@ export function createStore(currentToken, currentUser) {
       UPDATE_ORDER_DATA(state, newData){
         state.orderData = {...state.orderData, ...newData};
        },
-       UPDATE_CURRENT_ORDER_ID(state, newData){
-        state.currentOrderId = newData;
-      },
-      CHANGE_CURRENT_PIZZA_ID(state, selectedPizzaId){
+       CHANGE_CURRENT_PIZZA_ID(state, selectedPizzaId){
         state.currentPizzaId = selectedPizzaId;
       },
-      SAVE_PIZZA_SELECTION(state, pizzaSelection){
-        state.pizzaSelection.push(pizzaSelection);
-      }
+
+        //Not sure if we need these - orderId is auto-generated
+        //and we don't need to make a new pizza instance in the store
+        //for specialty pizzas. Might use it for the custom pizzas.
+      //  UPDATE_CURRENT_ORDER_ID(state, newData){
+      //   state.currentOrderId = newData;
+      // },
+      // SAVE_PIZZA_SELECTION(state, pizzaSelection){
+      //   state.pizzaSelection.push(pizzaSelection);
+      // }
     },
      
 
