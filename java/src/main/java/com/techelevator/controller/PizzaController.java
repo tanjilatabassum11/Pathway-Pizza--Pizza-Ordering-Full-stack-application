@@ -44,7 +44,6 @@ public class PizzaController {
     public Pizza updatePizza(@RequestBody Pizza pizza){
         return pizzaDao.updatePizza(pizza);
     }
-    @PreAuthorize("isAuthenticated()")
     @RequestMapping(path="/specialty", method=RequestMethod.GET)
     public List<Pizza> getAllSpecialtyPizzas(){
         return pizzaDao.getAllSpecialtyPizzas();
