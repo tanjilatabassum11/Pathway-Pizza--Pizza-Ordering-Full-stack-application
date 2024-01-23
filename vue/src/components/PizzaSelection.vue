@@ -95,15 +95,14 @@ export default {
   color: #333;
 }
 
-
-
 .pizza-card-parent {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
 }
 
-.pizza-card {
+.pizza-card 
+{
   background-color: #e6ee741a;
   border-radius: 8px;
   margin: 10px;
@@ -135,7 +134,7 @@ export default {
 
 .pizza-price {
   font-weight: bold;
-  color: #e44c26ec; /* Red color for price */
+  color: #e44c26ec; 
 }
 
 .add-to-cart-button {
