@@ -1,6 +1,6 @@
 <template>
     <h1>Orders</h1>
-    <button class="show-hide" @click="showHide()">{{showCompletedAndCanceled ? 'Show': 'Hide'}} Completed and Canceled orders</button>
+    <button class="show-hide" @click="showHide()">Filter {{filterOn ? 'On': 'Off'}}</button>
     <table>
         <thead>
             <tr>
@@ -11,7 +11,17 @@
                 <th id="thead-address">Address</th>
                 <th id="thead-delivery-date">Delivery Date</th>
                 <th id="thead-cost">Total Cost</th>
-                <th id="thead-status">Order Status</th>
+                <th id="thead-status">Order Status
+                    <select id="type-select" v-if="filterOn" v-model="filter">
+                        <option value="pending">Pending</option>
+                        <option value="out for delivery">Out For Delivery</option>
+                        <option value="delivered">Delivered</option>
+                        <option value="in kitchen">In Kitchen</option>
+                        <option value="awaiting pickup">Awaiting Pickup</option>
+                        <option value="complete">Complete</option>
+                        <option value="canceled">Canceled</option>
+                    </select>
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -49,6 +59,8 @@ export default {
         return {
             orders:[],
             showCompletedAndCanceled: true,
+            filterOn: false,
+            filter: 'pending'
 
 
         }
@@ -56,9 +68,9 @@ export default {
     computed:{
         ordersToShow(){
             let displayedOrders = [];
-            if(this.showCompletedAndCanceled){
+            if(this.filterOn){
                 displayedOrders = this.orders.filter((order)=>{
-                    return order.orderStatus != 'complete' && order.orderStatus != 'canceled';
+                    return order.orderStatus == this.filter;
                 });
             }else{
                 displayedOrders = this.orders;
@@ -70,13 +82,10 @@ export default {
         UserOrderService.getOrders().then((response)=>{
             this.orders = response.data;
         });
-        // OrderService.getOrders().then((response)=>{
-        //     this.orders = response.data;
-        // });
     },
     methods:{
         showHide(){
-            this.showCompletedAndCanceled = !this.showCompletedAndCanceled;
+            this.filterOn = !this.filterOn;
         },
         goToDetails(orderId){
             this.$router.push({name:'user-orders-details', params:{orderId: orderId}})
@@ -115,11 +124,14 @@ th{
 }
 table {
   border-collapse: collapse;
-  border-bottom: #5FA873 1px solid;
+    border-bottom: #BB554A 1px solid;
+}
+select{
+    margin: 10px;
 }
 .order{
     
-    border-top: #5FA873 1px solid;
+    border-top: #BB554A 1px solid;
     cursor: pointer;
     color: white;
     margin-top: 10px;
@@ -131,14 +143,9 @@ table {
 .status{
     font-family: 'Cooper Hewitt Bold', sans-serif;
 }
-/* 'complete': order.orderStatus == 'complete', 
-'pending': order.orderStatus == 'pending',
-'in-kitchen': order.orderStatus == 'in kitchen',
-'delivered': order.orderStatus == 'delivered',
-'awaiting-pickup': order.orderStatus == 'awaiting pickup',
-'out-for-delivery': order.orderStatus == 'out for delivery'}"  */
 .complete{
     background-color: #5FA873;
+    border-top: #BB554A 1px solid;
 }
 .pending{
     background-color: #a18f6380;
@@ -160,14 +167,12 @@ table {
 .delivered{
     background-color: #5FA873;
 }
-/* <th id="thead-name">Name</th>
-<th id="thead-ph">Phone Number</th>
-<th id="thead-date-ordered">Date Ordered</th>
-<th id="thead-delivery">Delivery</th>
-<th id="thead-address">Address</th>
-<th id="thead-delivery-date">Delivery Date</th>
-<th id="thead-cost">Total Cost</th>
-<th id="thead-status">Order Status</th> */
+#type-select{
+    border-block-color: #A18F63;
+    margin: 5px;
+    background-color: #A18F63;
+    color: #FFFFFF;
+}
 #thead-name{
     background-color: #5FA873;
     width: 100px;

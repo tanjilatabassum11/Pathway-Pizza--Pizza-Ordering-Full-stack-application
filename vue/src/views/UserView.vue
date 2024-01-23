@@ -1,6 +1,6 @@
 <template>
     <UserNav />
-    <div>
+    <div id="welcome">
         <h2>Welcome, Employee!</h2>
         <h4>Please select an option</h4>
     </div>
@@ -15,6 +15,7 @@ export default {
 </script>
 
 <style scoped>
+@import url('https://fonts.cdnfonts.com/css/cooper-hewitt-book');
 @font-face {
     font-family: 'Mandalore Laser Title';
     src: url('../fonts/MandaloreLaserTitle.woff2') format('woff2'),
@@ -27,5 +28,16 @@ export default {
 *{
     font-family: 'Mandalore Laser Title';
 
+}
+h2{
+    color: #BB554A;
+}
+h4{
+    color: #5FA873;
+}
+#welcome{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 </style>

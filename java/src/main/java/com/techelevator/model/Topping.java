@@ -11,7 +11,7 @@ public class Topping {
     private String toppingName;
     private String type;
     private BigDecimal cost;
-    @JsonProperty
+    @JsonProperty("isAvailable")
     private boolean isAvailable;
 
     public int getToppingId() {
@@ -22,8 +22,8 @@ public class Topping {
         return isAvailable;
     }
 
-    public void setAvailable(boolean available) {
-        isAvailable = available;
+    public void setAvailable(boolean isAvailable) {
+        this.isAvailable = isAvailable;
     }
 
     public void setToppingId(int toppingId) {
