@@ -11,12 +11,9 @@
     <!-- Specialty Pizza Selection -->
     <PizzaSelection @selectPizza="selectPizza" />
 
-    <!-- Build Your Own Pizza -->
-    <PizzaBuilder @pizzaCreated="handleAddToCart"/>
+  <!-- need to add path button -->
 
-    <!-- Toppings Selection 
-    <ToppingsSelection @selectTopping="selectTopping" />
--->
+
 
     <!-- Order Form -->
     <OrderForm @updateCustomerInfo="updateCustomerInfo" />
@@ -46,7 +43,7 @@ library.add(fas);
 
 import OrderForm from '../components/OrderForm.vue';
 import PizzaSelection from '../components/PizzaSelection.vue';
-import PizzaBuilder from '../components/PizzaBuilder.vue';
+
 //import ToppingsSelection from '../components/ToppingComponent.vue';
 import OrderSummary from '../components/OrderSummary.vue';
 import DeliveryForm from '../components/DeliveryForm.vue';
@@ -56,7 +53,7 @@ export default {
   components: {
     OrderForm,
     PizzaSelection,
-    PizzaBuilder,
+
    // ToppingsSelection,
     OrderSummary,
     ConfirmationDialog,

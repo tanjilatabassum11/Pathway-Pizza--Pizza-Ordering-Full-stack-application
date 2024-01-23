@@ -4,15 +4,15 @@
 </div>
   <div>
     <h1>Select Your Toppings:</h1>
-    <ToppingComponent />
+    <PizzaEditor />
   </div>
 </template>
 
 <script>
-import ToppingComponent from "../components/ToppingComponent.vue";
+import PizzaEditor from "../components/PizzaEditor.vue";
 
 export default {
-  components: { ToppingComponent },
+  components: { PizzaEditor },
   computed: {
     currentPizzaId() {
       let currentPizzaId = this.$store.state.currentPizzaId;
