@@ -121,6 +121,9 @@ export default {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   background-color: #fff;
 }
+ .order-view h1{
+   text-align: center;
+ }
 .back-button{
   margin-left: auto;
 }

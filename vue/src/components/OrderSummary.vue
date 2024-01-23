@@ -1,6 +1,6 @@
 <template>
     <div class="order-summary">
-      <h2>Your Order</h2>
+      <!-- <h2>Your Order</h2> -->
       <ul>
         <li v-for="(pizza, index) in pizzas" :key="index" class="order-item">
           <div class="pizza-details">
@@ -46,7 +46,7 @@
     padding: 10px;
     border-radius: 8px;
   }
-  
+ 
   .pizza-details {
     font-size: 0.9em;
   }
