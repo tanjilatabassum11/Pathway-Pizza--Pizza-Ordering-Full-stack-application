@@ -209,6 +209,25 @@ public class JdbcPizzaDao implements PizzaDao{
         return newPizza;
     }
 
+    public Pizza createCustomSpecialtyPizza(Pizza pizza){
+        Pizza newPizza = null;
+
+        String sql = "INSERT INTO pizzas(pizza_name, pizza_size, is_available, pizza_cost, max_toppings, is_specialty, note, description)\n" +
+                "VALUES(?, ?, true, ?, ?, false, ?, ?) RETURNING pizza_id;";
+
+        try{
+
+            int pizzaId = jdbcTemplate.queryForObject(sql, int.class, pizza.getPizzaName(), pizza.getPizzaSize(), pizza.getPizzaCost(),
+                    pizza.getMaxToppings(), pizza.getNote(), pizza.getDescription());
+
+            newPizza = getPizza(pizzaId);
+
+        }catch(Exception e) {
+            System.out.println("Something went wrong with: createCustomPizza" + e.getMessage());
+        }
+        return newPizza;
+    }
+
 
     private Pizza mapRowToPizza(SqlRowSet results) {
 

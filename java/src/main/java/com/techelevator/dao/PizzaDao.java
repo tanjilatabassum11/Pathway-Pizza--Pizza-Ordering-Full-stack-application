@@ -14,4 +14,5 @@ public interface PizzaDao {
     public int getPizzaQuantityByPizzaIdAndOrderId(int pizzaId, int orderId);
     public List<Pizza> getPizzasByOrderId(int orderId);
     public Pizza createCustomPizza(Pizza pizza);
+    public  Pizza createCustomSpecialtyPizza(Pizza pizza);
 }
