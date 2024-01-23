@@ -1,7 +1,10 @@
 <template>
 <div id="back-button">
 <button id="back-button" v-on:click="this.$router.push({name: 'home'})">Go Back</button>
+<button><font-awesome-icon :icon="['fas', 'cart-plus']" /></button>
 </div>
+    
+  
   <div class="order-view">
     <h1>Place Your Pizza Order</h1>
     
@@ -14,21 +17,9 @@
     <!-- Toppings Selection 
     <ToppingsSelection @selectTopping="selectTopping" />
 -->
-    <!-- Pizza Size Selection -->
-    <div class="pizza-size-selection">
-      <label for="pizzaSize">Select Pizza Size:</label>
-      <select id="pizzaSize" v-model="selectedPizzaSize">
-        <option value="small">Small</option>
-        <option value="medium">Medium</option>
-        <option value="large">Large</option>
-      </select>
-    </div>
 
     <!-- Order Form -->
     <OrderForm @updateCustomerInfo="updateCustomerInfo" />
-
-    <!-- Delivery Information -->
-    <DeliveryForm @updateDeliveryDetails="updateDeliveryDetails" />
 
     <!-- Order Summary and Confirmation -->
     <OrderSummary :pizzaSelections="orderDetails.pizzaSelections" />
@@ -46,6 +37,13 @@
 </template>
 
 <script>
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fas } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+// Add the solid icons to the library
+library.add(fas);
+
+
 import OrderForm from '../components/OrderForm.vue';
 import PizzaSelection from '../components/PizzaSelection.vue';
 import PizzaBuilder from '../components/PizzaBuilder.vue';
@@ -61,8 +59,8 @@ export default {
     PizzaBuilder,
    // ToppingsSelection,
     OrderSummary,
-    DeliveryForm,
-    ConfirmationDialog
+    ConfirmationDialog,
+    FontAwesomeIcon,
   },
   data() {
     return {
@@ -114,7 +112,7 @@ export default {
 </script>
 <style scoped>
  .order-view {
-  display: flex;
+  /* display: flex; */
   flex-direction: column;
   align-items: center;
   margin-top: 20px;
@@ -123,6 +121,10 @@ export default {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   background-color: #fff;
 }
+.back-button{
+  margin-left: auto;
+}
+
 h1 {
   color: #333;
   margin-bottom: 20px;
@@ -130,7 +132,7 @@ h1 {
 }
 
 button {
-  background-color: #4caf50;
+  background-color: #da3327;
   color: white;
   border: none;
   border-radius: 4px;
@@ -138,30 +140,18 @@ button {
   cursor: pointer;
   transition: background-color 0.3s ease-in-out;
   font-weight: bold;
+  
 }
 
 button:hover {
-  background-color: #45a049;
-}
-.pizza-size-selection {
-  margin-bottom: 20px;
+  background-color: #690e04f3;
+  
 }
 
-select {
-  padding: 10px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  margin-bottom: 20px;
-}
-
-button:hover {
-  background-color: #45A049;
-}
-
-button:disabled {
+/* button:disabled {
   background-color: #ccc;
   cursor: not-allowed;
-}
+} */
 
 ul {
   list-style-type: none;
@@ -181,6 +171,7 @@ li {
   max-width: 600px;
   margin-bottom: 20px;
 } 
+
 
 
 /* Additional styles can be added as per your design preference */

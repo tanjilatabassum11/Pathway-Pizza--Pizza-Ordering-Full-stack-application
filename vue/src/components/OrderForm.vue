@@ -60,7 +60,7 @@ export default {
   border: 1px solid #ddd;
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  background-color: #fff; 
+  background-color: rgb(250, 247, 247); 
 }
 
 .customer-form {
@@ -96,7 +96,7 @@ input[type="tel"]:focus {
 }
 
 button {
-  background-color: #4CAF50;
+  background-color: #494747;
   color: white;
   padding: 14px 20px;
   border: none;
@@ -107,6 +107,6 @@ button {
 }
 
 button:hover {
-  background-color: #45a049;
+  background-color: #141414f3;
 }
 </style>

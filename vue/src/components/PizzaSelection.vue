@@ -138,7 +138,7 @@ export default {
 
 .pizza-price {
   font-weight: bold;
-  color: #e44c26ec; /* Red color for price */
+  color: #e44c26ec; 
 }
 
 .add-to-cart-button {
