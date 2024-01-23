@@ -123,7 +123,7 @@ const routes = [
     }
   },
   {
-   path: "/toppings",
+   path: "/toppings/:pizzaId?",
    name: "topping",
    component: ToppingsView,
    meta: {

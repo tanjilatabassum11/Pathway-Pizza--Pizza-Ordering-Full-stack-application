@@ -2,9 +2,18 @@
   <form v-on:submit.prevent="submitToppingsForm">
     <div class="topping-card">
 
-      
 
-      <h1 class="select-header">Select Additional Toppings:</h1>
+      <h1>{{ isNoPathVariable ? 'Create Your Own Pizza': pizza.pizza_name}}</h1>
+
+      <h2 class="select-header">Select {{ isNoPathVariable ? '': 'Additional ' }}Toppings:</h2>
+
+      <br />
+      <span> Pizza Size: <span v-if="!isNoPathVariable" class="uppercase">{{ pizza.pizza_size }}</span></span>
+      <select v-if="isNoPathVariable" v-model="pizza.pizza_size">
+          <option value="small">Small</option>
+          <option value="medium">Medium</option>
+          <option value="large">Large</option>
+      </select>
 
       <br />
       <span> Choose Your Sauce: </span>
@@ -63,6 +72,7 @@
           type="checkbox"
           id="{{topping.topping_name}}"
           v-model="topping.isOnPizza"
+          :disabled="isMaxToppingsMet && !topping.isOnPizza"
          
         />
       </div>
@@ -82,6 +92,7 @@
           id="{{topping.topping_name}}"
           v-model="topping.isOnPizza"
           :value="topping.topping_id"
+          :disabled="isMaxToppingsMet && !topping.isOnPizza"
         />
       </div>
       <br />
@@ -100,6 +111,7 @@
           id="{{topping.topping_name}}"
           v-model="topping.isOnPizza"
           :value="topping.topping_id"
+          :disabled="isMaxToppingsMet && !topping.isOnPizza"
         />
       </div>
 
@@ -120,6 +132,7 @@
           id="{{topping.topping_id}}"
           v-model="topping.isOnPizza"
           :value="topping.topping_id"
+          :disabled="isMaxToppingsMet && !topping.isOnPizza"
         />
       </div>
 
@@ -141,9 +154,10 @@
 
 <script>
 import ToppingService from "../services/ToppingService.js";
+import PizzaService from "../services/PizzaService.js";
 
 export default {
-  props: ["currentPizzaId"],
+  // props: ["currentPizzaId"],
   data() {
     return {
       //allToppings holds all available toppings and they get filterd 
@@ -157,6 +171,9 @@ export default {
       allToppings: [],
       includedToppings: [],
       currentToppings: [],
+      pizza:{},
+      isNoPathVariable: false,
+      // pathvar: 0
 
       
     };
@@ -210,6 +227,9 @@ export default {
        }
       })
       return selectedToppings;
+    },
+    isMaxToppingsMet(){
+      return this.selectedToppingIds.length == this.pizza.max_toppings;
     }
 
 
@@ -238,7 +258,7 @@ export default {
       })
     },
     changeCrust(crustId){
-      this.sauces.forEach((crust) => {
+      this.crust.forEach((crust) => {
         if(crustId == crust.topping_id){
           crust.isOnPizza = true;
         } else {
@@ -246,14 +266,71 @@ export default {
         }
       })
     },
+  },
 
  /* ****Below Methods are for when the page loads**** */
  /* ********************************************************* */
 
  //gets toppings that are specific to the pizza id
-    async getToppings() {
-      try {
-        const response = await ToppingService.getToppingsByPizzaId(this.currentPizzaId);
+//     async getToppings() {
+//       try {
+//         const response = await ToppingService.getToppingsByPizzaId(this.currentPizzaId);
+//           this.includedToppings = response.data;
+//           this.allToppings.forEach((topping) => {
+//             let contains = this.includedToppings.find((pizzaTopping) => {
+//               return topping.topping_id == pizzaTopping.topping_id;
+//             })
+//             if(contains != undefined){
+//               topping.isOnPizza = true;
+//             }
+//             else {
+//               topping.isOnPizza = false;
+//             }
+//           })
+          
+//       } catch (error) {
+//             console.error('There was an error getting the pizza or toppings', error)
+//       }
+//        },
+//   //gets all available toppings from the database 
+//     async getAllToppings() {
+//       try {
+//         const response = await ToppingService.getAvailableToppings();
+//         this.allToppings = response.data;
+
+//       } catch (error) {
+//         console.erorr('Unexpected Error Getting Toppings', error)
+//       }
+     
+     
+//     },
+//    //should add includedToppings on pizza to currentToppings
+//    //comes back 'undefined'  
+//     addCurrentToppings() {
+//       this.includedToppings.forEach((topping) => {
+//           this.currentToppings.push(topping.topping_id);
+//       });
+//     },
+//   },
+//  async mounted() {
+   
+//    await  this.getAllToppings();
+//    await this.getToppings();
+//   },
+
+  created() {
+
+
+    ToppingService.getAvailableToppings().then((response)=>{
+      this.allToppings = response.data;
+    });
+    let pizzaId = this.$route.params.pizzaId;
+    // this.pathvar = pizzaId;
+    if(pizzaId !== ""){
+      PizzaService.getAvailablePizza(pizzaId).then((response)=>{
+        this.pizza = response.data;
+      });
+      ToppingService.getToppingsByPizzaId(pizzaId).then((response)=>{
           this.includedToppings = response.data;
           this.allToppings.forEach((topping) => {
             let contains = this.includedToppings.find((pizzaTopping) => {
@@ -266,67 +343,34 @@ export default {
               topping.isOnPizza = false;
             }
           })
-          
-      } catch (error) {
-            console.error('There was an error getting the pizza or toppings', error)
-      }
-       },
-  //gets all available toppings from the database 
-    async getAllToppings() {
-      try {
-        const response = await ToppingService.getAvailableToppings();
-        this.allToppings = response.data;
-
-      } catch (error) {
-        console.erorr('Unexpected Error Getting Toppings', error)
-      }
-     
-     
-    },
-   //should add includedToppings on pizza to currentToppings
-   //comes back 'undefined'  
-    addCurrentToppings() {
-      this.includedToppings.forEach((topping) => {
-          this.currentToppings.push(topping.topping_id);
+        });
+    }else{
+      this.isNoPathVariable = true;
+      this.includedToppings = [];
+      this.allToppings.forEach((topping) => {
+          topping.isOnPizza = false;
       });
-    },
-  },
- async mounted() {
-   
-   await  this.getAllToppings();
-   await this.getToppings();
-  },
-
-  created() {
+    }
     
-    
-
-    ToppingService.getToppingByType("meat").then((response) => {
-      this.meatToppings = response.data;
-    });
-    ToppingService.getToppingByType("veggies").then((response) => {
-      this.veggieToppings = response.data;
-    });
-    ToppingService.getToppingByType("cheese").then((response) => {
-      this.cheeseToppings = response.data;
-    });
-    ToppingService.getToppingByType("fruit").then((response) => {
-      this.fruitToppings = response.data;
-    });
-    ToppingService.getToppingByType("sauce").then((response) => {
-      this.sauces = response.data;
-    });
-    ToppingService.getToppingByType("crust").then((response) => {
-      this.crust = response.data;
-    });
   },
 };
 </script>
   
   <style scoped>
 @import url("https://fonts.cdnfonts.com/css/cooper-hewitt-book");
+@font-face {
+    font-family: 'Mandalore Laser Title';
+    src: url('../fonts/MandaloreLaserTitle.woff2') format('woff2'),
+        url('../fonts/MandaloreLaserTitle.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
 * {
   font-family: "Cooper Hewitt Bold", sans-serif;
+}
+h1{
+  font-family: 'Mandalore Laser Title';
 }
 input[type="checkbox" i] {
   accent-color: #bb554a;
@@ -355,7 +399,9 @@ input[type="checkbox" i] {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease-in-out;
 }
-
+input[type='radio'] {
+    accent-color: #BB554A;
+}
 .topping-selection {
   margin: 20px 0;
 }

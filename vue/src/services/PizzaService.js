@@ -52,5 +52,8 @@ export default {
     },
     createCustomSpecialtyPizza(pizza){
         return axios.post(`/pizzas/create-specialty`, pizza);
+    },
+    getAvailablePizza(pizzaId){
+        return axios.get(`/pizzas/${pizzaId}/customer`);
     }
 }

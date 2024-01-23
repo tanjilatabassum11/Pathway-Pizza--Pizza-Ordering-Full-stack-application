@@ -4,7 +4,7 @@
 </div>
   <div>
     <h1>Select Your Toppings:</h1>
-    <ToppingComponent :currentPizzaId="currentPizzaId" />
+    <ToppingComponent />
   </div>
 </template>
 

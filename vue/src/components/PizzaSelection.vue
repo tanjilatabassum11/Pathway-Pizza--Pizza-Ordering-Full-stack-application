@@ -57,7 +57,7 @@ export default {
   methods: {
      changeCurrentPizzaId(pizza_id){
       this.currentPizzaId = pizza_id;
-      this.$router.push( {name: 'topping'})
+      this.$router.push( {name: 'topping', params:{pizzaId: this.currentPizzaId}})
     },
     changeStoredCurrentPizza(currentPizzaId){
        this.$store.commit('CHANGE_CURRENT_PIZZA_ID', currentPizzaId);
