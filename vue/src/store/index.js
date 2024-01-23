@@ -12,7 +12,8 @@ export function createStore(currentToken, currentUser) {
       //to update each - orderData.customerDetails will need to be
       //sent first and then we will recieve back an order_id
       //the pizza_id and order_id  can be sent back to database to
-      //associate a pizza with an order
+      //associate a pizza with an order. pizzaSelection is an array of selections
+      //that will need to be iterated through - to add more than one pizza to an order -
       //and then the toppings (which holds an array of topping_ids) will
       //need to be iterated through and each should be sent back with the pizza_id 
       orderData: {
@@ -27,11 +28,13 @@ export function createStore(currentToken, currentUser) {
           total: 0,
           status: 'pending'
         },
-        pizzaSelection: {
+        pizzaSelection: [
+          {
           pizzaId: 0,
           toppings: [],
-          quanitity: 0
+          quantity: 0
         }
+      ]
 
       },
       
@@ -58,7 +61,7 @@ export function createStore(currentToken, currentUser) {
       },
 
        SET_PIZZA_ORDER(state, payload){
-        state.pizzaSelection = payload;
+        state.orderData.pizzaSelection = payload;
       },
       // UPDATE_ORDER_DATA will be used for getting information for orders
       //on the OrderForm Component that gets customer billing info
@@ -72,16 +75,24 @@ export function createStore(currentToken, currentUser) {
        CHANGE_CURRENT_PIZZA_ID(state, selectedPizzaId){
         state.currentPizzaId = selectedPizzaId;
       },
+       SAVE_PIZZA_SELECTION(state, currentToppings){
+         let newPizzaSelection = {
+        pizzaId : state.currentPizzaId,
+        toppings : currentToppings,
+        quantity : 1
+         }
 
-        //Not sure if we need these - orderId is auto-generated
-        //and we don't need to make a new pizza instance in the store
-        //for specialty pizzas. Might use it for the custom pizzas.
+         state.orderData.pizzaSelection.unshift(newPizzaSelection);
+         
+         
+       }
+
+        //vv Not sure if we need this - orderId is auto-generated vv
+
       //  UPDATE_CURRENT_ORDER_ID(state, newData){
       //   state.currentOrderId = newData;
       // },
-      // SAVE_PIZZA_SELECTION(state, pizzaSelection){
-      //   state.pizzaSelection.push(pizzaSelection);
-      // }
+     
     },
      
 
