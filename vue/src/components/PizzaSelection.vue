@@ -12,7 +12,7 @@
             <!--toFixed(2) shows decimal number by 2 precision after decimal -->
             <span class="pizza-price">${{ pizza.pizza_cost.toFixed(2) }}</span>
             <button class="add-to-cart-button show-toppings" v-bind:="currentPizzaId"
-           @click="[changeCurrentPizzaId(pizza.pizza_id), changeStoredCurrentPizza(pizza.pizza_id)]" >Add to Cart</button>
+           @click="changeCurrentPizzaId(pizza.pizza_id); changeStoredCurrentPizza(pizza.pizza_id)" >Add to Cart</button>
           </div>
         </div>
         
@@ -63,10 +63,6 @@ export default {
        this.$store.commit('CHANGE_CURRENT_PIZZA_ID', currentPizzaId);
     },
 
-  //should store all pizza data in the data store?
-    // addToCart(pizza) {
-    //   this.$emit('addToCart', pizza);
-    // }
   },
    created() {
      PizzaService.getAvailableSpecialtyPizzas()
@@ -99,15 +95,14 @@ export default {
   color: #333;
 }
 
-
-
 .pizza-card-parent {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
 }
 
-.pizza-card {
+.pizza-card 
+{
   background-color: #e6ee741a;
   border-radius: 8px;
   margin: 10px;
@@ -139,7 +134,7 @@ export default {
 
 .pizza-price {
   font-weight: bold;
-  color: #e44c26ec; /* Red color for price */
+  color: #e44c26ec; 
 }
 
 .add-to-cart-button {

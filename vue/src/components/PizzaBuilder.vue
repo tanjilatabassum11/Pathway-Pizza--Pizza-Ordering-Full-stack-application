@@ -5,7 +5,7 @@
       <div class="options">
         <div class="option">
           <h3>Select Size</h3>
-          <select v-model="pizza.size">
+          <select class = "option-color" v-model="pizza.size">
             <option value="small">Small</option>
             <option value="medium">Medium</option>
             <option value="large">Large</option>
@@ -15,8 +15,7 @@
         <div class="option">
           <h3>Select Toppings</h3>
           <div v-for="(topping, index) in toppings" :key="index">
-            <input 
-              type="checkbox" 
+            <input type="checkbox" 
               :id="'topping-' + index" 
               :value="topping" 
               v-model="pizza.toppings"
@@ -53,40 +52,93 @@
     }
   };
   </script>
-  
+
   <style scoped>
-  .pizza-builder {
-    max-width: 600px;
-    margin: 20px auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
+    
+.pizza-builder {
+  text-align: center;
+  max-width: 760px;
+  margin: 20px auto;
+  padding: 30px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color:   #e6ee741a;
+  box-shadow:  0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+input[type="checkbox" i]{
   
-  .options {
-    margin-bottom: 20px;
-  }
+    accent-color: #BB554A;
+   
+}
+
+.pizza-builder h2{
+  margin-top: 5px;
+  font-weight: bold;
+  color: #af7c4c;
+  text-align: center;
+  font-weight: bold;
+}
+
+.options {
+  margin-bottom: 20px;
+}
+
+.option {
+  margin-bottom: 15px;
+}
+.option h3{
+  color: #666;
+}
+.option-color{
+  background-color: #af7c4c;
+  color: white;
+  border-radius: 4px;
+}
+
+option,select {
+  padding: 5px;
+  margin-right: 10px;
+  text-align: center;
+}
+
+button {
+  background-color: #af7c4c;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #a08545fb;
+}
+
+.cart {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.cart h2 {
+  font-size: 1.2em;
+  margin-bottom: 10px;
+
+}
+
+.cart ul {
+  list-style: none;
+  padding: 0;
+}
+
+.cart li {
+  margin-bottom: 8px;
   
-  .option {
-    margin-bottom: 15px;
-  }
-  
-  option, select {
-    padding: 5px;
-    margin-right: 10px;
-  }
-  
-  button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #45A049;
-  }
-  </style>
+}
+
+</style>
+
   
