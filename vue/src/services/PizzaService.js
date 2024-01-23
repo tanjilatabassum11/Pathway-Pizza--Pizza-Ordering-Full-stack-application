@@ -49,5 +49,11 @@ export default {
     },
     getPizzaQuantityByPizzaIdAndOrderId(pizzaId,orderId){
         return axios.get(`/pizzas/${pizzaId}/order/${orderId}/quantity`);
+    },
+    createCustomSpecialtyPizza(pizza){
+        return axios.post(`/pizzas/create-specialty`, pizza);
+    },
+    getAvailablePizza(pizzaId){
+        return axios.get(`/pizzas/${pizzaId}/customer`);
     }
 }

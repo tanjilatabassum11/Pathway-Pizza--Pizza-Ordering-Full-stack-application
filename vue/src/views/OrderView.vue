@@ -111,6 +111,14 @@ export default {
 };
 </script>
 <style scoped>
+@font-face {
+    font-family: 'Mandalore Laser Title';
+    src: url('../fonts/MandaloreLaserTitle.woff2') format('woff2'),
+        url('../fonts/MandaloreLaserTitle.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
  .order-view {
   /* display: flex; */
   flex-direction: column;

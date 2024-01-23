@@ -7,16 +7,18 @@
     <div class="pizza-list">
       <MenuPizzaCard v-for="pizza in pizzas" :key="pizza.pizza_id" :pizza="pizza"/>
     </div>
+    <MenuBYOPizza></MenuBYOPizza>
 
-    <!-- Toppings List -->
+    <!-- Toppings List
     <h2>Choose Your Toppings</h2>
+    <UserToppingsForm />
     <div class="toppings-section">
       <ul class="toppings-list">
         <li v-for="topping in toppings" :key="topping.topping_id">
           {{ topping.topping_name }}
         </li>
       </ul>
-    </div>
+    </div> -->
 
     <button @click="goToOrderPage" class="order-button">Place Your Order</button>
   </div>
@@ -26,10 +28,12 @@
 import MenuPizzaCard from '../components/menupizzacard.vue';
 import PizzaService from '../services/PizzaService';
 import ToppingService from '../services/ToppingService.js';
+import MenuBYOPizza from '../components/MenuBYOPizza.vue';
 
 export default {
   components: {
-    MenuPizzaCard
+    MenuPizzaCard,
+    MenuBYOPizza
   },
   data() {
     return {

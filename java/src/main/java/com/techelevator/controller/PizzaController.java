@@ -71,12 +71,8 @@ public class PizzaController {
     public Pizza createCustomPizza(@RequestBody Pizza pizza){
         return pizzaDao.createCustomPizza(pizza);
     }
-    @GetMapping("/types")
-    public List<String> getPizzaTypes() {
-        return Arrays.asList("Margherita", "Pepperoni", "Vegetarian", "Hawaiian");
-    }
-    @GetMapping("/sizes")
-    public List<String> getPizzaSizes() {
-        return Arrays.asList("Small", "Medium", "Large");
+    @RequestMapping(path = "/create-specialty", method = RequestMethod.POST)
+    public Pizza createCustomSpecialtyPizza(@RequestBody Pizza pizza){
+        return pizzaDao.createCustomSpecialtyPizza(pizza);
     }
 }

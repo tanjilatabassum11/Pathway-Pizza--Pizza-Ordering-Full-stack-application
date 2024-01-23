@@ -1,46 +1,35 @@
 <template>
   <form v-on:submit.prevent="submitToppingsForm">
     <div class="topping-card">
-      <h1 class="select-header">Included Toppings:</h1>
 
-      <div
-        class="toppings"
-        v-for="topping in includedToppings"
-        v-bind:key="topping.name"
-      >
-        <label for="{{topping.topping_name}}">
-          {{ topping.topping_name }}
-        </label>
-        <!--Need to update this checkbox to be automatically checked and 
-        the toppings to be automatically added to currentToppings. 
-        There is a mounted() method that is to be debugged for this.
-        It includes async/await functionality for when page loads-->
-        <input
-          type="checkbox"
-          id="{{topping.topping_name}}"
-         v-model="currentToppings"
-          :value="topping.topping_id"
-          :aria-checked="true"
-        />
-      </div>
 
-      <h1 class="select-header">Select Additional Toppings:</h1>
+      <h1>{{ isNoPathVariable ? 'Create Your Own Pizza': pizza.pizza_name}}</h1>
+
+      <h2 class="select-header">Select {{ isNoPathVariable ? '': 'Additional ' }}Toppings:</h2>
+
+      <br />
+      <span> Pizza Size: <span v-if="!isNoPathVariable" class="uppercase">{{ pizza.pizza_size }}</span></span>
+      <select v-if="isNoPathVariable" v-model="pizza.pizza_size">
+          <option value="small">Small</option>
+          <option value="medium">Medium</option>
+          <option value="large">Large</option>
+      </select>
 
       <br />
       <span> Choose Your Sauce: </span>
       <div
         class="toppings sauce"
         v-for="topping in sauces"
-        :key="topping.type"
+        :key="topping.topping_id"
       >
-        <label :for="topping.topping_name" class="sauce-option">
+        <label :for="topping.topping_id" class="sauce-option">
           {{ topping.topping_name }}
         </label>
         
           <input type="radio"
             :id="topping.topping_name"
-            v-model="currentSauceId"
-            :value="topping.topping_id"
+            v-bind:checked="topping.isOnPizza"
+            v-on:change="changeSauce(topping.topping_id)"
             name="sauceToppings"
           /> 
           
@@ -57,15 +46,14 @@
         <label for="crust-options" id="crust">
           {{ topping.topping_name }}
         </label>
-        <select name="crust-options" id="crust">
-          <option
-            id="{{topping.topping_name}}"
-            v-bind:select="currentToppings"
-            :value="topping.topping_id"
-          >
-            {{ topping.topping_name }}
-          </option>
-        </select>
+       
+          <input type="radio"
+            :id="topping.topping_name"
+            v-bind:checked="topping.isOnPizza"
+            v-on:change="changeCrust(topping.topping_id)"
+            name="crustOptions"
+          />
+
       </div>
 
       <br /><br />
@@ -83,8 +71,9 @@
         <input
           type="checkbox"
           id="{{topping.topping_name}}"
-          v-model="currentToppings"
-          :value="topping.topping_id"
+          v-model="topping.isOnPizza"
+          :disabled="isMaxToppingsMet && !topping.isOnPizza"
+         
         />
       </div>
       <br />
@@ -101,8 +90,9 @@
         <input
           type="checkbox"
           id="{{topping.topping_name}}"
-          v-model="currentToppings"
+          v-model="topping.isOnPizza"
           :value="topping.topping_id"
+          :disabled="isMaxToppingsMet && !topping.isOnPizza"
         />
       </div>
       <br />
@@ -119,8 +109,9 @@
         <input
           type="checkbox"
           id="{{topping.topping_name}}"
-          v-model="currentToppings"
+          v-model="topping.isOnPizza"
           :value="topping.topping_id"
+          :disabled="isMaxToppingsMet && !topping.isOnPizza"
         />
       </div>
 
@@ -139,8 +130,9 @@
         <input
           type="checkbox"
           id="{{topping.topping_id}}"
-          v-model="currentToppings"
+          v-model="topping.isOnPizza"
           :value="topping.topping_id"
+          :disabled="isMaxToppingsMet && !topping.isOnPizza"
         />
       </div>
 
@@ -162,9 +154,10 @@
 
 <script>
 import ToppingService from "../services/ToppingService.js";
+import PizzaService from "../services/PizzaService.js";
 
 export default {
-  props: ["currentPizzaId"],
+  // props: ["currentPizzaId"],
   data() {
     return {
       //allToppings holds all available toppings and they get filterd 
@@ -178,14 +171,9 @@ export default {
       allToppings: [],
       includedToppings: [],
       currentToppings: [],
-      currentSauceId: 7,
-
-      meatToppings: [],
-      cheeseToppings: [],
-      veggieToppings: [],
-      fruitToppings: [],
-      sauces: [],
-      crust: [],
+      pizza:{},
+      isNoPathVariable: false,
+      // pathvar: 0
 
       
     };
@@ -198,94 +186,191 @@ export default {
     //     return topping.isAvailable;
     //   });
     // },
+    // currentSauceId() {
+    //   return this.currentPizzaId
+    // }
+    crust(){
+      return this.allToppings.filter((topping) => {
+        return topping.type == 'crust';
+      });
+    },
+    sauces(){
+      return this.allToppings.filter((topping) => {
+        return topping.type == 'sauce';
+      });
+    },
+    fruitToppings(){
+      return this.allToppings.filter((topping) => {
+        return topping.type == 'fruit';
+      });
+    },
+    veggieToppings(){
+      return this.allToppings.filter((topping) => {
+        return topping.type == 'veggies';
+      });
+    },
+   cheeseToppings(){
+      return this.allToppings.filter((topping) => {
+        return topping.type == 'cheese';
+      });
+    },
+    meatToppings(){
+      return this.allToppings.filter((topping) => {
+        return topping.type == 'meat';
+      });
+    },
+    selectedToppingIds(){
+      let selectedToppings = [];
+      this.allToppings.forEach((topping) => {
+       if(topping.isOnPizza){
+         selectedToppings.push(topping.topping_id)
+       }
+      })
+      return selectedToppings;
+    },
+    isMaxToppingsMet(){
+      return this.selectedToppingIds.length == this.pizza.max_toppings;
+    }
+
+
   },
 
   methods: {
+
+    
 //updates the store with the current pizza selections ("in cart")
-    submitToppingsForm(currentToppings) {
-      this.changeSauce;
-      this.$store.commit("SAVE_PIZZA_SELECTION", currentToppings);
+    submitToppingsForm() {
+      this.$store.commit("SAVE_PIZZA_SELECTION", this.selectedToppingIds);
       this.$router.push({ name: "start-order" });
     },
 // changes pizzaID currently being stored in ("cart")
     changePizzaId(value) {
-      value = 0;
       this.$store.commit("UPDATE_CURRENT_ORDER_ID", value);
       this.$router.push({ name: "start-order" });
     },
-    changeSauce(){
-      this.currentToppings.push(this.currentSauceId);
+    changeSauce(sauceId){
+      this.sauces.forEach((sauce) => {
+        if(sauceId == sauce.topping_id){
+          sauce.isOnPizza = true;
+        } else {
+          sauce.isOnPizza = false;
+        }
+      })
     },
+    changeCrust(crustId){
+      this.crust.forEach((crust) => {
+        if(crustId == crust.topping_id){
+          crust.isOnPizza = true;
+        } else {
+          crust.isOnPizza = false;
+        }
+      })
+    },
+  },
 
  /* ****Below Methods are for when the page loads**** */
  /* ********************************************************* */
 
  //gets toppings that are specific to the pizza id
-    async getToppings() {
-      try {
-        const response = await ToppingService.getToppingsByPizzaId(this.currentPizzaId);
-          this.includedToppings = response.data;
+//     async getToppings() {
+//       try {
+//         const response = await ToppingService.getToppingsByPizzaId(this.currentPizzaId);
+//           this.includedToppings = response.data;
+//           this.allToppings.forEach((topping) => {
+//             let contains = this.includedToppings.find((pizzaTopping) => {
+//               return topping.topping_id == pizzaTopping.topping_id;
+//             })
+//             if(contains != undefined){
+//               topping.isOnPizza = true;
+//             }
+//             else {
+//               topping.isOnPizza = false;
+//             }
+//           })
           
-          this.addCurrentToppings();
-          
-      } catch (error) {
-            console.error('There was an error getting the pizza or toppings', error)
-      }
-       },
-  //gets all available toppings from the database 
-    async getAllToppings() {
-      try {
-        const response = await ToppingService.getAvailableToppings();
-        this.allToppings = response.data;
-      } catch (error) {
-        console.erorr('Unexpected Error Getting Toppings', error)
-      }
+//       } catch (error) {
+//             console.error('There was an error getting the pizza or toppings', error)
+//       }
+//        },
+//   //gets all available toppings from the database 
+//     async getAllToppings() {
+//       try {
+//         const response = await ToppingService.getAvailableToppings();
+//         this.allToppings = response.data;
+
+//       } catch (error) {
+//         console.erorr('Unexpected Error Getting Toppings', error)
+//       }
      
      
-    },
-   //should add includedToppings on pizza to currentToppings
-   //comes back 'undefined'  
-    addCurrentToppings() {
-      this.includedToppings.forEach((topping) => {
-          this.currentToppings.push(topping.id);
-      });
-    },
-  },
- async mounted() {
-   await this.getToppings();
-   await  this.getAllToppings();
-  },
+//     },
+//    //should add includedToppings on pizza to currentToppings
+//    //comes back 'undefined'  
+//     addCurrentToppings() {
+//       this.includedToppings.forEach((topping) => {
+//           this.currentToppings.push(topping.topping_id);
+//       });
+//     },
+//   },
+//  async mounted() {
+   
+//    await  this.getAllToppings();
+//    await this.getToppings();
+//   },
 
   created() {
-    
-    
 
-    ToppingService.getToppingByType("meat").then((response) => {
-      this.meatToppings = response.data;
+
+    ToppingService.getAvailableToppings().then((response)=>{
+      this.allToppings = response.data;
     });
-    ToppingService.getToppingByType("veggies").then((response) => {
-      this.veggieToppings = response.data;
-    });
-    ToppingService.getToppingByType("cheese").then((response) => {
-      this.cheeseToppings = response.data;
-    });
-    ToppingService.getToppingByType("fruit").then((response) => {
-      this.fruitToppings = response.data;
-    });
-    ToppingService.getToppingByType("sauce").then((response) => {
-      this.sauces = response.data;
-    });
-    ToppingService.getToppingByType("crust").then((response) => {
-      this.crust = response.data;
-    });
+    let pizzaId = this.$route.params.pizzaId;
+    // this.pathvar = pizzaId;
+    if(pizzaId !== ""){
+      PizzaService.getAvailablePizza(pizzaId).then((response)=>{
+        this.pizza = response.data;
+      });
+      ToppingService.getToppingsByPizzaId(pizzaId).then((response)=>{
+          this.includedToppings = response.data;
+          this.allToppings.forEach((topping) => {
+            let contains = this.includedToppings.find((pizzaTopping) => {
+              return topping.topping_id == pizzaTopping.topping_id;
+            })
+            if(contains != undefined){
+              topping.isOnPizza = true;
+            }
+            else {
+              topping.isOnPizza = false;
+            }
+          })
+        });
+    }else{
+      this.isNoPathVariable = true;
+      this.includedToppings = [];
+      this.allToppings.forEach((topping) => {
+          topping.isOnPizza = false;
+      });
+    }
+    
   },
 };
 </script>
   
   <style scoped>
 @import url("https://fonts.cdnfonts.com/css/cooper-hewitt-book");
+@font-face {
+    font-family: 'Mandalore Laser Title';
+    src: url('../fonts/MandaloreLaserTitle.woff2') format('woff2'),
+        url('../fonts/MandaloreLaserTitle.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
 * {
   font-family: "Cooper Hewitt Bold", sans-serif;
+}
+h1{
+  font-family: 'Mandalore Laser Title';
 }
 input[type="checkbox" i] {
   accent-color: #bb554a;
@@ -314,7 +399,9 @@ input[type="checkbox" i] {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease-in-out;
 }
-
+input[type='radio'] {
+    accent-color: #BB554A;
+}
 .topping-selection {
   margin: 20px 0;
 }
