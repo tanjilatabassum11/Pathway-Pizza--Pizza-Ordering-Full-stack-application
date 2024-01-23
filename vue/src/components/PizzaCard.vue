@@ -1,6 +1,6 @@
 <template>
-    <div class="pizza-card" v-for="pizza in availablePizzas" :key="pizza.pizza_id">
-         <img v-bind:src="geturl(pizza.imageUrl)"/>
+    <div class="pizza-card" v-for="pizza in availablePizzas" :key="pizza.pizza_id"
+    :style="{ backgroundImage: 'url(' + geturl(pizza.imageUrl) + ')' }">
         <h3 class="pizza-name">{{ pizza.pizza_name }}</h3>
         <p class="pizza-desc">{{ pizza.description || pizza.note }}</p>
     </div>
