@@ -8,15 +8,15 @@
       <h2 class="select-header">{{ isNoPathVariable ? 'Select ': 'Customize ' }}Toppings:</h2>
 
       <br />
-      <span> Pizza Size: <span v-if="!isNoPathVariable" class="uppercase">{{ pizza.pizza_size }}</span></span>
-      <select v-if="isNoPathVariable" v-model="pizza.pizza_size">
+      <span class="pizza-size"> Pizza Size: <span v-if="!isNoPathVariable" class="uppercase">{{ pizza.pizza_size }}</span></span>
+      <select class="value" v-if="isNoPathVariable" v-model="pizza.pizza_size">
           <option value="small">Small</option>
           <option value="medium">Medium</option>
           <option value="large">Large</option>
       </select>
 
       <br />
-      <span> Choose Your Sauce: </span>
+      <span class="sauce"> Choose Your Sauce: </span>
       <div
         class="toppings sauce"
         v-for="topping in sauces"
@@ -435,11 +435,12 @@ h1{
   font-family: 'Mandalore Laser Title';
 }
 input[type="checkbox" i] {
-  accent-color: #bb554a;
+  accent-color: #BB554A;;
+
 }
 
 #submit {
-  padding: 10px 15px 10px 15px;
+  padding: 10px 15px ;
   margin: 8px;
   border-radius: 5px;
   background-color: #a18f63;
@@ -449,20 +450,50 @@ input[type="checkbox" i] {
   transition: background-color 0.2s ease-in-out;
 }
 .buttons {
-  padding-left: 25%;
+  padding-left: 10%;
 }
 
 .topping-card {
-  color: #666;
-  background-color: #e6ee741a;
+  
+  color: rgb(121, 72, 17);
+  background-color: #b2bb333a;
   border-radius: 8px;
-  margin: 10px;
-  padding: 20px;
+  margin: 20px;
+  padding: 80px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease-in-out;
+  text-align: center;
+  font-size: 18px;
+
 }
+.topping-card h1{
+  margin-top: 0%;
+  color:rgb(165, 122, 42);
+}
+.select-header{
+ color: #BB554A;
+ text-align: center;
+}
+.pizza-size{
+  margin-bottom: 8px;
+  text-align: center;
+  font-size: 18px;
+}
+.sauce{
+  margin-top: 10px;
+}
+.value{
+  color: rgb(226, 223, 223);
+  background-color: #BB554A
+  
+}
+
+
+
+
 input[type='radio'] {
     accent-color: #BB554A;
+  
 }
 .topping-selection {
   margin: 20px 0;
@@ -472,7 +503,11 @@ input[type='radio'] {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  text-transform: uppercase;
+  text-transform: lowercase;
+  text-transform: capitalize;
+  margin-left: 150px;
+  margin-top: 8px;
+  font-size: 18px;
 }
 
 .topping {
