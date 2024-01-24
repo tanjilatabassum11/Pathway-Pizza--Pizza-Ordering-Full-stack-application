@@ -7,6 +7,7 @@
                 <span>{{ pizza.pizza_name }} - </span>
                 <span>Qty: {{ pizza.quantity }}</span>
                 <span id="pizza-cost"> - ${{ pizza.pizza_cost * pizza.quantity }}</span>
+                <button @click="removePizza(pizza.pizza_id)">Remove</button>
             </div>
         <div>
             <div class="pizza-toppings" v-for="topping in pizza.toppingsOnPizza" :key="topping.topping_id">
@@ -23,7 +24,6 @@
 import ToppingService from '../services/ToppingService';
 
 export default {
-    name: 'Cart',
     data(){
         return {
             pizzas:[],
@@ -54,7 +54,12 @@ export default {
             }
             return total;
         }
-    }
+    },
+    methods: {
+        removePizza(pizza_id) {
+            this.$store.commit("DELETE_PIZZA", pizza_id)
+        }
+    },
 }
 </script>
 
@@ -102,6 +107,9 @@ export default {
 }
 #total-pizza-cost{
     color: #BB554A;
+}
+.delete-pizza-button{
+
 }
 
 /* make the cart title and cart contents a sleek looking popup once the cart button is selected */
