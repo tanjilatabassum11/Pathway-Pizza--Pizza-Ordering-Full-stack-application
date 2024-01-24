@@ -18,15 +18,16 @@ export function createStore(currentToken, currentUser) {
       //need to be iterated through and each should be sent back with the pizza_id 
       orderData: {
         customerDetails: {
-          orderId: 0,
           orderName: "",
           phoneNumber: "",
           orderDateTime: "",
           isDelivery: false,
           address: "",
-          payment: "",
-          total: 0,
-          status: 'pending'
+          deliveryDateTime: '',
+          paymentInfo: "",
+          totalCost: 0,
+          orderStatus: 'pending',
+          emailAddress: ''
         },
         pizzaSelection: [
           {
