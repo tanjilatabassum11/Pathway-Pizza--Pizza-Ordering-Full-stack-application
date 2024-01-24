@@ -4,29 +4,31 @@
     <form v-on:submit.prevent="saveCustomerInfo" class="customer-form">
    <h1> Please Enter Your Information: </h1>  
       <div class="form-group">
-        <label for="fullName" id="customer-info">Full Name:</label>
-        <input id="fullName" v-model="customerDetails.orderName" type="text" required placeholder="ex: John Doe" />
+        <div class="grid-container">
+        <label for="fullName" id="customer-info" class="grid-child">Full Name:</label>
+        <input id="fullName" class="input-box" v-model="customerDetails.orderName" type="text" required placeholder="ex: John Doe" />
       </div>
       <div class="form-group" >
-        <label for="phoneNumber" id="customer-info">Phone Number:</label>
+        <label for="phoneNumber" class="grid-child" id="customer-info">Phone Number:</label>
         <input id="phoneNumber" v-model="customerDetails.phoneNumber" type="tel" required  title="Phone number should be 10 digits" />
       </div>
       <div class="form-group">
-        <label for="email" id="customer-info">Email Address:</label>
-        <input id="email" v-model="customerDetails.emailAddress" type="email" required placeholder="example@example.com" />
+        <label for="email" class="grid-child" id="customer-info">Email Address:</label>
+        <input id="email" class="input-box" v-model="customerDetails.emailAddress" type="email" required placeholder="example@example.com" />
+      </div>
       </div>
     
     <div class="delivery-option">
    <h3> Please make a selection: </h3>
       <div class="form-group delivery">
-        <label for="isDelivery" id="customer info" class="delivery-option">Delivery</label>
+        <label for="isDelivery" id="customer-info" class="delivery-option">Delivery</label>
         <input type="radio" 
         :id="customerDetails.isDelivery"
         @click="deliverySelection(true)"
         name="deliveryOption" 
         value="delivery" />
       </div>
-       <div class="form-group pickup">
+       <div class="form-group delivery">
         <label for="isDelivery" id="customer-info" class="delivery-option">Pick-Up</label>
         <input type="radio" 
         :id="customerDetails.isDelivery"
@@ -38,14 +40,16 @@
 
       <div v-show="customerDetails.isDelivery" class="form-group">
         <label for="address" id="customer-info">Full Address:</label>
-        <input id="address" v-model="customerDetails.address" type="text" placeholder="123 Example St, City, State 12345" />
+        <input id="address" class="input-box" v-model="customerDetails.address" type="text" placeholder="123 Example St, City, State 12345" />
       </div>
 
       <div v-show="customerDetails.isDelivery" class="form-group">
         <label for="paymentInfo" id="customer-info">Payment Card #:</label>
-        <input id="paymentInfo" v-model="customerDetails.paymentInfo" type="text" placeholder="1234 5678 9012 3456" />
+        <input id="paymentInfo" class="input-box" v-model="customerDetails.paymentInfo" type="text" placeholder="1234 5678 9012 3456" />
       </div>
+      <div class="submit-button">
       <button type="submit" id="submit" value="submit">Save Billing Information</button>
+      </div>
     </form>
   </div>
 </template>
@@ -92,23 +96,37 @@ export default {
 <style scoped>
 @import url("https://fonts.cdnfonts.com/css/cooper-hewitt-book");
 
-* {
-  font-family: "Cooper Hewitt Bold", sans-serif;
-  font-size: 20px;
+.order-view {
+  width: 100%;
 }
-h1, h3 {
+
+#customer-info {
+  font-family: 'Cooper Hewitt Book', sans-serif;
+  font-size: 25px;
+}
+h1, h3, #submit {
   font-size: 30px;
+   font-family: "Cooper Hewitt Bold", sans-serif;
   margin-bottom: 38px;
   border-bottom: 1px solid lightgray;
+  text-transform: uppercase;
+  opacity: .75;
+}
+h1 {
+  margin-left: 10px;
+  
+}
+h3 {
+  width: 100%;
 }
 
 .form-container {
-  max-width: 50%;
   margin: auto;
   padding: 40px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   background-color: #e6ee741a; 
+  opacity: .80;
 }
 .form-container {
   display: flex;
@@ -122,6 +140,18 @@ h1, h3 {
 
 .form-group {
   margin-bottom: 20px; 
+  height: auto;
+}
+
+.grid-container {
+  display: grid;
+}
+
+::placeholder {
+  font-size: 25px;
+  color: lightgray;
+  opacity: .75;
+
 }
 
 form {
@@ -135,29 +165,38 @@ input[type="text"],
 input[type="email"],
 input[type="tel"] {
   width: 100%;
-  padding: 8px;
+  padding: 12px;
   border: 1px solid #ccc;
-  border-radius: 5px;
-  transition: border-color 0.3s ease-in-out; 
-}
-
-input[type="text"]:focus,
-input[type="email"]:focus,
-input[type="tel"]:focus {
-  border-color: #4CAF50; 
+  border-radius: 8px;
+  font-size: 20px;
 }
 
 input[type="radio"] {
     accent-color: #BB554A;
     display: inline;
-  margin: 5px;
+     margin: 5px;
+     border: 0px;
+     width: 100%;
+     height: 25px;
+}
+.delivery-option {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: baseline;
+  flex-wrap: wrap;
+  margin: 10px;
+}
+.delivery {
+  margin-right: auto;
+  margin-left: auto;
 }
 
 
 button {
   background-color: #494747;
   color: white;
-  padding: 14px 20px;
+  padding: 4px 20px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -169,11 +208,14 @@ button {
   background-color: #AC685B;
   border: none;
   cursor: pointer;
-  margin: 5px;
+  margin: 10px 10px 8px 10px;
   font-size: 22px;
 }
 #submit:hover {
   background-color: #5FA873;
+}
+.submit-button {
+  margin: auto 15%
 }
 
 
