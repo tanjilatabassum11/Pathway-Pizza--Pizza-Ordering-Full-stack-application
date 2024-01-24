@@ -462,6 +462,7 @@ input[type="checkbox" i] {
   
 }
 
+
 .topping-card {
   
   color: rgb(121, 72, 17);
@@ -495,7 +496,7 @@ input[type="checkbox" i] {
 }
 .choose-sauce{
    border: 1px solid brown;
-   background-color: #BB554A;
+   background-color:  #AC685B;
    color: cornsilk;
    border-radius: 5px;
    padding: 15px ;
@@ -504,7 +505,7 @@ input[type="checkbox" i] {
 }
 .choose-crust{
    border: 1px solid brown;
-   background-color:  #BB554A;
+   background-color:   #AC685B;;
    color: cornsilk;
    border-radius: 5px;
    padding: 15px ;
@@ -513,7 +514,7 @@ input[type="checkbox" i] {
 }
 .choose-meats{
   border: 1px solid brown;
-   background-color: #BB554A;
+   background-color:  #AC685B;
    color: cornsilk;
    border-radius: 5px;
    padding: 15px ;
@@ -522,7 +523,7 @@ input[type="checkbox" i] {
 }
 .choose-cheese{
   border: 1px solid brown;
-   background-color:#BB554A;
+   background-color: #AC685B;
    color: cornsilk;
    border-radius: 5px;
     padding: 15px ;
@@ -532,7 +533,7 @@ input[type="checkbox" i] {
 }
 .choose-veggies{
   border: 1px solid brown;
-   background-color: #BB554A;
+   background-color:  #AC685B;
    color: cornsilk;
    border-radius: 5px;
     padding: 15px ;
@@ -541,7 +542,7 @@ input[type="checkbox" i] {
 }
 .choose-fruit{
   border: 1px solid brown;
-   background-color:#BB554A;
+   background-color: #AC685B;
    color: cornsilk;
    border-radius: 5px;
    padding: 20px ;
@@ -552,7 +553,7 @@ input[type="checkbox" i] {
 .price-quantity{
   margin-top: 80px;
   border: 1px solid brown;
-   background-color: #BB554A;
+   background-color:  #AC685B;
    color: cornsilk;
    border-radius: 5px;
    padding: 5px ;
@@ -564,8 +565,9 @@ input[type="checkbox" i] {
 .value{
   color: rgb(226, 223, 223);
   background-color: #BB554A;
-  padding: 5px;
+  padding: 8px;
   font-size: 15px;
+  border-radius: 10px;
   
 }
 
@@ -603,6 +605,11 @@ input[type='radio'] {
 .topping label {
   cursor: pointer;
 }
+.value option:hover{
+  background-color: seagreen;
+}
+
+
 
 @media (min-width: 600px) {
   .toppings {

@@ -48,7 +48,7 @@
         <input id="paymentInfo" class="input-box" v-model="customerDetails.paymentInfo" type="text" placeholder="1234 5678 9012 3456" />
       </div>
       <div class="submit-button">
-      <button type="submit" id="submit" value="submit">Save Billing Information</button>
+      <button type="submit" id="submit" :disabled="!formEmpty" v-bind:class="readyToSubmit" value="submit">Save Billing Information</button>
       </div>
     </form>
   </div>
@@ -74,7 +74,14 @@ export default {
   },
   computed: {
       requiredInfoSaved() {
-        if(this.customerDetails.orderName !== '' && this.customerDetailsphoneNumber !== '' && this.customerDetails.emailAddress !== ''){
+        if(this.customerDetails.orderName !== '' && this.customerDetails.phoneNumber !== '' && this.customerDetails.emailAddress !== ''){
+          return true;
+        }
+        return false;
+      },
+      formEmpty(){
+        if(this.customerDetails.orderName !== '' && this.customerDetails.phoneNumber !== '' && this.customerDetails.emailAddress
+        !== '' && this.customerDetails.paymentInfo !== '' && this.customerDetails.emailAddress !== ''){
           return true;
         }
         return false;
@@ -112,19 +119,23 @@ export default {
   
 }
 h1, h3, #submit {
-  font-size: 30px;
+  font-size: 1.59em;
    font-family: "Cooper Hewitt Bold", sans-serif;
   margin-bottom: 38px;
   border-bottom: 1px solid lightgray;
   text-transform: uppercase;
-  opacity: .75;
+ 
 }
 h1 {
   margin-left: 10px;
+  font-size: 1.59em;
+  color: #AC685B;
   
 }
 h3 {
   width: 100%;
+  font-size: 1.45em;
+  color: #AC685B;
 }
 
 .form-container {
@@ -133,7 +144,7 @@ h3 {
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   background-color: #e6ee741a; 
-  opacity: .80;
+
 }
 .form-container {
   display: flex;
@@ -172,9 +183,10 @@ input[type="email"],
 input[type="tel"] {
   width: 100%;
   padding: 12px;
-  border: 1px solid #ccc;
+  border: 1px solid #AC685B;
   border-radius: 8px;
   font-size: 20px;
+  background-color: #FFFFFF;
 }
 
 input[type="radio"] {
@@ -224,6 +236,7 @@ button {
 .submit-button {
   margin: auto 15%
 }
+
 
 
 </style>
