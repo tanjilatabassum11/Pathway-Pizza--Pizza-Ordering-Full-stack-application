@@ -141,9 +141,9 @@ export default {
 
               });
             } else{
-              pizza.toppings.forEach((toppingId)=>{
-                PizzaService.addToppingToPizza(pizza.pizza_id, toppingId);
-              });
+              // pizza.toppings.forEach((toppingId)=>{
+              //   PizzaService.addToppingToPizza(pizza.pizza_id, toppingId);
+              // });
               UserOrderService.addPizzaToOrder(orderRecieved.orderId, pizza.pizza_id, pizza.quantity);
               
             }
