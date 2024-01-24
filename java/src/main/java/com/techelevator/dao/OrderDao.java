@@ -15,6 +15,6 @@ public interface OrderDao {
     Order updateOrder(Order order);
     boolean deleteOrder(int orderId);
 
-    public void addPizzasToOrder(int orderId, int pizzaId);
+    public void addPizzasToOrder(int orderId, int pizzaId, int quantity);
 
 }

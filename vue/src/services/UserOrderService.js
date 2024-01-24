@@ -13,7 +13,7 @@ export default{
     createOrder(order){
         return axios.post(`/orders/create`, order);
     },
-    addPizzaToOrder(orderId, pizzaId){
-        return axios.post(`/orders/addPizzaToOrder/${orderId}/${pizzaId}`);
+    addPizzaToOrder(orderId, pizzaId, quantity){
+        return axios.post(`/orders/addPizzaToOrder/${orderId}/${pizzaId}/${quantity}`);
     }
 }

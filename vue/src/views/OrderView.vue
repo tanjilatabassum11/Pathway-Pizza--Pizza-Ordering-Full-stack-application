@@ -116,10 +116,18 @@ export default {
       // Here, you'll need to define how you want to integrate selected toppings with your orderDetails
    // },
     confirmOrder() {
-      let order = this.$store.orderData;
+      let order = this.$store.state.orderData;
       let totalCost = 0;
-      UserOrderService.createOrder(order.customerDetails).then((response)=>{
-        order.returnedOrder = response.data;
+      let orderToSend = {};
+      orderToSend.orderName = order.orderName;
+      orderToSend.phoneNumber = order.phoneNumber;
+      orderToSend.delivery = order.delivery;
+      orderToSend.orderStatus = order.orderStatus;
+      orderToSend.emailAddress = order.emailAddress;
+      orderToSend.totalCost = totalCost;
+      let orderRecieved = {};
+      UserOrderService.createOrder(order).then((response)=>{
+        orderRecieved = response.data;
         order.pizzaSelection.forEach((pizza)=>{
             let pizzaCost = pizza.pizza_cost * pizza.quantity;
             totalCost += pizzaCost;
@@ -129,19 +137,19 @@ export default {
                 pizza.toppings.forEach((toppingId)=>{
                   PizzaService.addToppingToPizza(customPizza.pizza_id, toppingId);
                 });
-                UserOrderService.addPizzaToOrder(order.returnedOrder.orderId, customPizza.pizza_id);
+                UserOrderService.addPizzaToOrder(orderRecieved.orderId, customPizza.pizza_id, pizza.quantity);
 
               });
             } else{
               pizza.toppings.forEach((toppingId)=>{
                 PizzaService.addToppingToPizza(pizza.pizza_id, toppingId);
               });
-              UserOrderService.addPizzaToOrder(order.returnedOrder.orderId, pizza.pizza_id);
+              UserOrderService.addPizzaToOrder(orderRecieved.orderId, pizza.pizza_id, pizza.quantity);
               
             }
           });
-          order.returnedOrder.total = totalCost;
-          UserOrderService.updateOrder(order.returnedOrder);
+          orderRecieved.totalCost = totalCost;
+          UserOrderService.updateOrder(orderRecieved);
 
       })
       

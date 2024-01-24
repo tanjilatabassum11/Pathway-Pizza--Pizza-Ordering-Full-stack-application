@@ -23,7 +23,7 @@ CREATE TABLE orders (
     is_delivery BOOLEAN NOT NULL DEFAULT false,
     address VARCHAR(100),
     delivery_date_time TIMESTAMP,
-    payment_info VARCHAR(50) NOT NULL,
+    payment_info VARCHAR(50),
     total_cost NUMERIC(5, 2) NOT NULL CHECK (total_cost >= 0),
     order_status VARCHAR(25) DEFAULT 'pending',
     email_address VARCHAR(100)

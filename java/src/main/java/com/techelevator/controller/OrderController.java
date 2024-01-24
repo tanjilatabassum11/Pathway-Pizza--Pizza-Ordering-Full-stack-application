@@ -64,9 +64,9 @@ public class OrderController {
 
 
     //adding a pizza to orders table
-    @RequestMapping(path="/addPizzaToOrder/{orderId}/{pizzaId}", method = RequestMethod.POST)
-    public void addPizza(@PathVariable int orderId, @PathVariable int pizzaId){
-        orderDao.addPizzasToOrder(orderId, pizzaId);
+    @RequestMapping(path="/addPizzaToOrder/{orderId}/{pizzaId}/{quantity}", method = RequestMethod.POST)
+    public void addPizza(@PathVariable int orderId, @PathVariable int pizzaId, @PathVariable int quantity){
+        orderDao.addPizzasToOrder(orderId, pizzaId, quantity);
     }
 }
 
