@@ -1,9 +1,11 @@
 <template>
-    <div class="pizza-card" v-for="pizza in availablePizzas" :key="pizza.pizza_id"
-    :style="{ backgroundImage: 'url(' + geturl(pizza.imageUrl) + ')' }">
+    <div class="pizza-card-container">
+      <div class="pizza-card" v-for="pizza in availablePizzas" :key="pizza.pizza_id"
+        :style="{ backgroundImage: 'url(' + geturl(pizza.imageUrl) + ')' }">
         <h3 class="pizza-name">{{ pizza.pizza_name }}</h3>
+      </div>
     </div>
-</template>
+  </template>
 
 <script>
 import PizzaService from '../services/PizzaService';
@@ -56,7 +58,7 @@ export default {
     font-size: 0em;
     transition: 500ms;
 }
-.pizza-card{
+.pizza-card {
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -66,9 +68,18 @@ export default {
     width: 300px;
     height: 150px;
     background-image: url('../images/Hero.png');
-    
     transition: 500ms;
     padding: 5px;
+    position: relative; 
+}
+.pizza-name {
+    position: absolute; 
+    bottom: 10px; 
+    right: 10px; 
+    color: white;
+    text-shadow: black 2px 0 10px;
+    z-index: 1; 
+    margin: 0; 
 }
 
 .pizza-card:hover,
