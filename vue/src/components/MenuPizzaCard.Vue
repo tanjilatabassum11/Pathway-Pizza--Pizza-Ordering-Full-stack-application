@@ -44,7 +44,6 @@
     color: var(--brand-white-color);
     text-align: center;
     width: 100%; 
-    padding: 7px;
     max-width: 200px;
 }
   
@@ -67,6 +66,7 @@
 
 .pizza-desc {
     margin: 10px 0; 
+    padding: 5px;
 }
   
   .pizza-price {
