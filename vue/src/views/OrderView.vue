@@ -65,7 +65,6 @@ import OrderCart from '../components/OrderCart.vue';
 import OrderSummary from '../components/OrderSummary.vue';
 import DeliveryForm from '../components/DeliveryForm.vue';
 import ConfirmationDialog from '../components/ConfirmationDialog.vue';
-import OrderCartVue from '../components/OrderCart.vue';
 import PizzaService from '../services/PizzaService';
 
 export default {

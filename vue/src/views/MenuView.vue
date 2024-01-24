@@ -70,6 +70,14 @@ export default {
 </script>
 
 <style scoped>
+@font-face {
+    font-family: 'Mandalore Laser Title';
+    src: url('../fonts/MandaloreLaserTitle.woff2') format('woff2'),
+         url('../fonts/MandaloreLaserTitle.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
 .menu-view {
     text-align: center;
     max-width: 1200px;
@@ -77,8 +85,9 @@ export default {
     padding: 20px;
 }
 
-h1, h2 {
+.menu-view h1, .menu-view h2 {
     color: var(--brand-darkred-color);
+    font-family: 'Mandalore Laser Title', sans-serif; 
 }
 
 .pizza-list {
