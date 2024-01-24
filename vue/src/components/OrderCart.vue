@@ -5,8 +5,10 @@
         <div class="item" v-for="pizza in pizzas" :key="pizza.pizza_id">
             <div class="pizza-title">
                 <span>{{ pizza.pizza_name }} - </span>
-                <span>Qty: {{ pizza.quantity }}</span>
+                <span>Quantity: {{ pizza.quantity }}</span>
                 <span id="pizza-cost"> - ${{ pizza.pizza_cost * pizza.quantity }}</span>
+                <br />
+                 <button @click="increaseQuantity(pizza)">More Quantity</button>
                 <button @click="removePizza(pizza.pizza_id)">Remove</button>
             </div>
         <div>
@@ -58,8 +60,13 @@ export default {
     methods: {
         removePizza(pizza_id) {
             this.$store.commit("DELETE_PIZZA", pizza_id)
-        }
-    },
+        },
+        increaseQuantity(pizza) {
+        if (pizza.quantity < 10) {
+            pizza.quantity += 1;
+    }
+}
+    }
 }
 </script>
 
