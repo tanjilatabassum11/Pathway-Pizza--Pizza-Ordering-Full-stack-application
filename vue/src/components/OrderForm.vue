@@ -82,7 +82,7 @@ export default {
     },
     saveCustomerInfo() {
      this.$store.commit('UPDATE_ORDER_DATA', this.customerDetails);
-     alert("Thanks! Please continue with your order");
+     //alert("Thanks! Please continue with your order");
     }
   }
 };
@@ -97,21 +97,27 @@ export default {
   font-size: 20px;
 }
 h1, h3 {
-  font-size: 28px;
+  font-size: 30px;
   margin-bottom: 38px;
   border-bottom: 1px solid lightgray;
 }
 
 .form-container {
-  max-width: 400px;
-  margin: 25px auto;
+  max-width: 50%;
+  margin: auto;
   padding: 40px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
+  border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  background-color: rgb(250, 247, 247); 
+  background-color: #e6ee741a; 
+}
+.form-container {
+  display: flex;
 }
 
+.customer-form {
+  max-width: 75%;
+  margin: auto;
+}
 
 
 .form-group {
@@ -129,7 +135,7 @@ input[type="text"],
 input[type="email"],
 input[type="tel"] {
   width: 100%;
-  padding: 12px;
+  padding: 8px;
   border: 1px solid #ccc;
   border-radius: 5px;
   transition: border-color 0.3s ease-in-out; 
