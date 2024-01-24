@@ -37,9 +37,7 @@ export function createStore(currentToken, currentUser) {
         // }
       ]
 
-      },
-      pizzaCostBySize:[8,10,12],
-      pizzaSize:["small","medium","large"]
+      }
       
     },
     mutations: {
