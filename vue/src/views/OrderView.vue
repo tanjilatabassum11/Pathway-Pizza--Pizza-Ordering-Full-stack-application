@@ -1,27 +1,28 @@
 <template>
 <div id="back-button">
 <button id="back-button" v-on:click="this.$router.push({name: 'home'})">Go Back</button>
-<button @click="showCart = !showCart"><font-awesome-icon :icon="['fas', 'cart-plus']" /></button>
+<button @click="showCart = !showCart" v-show="areItemsInCart && !orderPlaced"><font-awesome-icon :icon="['fas', 'cart-plus']" /></button>
 </div>
     
   
   <div class="order-view">
-    <OrderCart v-if="showCart" />
+    <OrderCart v-if="showCart && !orderPlaced" />
 
 
     <!-- Order Form -->
-    <OrderForm @updateCustomerInfo="updateCustomerInfo" />
+    <OrderForm v-show="!isCustomerDataEntered && !orderPlaced" @updateCustomerInfo="updateCustomerInfo" />
 
-    <div>
+    <div class="order" v-show="isCustomerDataEntered && !orderPlaced">
       <h1>Place Your Pizza Order</h1>
       <!-- Specialty Pizza Selection -->
       <PizzaSelection @selectPizza="selectPizza" />
-      <div>
+      <div class="custom-pizza-section">
         <h2>Custom Pizza</h2>
         <button @click="byoPizza()" id="byo-button">Build Your Own</button>
       </div>
+      
+      <button id="confirm" @click="confirmOrder" v-show="isCustomerDataEntered && areItemsInCart && !orderPlaced">Confirm Order</button>
     </div>
-  <!-- need to add path button -->
 
 
 
@@ -30,14 +31,17 @@
 
 
     <!-- Confirm Order Button -->
-    <button @click="confirmOrder">Confirm Order</button>
+    <!-- <button @click="confirmOrder" v-show="isCustomerDataEntered && areItemsInCart && !orderPlaced">Confirm Order</button> -->
     
+    <div v-if="orderPlaced" id="thanks">
+      <h1>Thank you for choosing Pathway Pizza!</h1>
+    </div>
     <!-- Confirmation Dialog -->
-    <ConfirmationDialog
+    <!-- <ConfirmationDialog
       v-if="showConfirmation"
       :orderDetails="orderDetails"
       @closeDialog="closeConfirmation" 
-    />
+    /> -->
   </div>
 </template>
 
@@ -70,13 +74,14 @@ export default {
     PizzaSelection,
     OrderCart,
   
-    ConfirmationDialog,
+    // ConfirmationDialog,
     FontAwesomeIcon,
   },
   data() {
     return {
       showCartButton: false,
       showCart: false,
+      orderPlaced: false,
 
       currentOrderId: 0,
       selectedPizzaSize: 'medium',
@@ -93,6 +98,14 @@ export default {
       return this.orderDetails.customerInfo &&
              this.orderDetails.deliveryInfo &&
              this.orderDetails.pizzaSelections.length > 0;
+    },
+    areItemsInCart(){
+      return this.$store.state.orderData.pizzaSelection.length > 0;
+    },
+    isCustomerDataEntered(){
+      return this.$store.state.orderData.orderName &&
+            this.$store.state.orderData.phoneNumber &&
+            this.$store.state.orderData.emailAddress;
     }
   },
   methods: {
@@ -121,13 +134,14 @@ export default {
       let orderToSend = {};
       orderToSend.orderName = order.orderName;
       orderToSend.phoneNumber = order.phoneNumber;
-      orderToSend.delivery = order.delivery;
+      orderToSend.delivery = order.isDelivery;
+      orderToSend.isDelivery = order.isDelivery;
       orderToSend.orderStatus = order.orderStatus;
       orderToSend.emailAddress = order.emailAddress;
       orderToSend.totalCost = totalCost;
-      let orderRecieved = {};
+      let orderReceived = {};
       UserOrderService.createOrder(order).then((response)=>{
-        orderRecieved = response.data;
+        orderReceived = response.data;
         order.pizzaSelection.forEach((pizza)=>{
             let pizzaCost = pizza.pizza_cost * pizza.quantity;
             totalCost += pizzaCost;
@@ -137,21 +151,23 @@ export default {
                 pizza.toppings.forEach((toppingId)=>{
                   PizzaService.addToppingToPizza(customPizza.pizza_id, toppingId);
                 });
-                UserOrderService.addPizzaToOrder(orderRecieved.orderId, customPizza.pizza_id, pizza.quantity);
+                UserOrderService.addPizzaToOrder(orderReceived.orderId, customPizza.pizza_id, pizza.quantity);
 
               });
             } else{
               // pizza.toppings.forEach((toppingId)=>{
               //   PizzaService.addToppingToPizza(pizza.pizza_id, toppingId);
               // });
-              UserOrderService.addPizzaToOrder(orderRecieved.orderId, pizza.pizza_id, pizza.quantity);
+              UserOrderService.addPizzaToOrder(orderReceived.orderId, pizza.pizza_id, pizza.quantity);
               
             }
           });
-          orderRecieved.totalCost = totalCost;
-          UserOrderService.updateOrder(orderRecieved);
+          orderReceived.totalCost = totalCost;
+          UserOrderService.updateOrder(orderReceived);
 
-      })
+      });
+      this.orderPlaced = true;
+      this.$store.commit('CLEAR_ORDER', 0);
       
 
     },
@@ -176,7 +192,7 @@ export default {
   font-family: 'Cooper Hewitt Book', sans-serif;
 }
 
-h1, h2{
+h1, h2, #confirm{
   font-family: 'Mandalore Laser Title';
 }
  .order-view {
@@ -197,10 +213,16 @@ h1, h2{
 }
 
 h1 {
-  color: #333;
+  color: var(--brand-darkred-color);
   margin-bottom: 20px;
-  font-size: 2rem;
+  font-size: 2.2em;
+  /* text-decoration: underline; */
+}
+h2{
+  color: var(--brand-brown-color);
+  font-size: 1.8em;
   text-decoration: underline;
+  text-shadow: grey 1px 0 1px;
 }
 
 button {
@@ -213,6 +235,23 @@ button {
   transition: background-color 0.3s ease-in-out;
   font-weight: bold;
   
+}
+.custom-pizza-section{
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: var(--brand-lightred-color) 0px 0 5px;
+}
+#byo-button{
+  font-family: 'Mandalore Laser Title';
+  font-size: 2em;
+  background-color: var(--brand-green-color);
+}
+#byo-button:hover{
+  background-color: var(--brand-brown-color);
 }
 
 button:hover {
@@ -243,7 +282,15 @@ li {
   max-width: 600px;
   margin-bottom: 20px;
 } 
-
+.order{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#confirm{
+  margin-top: 30px;
+  font-size: 3vw;
+}
 
 
 /* Additional styles can be added as per your design preference */

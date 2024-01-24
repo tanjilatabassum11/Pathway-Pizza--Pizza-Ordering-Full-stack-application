@@ -8,7 +8,7 @@
         <div class="pizza-card" v-for="pizza in availablePizzas" :key="pizza.pizza_id">
           <h2>{{ pizza.pizza_name }}</h2>
           <p>{{ pizza.note }}</p>
-          <label>Qty:</label><input type="number" v-model="pizza.quantity">
+          <label>Qty: </label><input class="input-qty" type="number" v-model="pizza.quantity">
           <div class="pizza-details">
             <!--toFixed(2) shows decimal number by 2 precision after decimal -->
             <span class="pizza-price">${{ pizza.pizza_cost.toFixed(2) }}</span>
@@ -111,7 +111,7 @@ export default {
 *{
     font-family: 'Cooper Hewitt Book', sans-serif;
 }
-h1, .menu-section-title{
+h1, .menu-section-title, h2{
   font-family: 'Mandalore Laser Title';
 }
 .pizza-menu {
@@ -123,8 +123,9 @@ h1, .menu-section-title{
 
 .menu-section-title {
   font-size: 1.8em;
+  text-decoration: underline;
   margin-bottom: 15px;
-  color: #333;
+  color: var(--brand-brown-color);
 }
 
 .pizza-card-parent {
@@ -137,6 +138,7 @@ h1, .menu-section-title{
 {
   background-color: #e6ee741a;
   border-radius: 8px;
+  flex-basis: 300px;
   margin: 10px;
   padding: 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -148,9 +150,9 @@ h1, .menu-section-title{
 }
 
 .pizza-card h2 {
-  font-size: 1.2em;
+  font-size: 1.3em;
   margin-bottom: 10px;
-  color: #333;
+  color: var(--brand-brown-color);
 }
 
 .pizza-card p {
@@ -181,6 +183,17 @@ h1, .menu-section-title{
 
 .add-to-cart-button:hover {
   background-color: #a08545fb;
+}
+#specialty-pizzas{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 10px;
+  box-shadow: var(--brand-lightred-color) 0px 0 5px;
+  padding: 15px;
+}
+.input-qty{
+  width: 40px;
 }
 
 </style>
