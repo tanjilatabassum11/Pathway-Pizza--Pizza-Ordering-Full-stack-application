@@ -35,7 +35,7 @@
     <p> “There’s truly no better way to celebrate a job offer than with a Pathway Pizza.”
     -Dr. Isaac Chow
       </p>
-    <p>“You made it through the Tech Elevator bootcamp - that calls for a Margarita (pizza, of course), from Pathway Pizza!"
+    <p>“You made it through the Tech Elevator bootcamp - that calls for a Margherita (pizza, of course), from Pathway Pizza!"
      -Rita Stall
       </p>
     <p>“There’s a pizza for everyone! Even with her New Year’s Resolution, my wife always spares a cheat meal for The Safest Option!” -Doug Amos</p>
