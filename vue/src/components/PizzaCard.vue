@@ -3,6 +3,7 @@
       <div class="pizza-card" v-for="pizza in availablePizzas" :key="pizza.pizza_id"
         :style="{ backgroundImage: 'url(' + geturl(pizza.imageUrl) + ')' }">
         <h3 class="pizza-name">{{ pizza.pizza_name }}</h3>
+        <p class="pizza-note">{{ pizza.note }}</p>
       </div>
     </div>
   </template>
@@ -73,13 +74,22 @@ export default {
     position: relative; 
 }
 .pizza-name {
-    position: absolute; 
+    position: absolute;
+    top: 10px; 
+    left: 10px; 
+    color: white;
+    text-shadow: black 2px 0 10px;
+    z-index: 1;
+    margin: 0;
+}
+.pizza-note {
+    position: absolute;
     bottom: 10px; 
     right: 10px; 
     color: white;
     text-shadow: black 2px 0 10px;
-    z-index: 1; 
-    margin: 0; 
+    z-index: 1;
+    margin: 0;
 }
 
 .pizza-card:hover,
