@@ -92,6 +92,17 @@ export function createStore(currentToken, currentUser) {
           state.orderData.pizzaSelection.unshift(pizza);
         }
        },
+       DELETE_PIZZA(state, pizza_id){
+        let pizzaIndex = state.orderData.pizzaSelection.findIndex((pizza) => {
+          return pizza.pizza_id == pizza_id;
+        });
+        if(pizzaIndex > -1) {
+          state.orderData.pizzaSelection.splice(pizzaIndex, 1)
+        }
+        // this.pizza = this.pizza.filter((pizza_id) => {
+        // 
+        // })
+       },
        CLEAR_ORDER(state, payload){
           state.orderData = {};
           state.orderData = {
