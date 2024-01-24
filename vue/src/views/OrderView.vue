@@ -24,24 +24,13 @@
       <button id="confirm" @click="confirmOrder" v-show="isCustomerDataEntered && areItemsInCart && !orderPlaced">Confirm Order</button>
     </div>
 
-
-
-    
-
-
-
     <!-- Confirm Order Button -->
     <!-- <button @click="confirmOrder" v-show="isCustomerDataEntered && areItemsInCart && !orderPlaced">Confirm Order</button> -->
     
     <div v-if="orderPlaced" id="thanks">
       <h1>Thank you for choosing Pathway Pizza!</h1>
     </div>
-    <!-- Confirmation Dialog -->
-    <!-- <ConfirmationDialog
-      v-if="showConfirmation"
-      :orderDetails="orderDetails"
-      @closeDialog="closeConfirmation" 
-    /> -->
+ 
   </div>
 </template>
 
@@ -55,16 +44,10 @@ library.add(fas);
 
 import ToppingService from '../services/ToppingService';
 import UserOrderService from '../services/UserOrderService';
-
-
 import OrderForm from '../components/OrderForm.vue';
 import PizzaSelection from '../components/PizzaSelection.vue';
 import OrderCart from '../components/OrderCart.vue';
-
 //import ToppingsSelection from '../components/ToppingComponent.vue';
-import OrderSummary from '../components/OrderSummary.vue';
-import DeliveryForm from '../components/DeliveryForm.vue';
-import ConfirmationDialog from '../components/ConfirmationDialog.vue';
 import PizzaService from '../services/PizzaService';
 
 export default {
