@@ -124,7 +124,7 @@ export default {
 .topping-card {
     box-sizing: border-box;
     background-color: #a18f6380;
-    border-radius: 10px;
+    border-radius: 12px;
 }
 #container {
     width: 100%;
@@ -149,7 +149,7 @@ export default {
 } */
     
 .topping-container-style{
-    border-radius: 8px;
+    border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0,0,0, .01);
     width: 250px;
     display: flex;
@@ -171,13 +171,25 @@ export default {
     color: #BB554A;
     background: linear-gradient(45deg, #a18f6380 50%, #5FA873 100%);
     height: 100%;
-    border-radius: 5px;
+    border-radius: 12px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    padding: 10px;
+    text-shadow: white 0px 0 5px;
+    font-size: 2em;
 }
 
 .topping-type-title {
     font-family: 'Mandalore Laser Title';
     text-decoration: underline;
     font-size: 25px;
+    padding: 10px;
+    margin: 0px;
+    background-color: white;
+    border-radius: 8px;
+    color: #BB554A;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
     /* border-bottom: 1px inset black; */
     /* color: white;
     background-color: #a18f6380;
