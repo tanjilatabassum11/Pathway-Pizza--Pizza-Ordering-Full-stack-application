@@ -138,6 +138,7 @@ h1, .menu-section-title, h2{
 {
   background-color: #e6ee741a;
   border-radius: 8px;
+  flex-basis: 300px;
   margin: 10px;
   padding: 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);

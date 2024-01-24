@@ -91,6 +91,24 @@ export function createStore(currentToken, currentUser) {
         if(pizza.quantity > 0){
           state.orderData.pizzaSelection.unshift(pizza);
         }
+       },
+       CLEAR_ORDER(state, payload){
+          state.orderData = {};
+          state.orderData = {
+            customerDetails: {
+              orderName: "",
+              phoneNumber: "",
+              orderDateTime: "",
+              isDelivery: false,
+              address: "",
+              deliveryDateTime: '',
+              paymentInfo: "",
+              totalCost: 0,
+              orderStatus: 'pending',
+              emailAddress: ''
+            },
+            pizzaSelection: []
+          }
        }
 
         //vv Not sure if we need this - orderId is auto-generated vv

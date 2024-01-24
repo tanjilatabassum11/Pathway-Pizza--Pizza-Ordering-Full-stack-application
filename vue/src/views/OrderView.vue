@@ -167,6 +167,7 @@ export default {
 
       });
       this.orderPlaced = true;
+      this.$store.commit('CLEAR_ORDER', 0);
       
 
     },
@@ -250,7 +251,7 @@ button {
   background-color: var(--brand-green-color);
 }
 #byo-button:hover{
-  background-color: var(--brand-darkred-color);
+  background-color: var(--brand-brown-color);
 }
 
 button:hover {
