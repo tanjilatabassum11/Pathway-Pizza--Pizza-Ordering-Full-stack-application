@@ -81,7 +81,7 @@ export default {
       },
       formEmpty(){
         if(this.customerDetails.orderName !== '' && this.customerDetails.phoneNumber !== '' && this.customerDetails.emailAddress
-        !== '' && this.customerDetails.paymentInfo !== '' && this.customerDetails.emailAddress !== ''){
+          ){
           return true;
         }
         return false;
