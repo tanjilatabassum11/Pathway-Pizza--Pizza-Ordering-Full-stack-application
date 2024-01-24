@@ -5,7 +5,7 @@
 
       <h1>{{ isNoPathVariable ? 'Create Your Own Pizza': pizza.pizza_name}}</h1>
 
-      <h2 class="select-header">Select {{ isNoPathVariable ? '': 'Additional ' }}Toppings:</h2>
+      <h2 class="select-header">{{ isNoPathVariable ? 'Select ': 'Customize ' }}Toppings:</h2>
 
       <br />
       <span> Pizza Size: <span v-if="!isNoPathVariable" class="uppercase">{{ pizza.pizza_size }}</span></span>
@@ -136,6 +136,11 @@
         />
       </div>
 
+      <label>Qty: </label>
+      <input type="number" v-model="pizza.quantity">
+
+      <h4>Price: ${{ totalCost }}</h4>
+
      
       <div class="buttons">
         <button id="back" v-on:click="changePizzaId">Go Back</button>
@@ -143,7 +148,7 @@
         
         <input
           id="submit"
-          value="submit"
+          value="Add to Cart"
           type="submit"
            />
         
@@ -173,6 +178,8 @@ export default {
       currentToppings: [],
       pizza:{},
       isNoPathVariable: false,
+      costBySize:[8,10,12],
+      sizeArray:["small","medium","large"]
       // pathvar: 0
 
       
@@ -225,12 +232,58 @@ export default {
        if(topping.isOnPizza){
          selectedToppings.push(topping.topping_id)
        }
-      })
+      });
       return selectedToppings;
     },
     isMaxToppingsMet(){
       return this.selectedToppingIds.length == this.pizza.max_toppings;
-    }
+    },
+    totalCost(){
+      let sizeCost = 0;
+      if(this.pizza.pizza_size == 'small'){
+        sizeCost = 8;
+      } else if (this.pizza.pizza_size == 'medium'){
+        sizeCost = 10;
+      } else if (this.pizza.pizza_size == 'large'){
+        sizeCost = 12;
+      }
+      let toppingCost = 0;
+      this.allToppings.forEach((topping) => {
+        if(topping.isOnPizza){
+          toppingCost += topping.cost;
+        }
+        });
+
+      return (sizeCost + toppingCost) * this.pizza.quantity;
+    },
+    // selectedToppings(){
+    //   return this.allToppings.filter((topping)=>{
+    //     return topping.isOnPizza;
+    //   });
+    // }
+    // indexOfSize(){
+    //   return this.sizeArray.indexOf(this.pizza.pizza_size);
+    // },
+    // totalCost(){
+      
+    //   let toppingCost = 0;
+    //   let sizePrice = 0;
+    //   if(this.pizzaCostBySize[this.indexOfSize]){
+    //     sizePrice = this.pizzaCostBySize[this.indexOfSize];
+    //     this.allToppings.forEach((topping) => {
+    //     if(topping.isOnPizza){
+    //       toppingCost += topping.cost;
+    //     }
+    //     });
+
+    //     return (sizePrice + toppingCost) * this.pizza.quantity;
+    //   } else{
+    //     return 0;
+    //   }
+      
+      
+    // }
+
 
 
   },
@@ -240,7 +293,11 @@ export default {
     
 //updates the store with the current pizza selections ("in cart")
     submitToppingsForm() {
-      this.$store.commit("SAVE_PIZZA_SELECTION", this.selectedToppingIds);
+      this.pizza.is_specialty = false;
+      this.pizza.pizza_name = 'custom';
+      this.pizza.pizza_cost = this.totalCost;
+      this.pizza.toppings = this.selectedToppingIds;
+      this.$store.commit("ADD_PIZZA_TO_STORE", this.pizza);
       this.$router.push({ name: "start-order" });
     },
 // changes pizzaID currently being stored in ("cart")
@@ -319,6 +376,8 @@ export default {
 //   },
 
   created() {
+    // this.costBySize = this.$store.state.pizzaCostBySize;
+    // this.sizeArray = this.$store.state.pizzaSize;
 
 
     ToppingService.getAvailableToppings().then((response)=>{
@@ -350,6 +409,9 @@ export default {
       this.allToppings.forEach((topping) => {
           topping.isOnPizza = false;
       });
+      
+      this.pizza.quantity = 1;
+      this.pizza.pizza_size = 'small';
     }
     
   },

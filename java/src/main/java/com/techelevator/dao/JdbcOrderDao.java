@@ -49,11 +49,13 @@ public class JdbcOrderDao implements OrderDao {
     @Transactional
     public Order createOrder(Order order) {
         //Step 1
-        String sql = "INSERT INTO orders(order_name, phone_number, order_date_time, is_delivery, address, delivery_date_time, payment_info, total_cost, order_status, email_address) " +
-                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING order_id;";
+//        String sql = "INSERT INTO orders(order_name, phone_number, order_date_time, is_delivery, address, delivery_date_time, payment_info, total_cost, order_status, email_address) " +
+//                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING order_id;";
+        String sql = "INSERT INTO orders(order_name, phone_number, is_delivery, address, delivery_date_time, payment_info, total_cost, order_status, email_address) " +
+                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING order_id;";
         //Step 2
         try {
-            int orderId = jdbcTemplate.queryForObject(sql, Integer.class, order.getOrderName(), order.getPhoneNumber(), order.getOrderDateTime(), order.isDelivery(), order.getAddress(), order.getDeliveryDateTime(), order.getPaymentInfo(), order.getTotalCost(), order.getOrderStatus(), order.getEmailAddress());
+            int orderId = jdbcTemplate.queryForObject(sql, Integer.class, order.getOrderName(), order.getPhoneNumber(), order.isDelivery(), order.getAddress(), order.getDeliveryDateTime(), order.getPaymentInfo(), order.getTotalCost(), order.getOrderStatus(), order.getEmailAddress());
             return getOrderById(orderId).orElse(null);
         } catch (Exception e) {
             logger.error("Error creating order", e);
@@ -89,11 +91,11 @@ public class JdbcOrderDao implements OrderDao {
     }
 
     @Override
-   public void addPizzasToOrder(int orderId, int pizzaId){
-    String sql = "INSERT INTO orders_pizzas(order_id, pizza_id)\n" +
-            "VALUES(?,?);";
+   public void addPizzasToOrder(int orderId, int pizzaId, int quantity){
+    String sql = "INSERT INTO orders_pizzas(order_id, pizza_id, quantity)\n" +
+            "VALUES(?,?,?);";
     try {
-        jdbcTemplate.update(sql, orderId, pizzaId);
+        jdbcTemplate.update(sql, orderId, pizzaId, quantity);
     } catch(Exception e){
         System.out.println("Something went wrong adding pizza to order, please try again");
     }

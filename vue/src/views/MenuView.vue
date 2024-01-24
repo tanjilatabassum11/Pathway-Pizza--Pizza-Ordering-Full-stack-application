@@ -20,7 +20,7 @@
       </ul>
     </div> -->
 
-    <button @click="goToOrderPage" class="order-button">Place Your Order</button>
+    <button v-on:click="$router.push({ name: 'start-order' })" class="order-button">Place Your Order</button>
   </div>
 </template>
 

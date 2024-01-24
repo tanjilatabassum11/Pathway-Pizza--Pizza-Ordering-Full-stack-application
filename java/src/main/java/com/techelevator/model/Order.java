@@ -12,7 +12,7 @@ public class Order {
     private String orderName;
     private String phoneNumber;
     private Timestamp orderDateTime = Timestamp.from(Instant.now());
-    private boolean isDelivery = true;
+    private boolean isDelivery; //= true;
     private String address;
     private Timestamp deliveryDateTime = Timestamp.from(Instant.now());
 

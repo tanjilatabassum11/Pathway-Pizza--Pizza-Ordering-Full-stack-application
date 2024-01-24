@@ -34,7 +34,7 @@ export default {
     },
 
     createCustomPizza(pizza) {
-        return axios.post('/pizzas/custom', pizza);
+        return axios.post('/pizzas/create-custom', pizza);
     },
 
     placeOrder(order) {

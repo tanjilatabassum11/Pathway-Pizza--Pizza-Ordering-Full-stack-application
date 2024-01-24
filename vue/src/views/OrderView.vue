@@ -1,38 +1,47 @@
 <template>
 <div id="back-button">
 <button id="back-button" v-on:click="this.$router.push({name: 'home'})">Go Back</button>
-<button><font-awesome-icon :icon="['fas', 'cart-plus']" /></button>
+<button @click="showCart = !showCart" v-show="areItemsInCart && !orderPlaced"><font-awesome-icon :icon="['fas', 'cart-plus']" /></button>
 </div>
     
   
   <div class="order-view">
-    <h1>Place Your Pizza Order</h1>
-    
-    <!-- Specialty Pizza Selection -->
-    <PizzaSelection @selectPizza="selectPizza" />
+    <OrderCart v-if="showCart && !orderPlaced" />
 
-    <!-- Build Your Own Pizza -->
-    <PizzaBuilder @pizzaCreated="handleAddToCart"/>
-
-    <!-- Toppings Selection 
-    <ToppingsSelection @selectTopping="selectTopping" />
--->
 
     <!-- Order Form -->
-    <OrderForm @updateCustomerInfo="updateCustomerInfo" />
+    <OrderForm v-show="!isCustomerDataEntered && !orderPlaced" @updateCustomerInfo="updateCustomerInfo" />
 
-    <!-- Order Summary and Confirmation -->
-    <OrderSummary :pizzaSelections="orderDetails.pizzaSelections" />
+    <div class="order" v-show="isCustomerDataEntered && !orderPlaced">
+      <h1>Place Your Pizza Order</h1>
+      <!-- Specialty Pizza Selection -->
+      <PizzaSelection @selectPizza="selectPizza" />
+      <div class="custom-pizza-section">
+        <h2>Custom Pizza</h2>
+        <button @click="byoPizza()" id="byo-button">Build Your Own</button>
+      </div>
+      
+      <button id="confirm" @click="confirmOrder" v-show="isCustomerDataEntered && areItemsInCart && !orderPlaced">Confirm Order</button>
+    </div>
+
+
+
+    
+
+
 
     <!-- Confirm Order Button -->
-    <button @click="confirmOrder" :disabled="!isOrderReady">Confirm Order</button>
+    <!-- <button @click="confirmOrder" v-show="isCustomerDataEntered && areItemsInCart && !orderPlaced">Confirm Order</button> -->
     
+    <div v-if="orderPlaced" id="thanks">
+      <h1>Thank you for choosing Pathway Pizza!</h1>
+    </div>
     <!-- Confirmation Dialog -->
-    <ConfirmationDialog
+    <!-- <ConfirmationDialog
       v-if="showConfirmation"
       :orderDetails="orderDetails"
       @closeDialog="closeConfirmation" 
-    />
+    /> -->
   </div>
 </template>
 
@@ -44,26 +53,36 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 library.add(fas);
 
 
+import ToppingService from '../services/ToppingService';
+import UserOrderService from '../services/UserOrderService';
+
+
 import OrderForm from '../components/OrderForm.vue';
 import PizzaSelection from '../components/PizzaSelection.vue';
-import PizzaBuilder from '../components/PizzaBuilder.vue';
+import OrderCart from '../components/OrderCart.vue';
+
 //import ToppingsSelection from '../components/ToppingComponent.vue';
 import OrderSummary from '../components/OrderSummary.vue';
 import DeliveryForm from '../components/DeliveryForm.vue';
 import ConfirmationDialog from '../components/ConfirmationDialog.vue';
+import OrderCartVue from '../components/OrderCart.vue';
+import PizzaService from '../services/PizzaService';
 
 export default {
   components: {
     OrderForm,
     PizzaSelection,
-    PizzaBuilder,
-   // ToppingsSelection,
-    OrderSummary,
-    ConfirmationDialog,
+    OrderCart,
+  
+    // ConfirmationDialog,
     FontAwesomeIcon,
   },
   data() {
     return {
+      showCartButton: false,
+      showCart: false,
+      orderPlaced: false,
+
       currentOrderId: 0,
       selectedPizzaSize: 'medium',
       orderDetails: {
@@ -79,9 +98,23 @@ export default {
       return this.orderDetails.customerInfo &&
              this.orderDetails.deliveryInfo &&
              this.orderDetails.pizzaSelections.length > 0;
+    },
+    areItemsInCart(){
+      return this.$store.state.orderData.pizzaSelection.length > 0;
+    },
+    isCustomerDataEntered(){
+      return this.$store.state.orderData.orderName &&
+            this.$store.state.orderData.phoneNumber &&
+            this.$store.state.orderData.emailAddress;
     }
   },
   methods: {
+    byoPizza(){
+      this.$router.push({name: 'topping', params:{pizzaId: ''}})
+
+    },
+  
+    //everything after this might not be needed
     updateCustomerInfo(customerInfo) {
       this.orderDetails.customerInfo = customerInfo;
     },
@@ -96,12 +129,47 @@ export default {
       // Here, you'll need to define how you want to integrate selected toppings with your orderDetails
    // },
     confirmOrder() {
-      if (this.isOrderReady) {
-        this.showConfirmation = true;
-        // You might want to handle order submission to backend here
-      } else {
-        alert('Please complete all sections of the order form.');
-      }
+      let order = this.$store.state.orderData;
+      let totalCost = 0;
+      let orderToSend = {};
+      orderToSend.orderName = order.orderName;
+      orderToSend.phoneNumber = order.phoneNumber;
+      orderToSend.delivery = order.isDelivery;
+      orderToSend.isDelivery = order.isDelivery;
+      orderToSend.orderStatus = order.orderStatus;
+      orderToSend.emailAddress = order.emailAddress;
+      orderToSend.totalCost = totalCost;
+      let orderReceived = {};
+      UserOrderService.createOrder(order).then((response)=>{
+        orderReceived = response.data;
+        order.pizzaSelection.forEach((pizza)=>{
+            let pizzaCost = pizza.pizza_cost * pizza.quantity;
+            totalCost += pizzaCost;
+            if(!pizza.is_specialty){
+              PizzaService.createCustomPizza(pizza).then((response)=>{
+                let customPizza = response.data;
+                pizza.toppings.forEach((toppingId)=>{
+                  PizzaService.addToppingToPizza(customPizza.pizza_id, toppingId);
+                });
+                UserOrderService.addPizzaToOrder(orderReceived.orderId, customPizza.pizza_id, pizza.quantity);
+
+              });
+            } else{
+              // pizza.toppings.forEach((toppingId)=>{
+              //   PizzaService.addToppingToPizza(pizza.pizza_id, toppingId);
+              // });
+              UserOrderService.addPizzaToOrder(orderReceived.orderId, pizza.pizza_id, pizza.quantity);
+              
+            }
+          });
+          orderReceived.totalCost = totalCost;
+          UserOrderService.updateOrder(orderReceived);
+
+      });
+      this.orderPlaced = true;
+      this.$store.commit('CLEAR_ORDER', 0);
+      
+
     },
     closeConfirmation() {
       this.showConfirmation = false;
@@ -111,6 +179,7 @@ export default {
 };
 </script>
 <style scoped>
+@import url('https://fonts.cdnfonts.com/css/cooper-hewitt-book');
 @font-face {
     font-family: 'Mandalore Laser Title';
     src: url('../fonts/MandaloreLaserTitle.woff2') format('woff2'),
@@ -118,6 +187,13 @@ export default {
     font-weight: normal;
     font-style: normal;
     font-display: swap;
+}
+*{
+  font-family: 'Cooper Hewitt Book', sans-serif;
+}
+
+h1, h2, #confirm{
+  font-family: 'Mandalore Laser Title';
 }
  .order-view {
   /* display: flex; */
@@ -137,13 +213,20 @@ export default {
 }
 
 h1 {
-  color: #333;
+  color: var(--brand-darkred-color);
   margin-bottom: 20px;
-  font-size: 2rem;
+  font-size: 2.2em;
+  /* text-decoration: underline; */
+}
+h2{
+  color: var(--brand-brown-color);
+  font-size: 1.8em;
+  text-decoration: underline;
+  text-shadow: grey 1px 0 1px;
 }
 
 button {
-  background-color: #da3327;
+  background-color: var(--brand-darkred-color);
   color: white;
   border: none;
   border-radius: 4px;
@@ -153,9 +236,26 @@ button {
   font-weight: bold;
   
 }
+.custom-pizza-section{
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: var(--brand-lightred-color) 0px 0 5px;
+}
+#byo-button{
+  font-family: 'Mandalore Laser Title';
+  font-size: 2em;
+  background-color: var(--brand-green-color);
+}
+#byo-button:hover{
+  background-color: var(--brand-brown-color);
+}
 
 button:hover {
-  background-color: #690e04f3;
+  background-color: var(--brand-green-color);
   
 }
 
@@ -182,7 +282,15 @@ li {
   max-width: 600px;
   margin-bottom: 20px;
 } 
-
+.order{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#confirm{
+  margin-top: 30px;
+  font-size: 3vw;
+}
 
 
 /* Additional styles can be added as per your design preference */

@@ -18,25 +18,26 @@ export function createStore(currentToken, currentUser) {
       //need to be iterated through and each should be sent back with the pizza_id 
       orderData: {
         customerDetails: {
-          orderId: 0,
           orderName: "",
           phoneNumber: "",
           orderDateTime: "",
           isDelivery: false,
           address: "",
-          payment: "",
-          total: 0,
-          status: 'pending'
+          deliveryDateTime: '',
+          paymentInfo: "",
+          totalCost: 0,
+          orderStatus: 'pending',
+          emailAddress: ''
         },
         pizzaSelection: [
-          {
-          pizzaId: 0,
-          toppings: [],
-          quantity: 0
-        }
+        //   {
+        //   pizzaId: 0,
+        //   toppings: [],
+        //   quantity: 0
+        // }
       ]
 
-      },
+      }
       
     },
     mutations: {
@@ -85,6 +86,29 @@ export function createStore(currentToken, currentUser) {
          state.orderData.pizzaSelection.unshift(newPizzaSelection);
          
          
+       },
+       ADD_PIZZA_TO_STORE(state, pizza){
+        if(pizza.quantity > 0){
+          state.orderData.pizzaSelection.unshift(pizza);
+        }
+       },
+       CLEAR_ORDER(state, payload){
+          state.orderData = {};
+          state.orderData = {
+            customerDetails: {
+              orderName: "",
+              phoneNumber: "",
+              orderDateTime: "",
+              isDelivery: false,
+              address: "",
+              deliveryDateTime: '',
+              paymentInfo: "",
+              totalCost: 0,
+              orderStatus: 'pending',
+              emailAddress: ''
+            },
+            pizzaSelection: []
+          }
        }
 
         //vv Not sure if we need this - orderId is auto-generated vv
