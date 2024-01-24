@@ -4,21 +4,21 @@
     <form v-on:submit.prevent="saveCustomerInfo" class="customer-form">
    <h1> Please Enter Your Information: </h1>  
       <div class="form-group">
-        <div class="grid-container">
+        
         <label for="fullName" id="customer-info" class="grid-child">Full Name:</label>
         <input id="fullName" class="input-box" v-model="customerDetails.orderName" type="text" required placeholder="ex: John Doe" />
       </div>
       <div class="form-group" >
         <label for="phoneNumber" class="grid-child" id="customer-info">Phone Number:</label>
-        <input id="phoneNumber" v-model="customerDetails.phoneNumber" type="tel" required  title="Phone number should be 10 digits" />
+        <input id="phoneNumber" v-model="customerDetails.phoneNumber" type="tel"  pattern="[0-9]{3}[0-9]{3}[0-9]{4}" required  title="Phone number should be 10 digits" />
       </div>
       <div class="form-group">
         <label for="email" class="grid-child" id="customer-info">Email Address:</label>
         <input id="email" class="input-box" v-model="customerDetails.emailAddress" type="email" required placeholder="example@example.com" />
       </div>
-      </div>
+      
     
-    <div class="delivery-option">
+    <div class="delivery-option" v-show="requiredInfoSaved">
    <h3> Please make a selection: </h3>
       <div class="form-group delivery">
         <label for="isDelivery" id="customer-info" class="delivery-option">Delivery</label>
@@ -73,6 +73,12 @@ export default {
    }
   },
   computed: {
+      requiredInfoSaved() {
+        if(this.customerDetails.orderName !== '' && this.customerDetailsphoneNumber !== '' && this.customerDetails.emailAddress !== ''){
+          return true;
+        }
+        return false;
+      }
   
   },
   methods: {
@@ -102,7 +108,8 @@ export default {
 
 #customer-info {
   font-family: 'Cooper Hewitt Book', sans-serif;
-  font-size: 25px;
+  font-size: 1em;
+  
 }
 h1, h3, #submit {
   font-size: 30px;
@@ -141,14 +148,13 @@ h3 {
 .form-group {
   margin-bottom: 20px; 
   height: auto;
+  padding-top: 10px;
+  padding-bottom: 1px;
 }
 
-.grid-container {
-  display: grid;
-}
 
 ::placeholder {
-  font-size: 25px;
+  font-size: 20px;
   color: lightgray;
   opacity: .75;
 
@@ -186,6 +192,7 @@ input[type="radio"] {
   justify-content: baseline;
   flex-wrap: wrap;
   margin: 10px;
+  font-size: 1.3em;
 }
 .delivery {
   margin-right: auto;
