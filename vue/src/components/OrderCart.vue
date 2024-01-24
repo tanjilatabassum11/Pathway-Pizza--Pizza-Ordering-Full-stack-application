@@ -1,19 +1,21 @@
 <template>
-  <h2>Cart</h2>
-  <div class="cart-contents">
-    <div class="item" v-for="pizza in pizzas" :key="pizza.pizza_id">
+<div class="cart-title-and-contents">
+    <h2 id="cart-title">Cart</h2>
+    <div class="cart-contents">
+        <div class="item" v-for="pizza in pizzas" :key="pizza.pizza_id">
+            <div class="pizza-title">
+                <span>{{ pizza.pizza_name }} - </span>
+                <span>Qty: {{ pizza.quantity }}</span>
+                <span id="pizza-cost"> - ${{ pizza.pizza_cost * pizza.quantity }}</span>
+            </div>
         <div>
-            <span>{{ pizza.pizza_name }}</span>
-            <span>{{ pizza.quantity }}</span>
-            <span>${{ pizza.pizza_cost * pizza.quantity }}</span>
-        </div>
-        <div>
-            <div v-for="topping in pizza.toppingsOnPizza" :key="topping.topping_id">
+            <div class="pizza-toppings" v-for="topping in pizza.toppingsOnPizza" :key="topping.topping_id">
                 <span>{{topping.topping_name}}</span>
             </div>
         </div>
     </div>
   </div>
+</div>
 </template>
 
 <script>
@@ -46,6 +48,51 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+@import url('https://fonts.cdnfonts.com/css/cooper-hewitt-book');
+@font-face {
+    font-family: 'Mandalore Laser Title';
+    src: url('../fonts/MandaloreLaserTitle.woff2') format('woff2'),
+        url('../fonts/MandaloreLaserTitle.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+#cart-title{
+    font-family: 'Mandalore Laser Title';
+    text-decoration: underline;
+    font-size: 28px;
+    text-align: center;
+}
+.cart-contents{
+    max-width: 400px;
+    padding: 40px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #e6ee741a;
+    margin: 25px auto;
+}
+.item{
+    margin-bottom: 10px;
+    border-bottom: 1px solid black;
+    /* margin: 5px; */
+    padding: 5px;
+}
+.pizza-toppings{
+    text-transform: uppercase;
+    text-decoration: dashed;
+}
+.pizza-title{
+    text-decoration: underline;
+    font-size: 20px;
+}
+#pizza-cost{
+    color: #BB554A;
+}
+/* make the cart title and cart contents a sleek looking popup once the cart button is selected */
+/* .cart-title-and-contents{
+    position: fixed;
+    z-index: 100;
+} */
 </style>

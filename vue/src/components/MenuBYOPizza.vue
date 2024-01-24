@@ -161,8 +161,8 @@ export default {
     background-color: var(--brand-lightred-color);
 }
 .toppings{
-   margin: auto;
-   padding: 5px 1px;
+    margin: auto;
+    padding: 5px 1px;
     text-transform: uppercase;
     color: white;
 }
