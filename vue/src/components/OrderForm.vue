@@ -4,21 +4,21 @@
     <form v-on:submit.prevent="saveCustomerInfo" class="customer-form">
    <h1> Please Enter Your Information: </h1>  
       <div class="form-group">
-        <div class="grid-container">
+        
         <label for="fullName" id="customer-info" class="grid-child">Full Name:</label>
         <input id="fullName" class="input-box" v-model="customerDetails.orderName" type="text" required placeholder="ex: John Doe" />
       </div>
       <div class="form-group" >
         <label for="phoneNumber" class="grid-child" id="customer-info">Phone Number:</label>
-        <input id="phoneNumber" v-model="customerDetails.phoneNumber" type="tel" required  title="Phone number should be 10 digits" />
+        <input id="phoneNumber" v-model="customerDetails.phoneNumber" type="tel"  pattern="[0-9]{3}[0-9]{3}[0-9]{4}" required  title="Phone number should be 10 digits" />
       </div>
       <div class="form-group">
         <label for="email" class="grid-child" id="customer-info">Email Address:</label>
         <input id="email" class="input-box" v-model="customerDetails.emailAddress" type="email" required placeholder="example@example.com" />
       </div>
-      </div>
+      
     
-    <div class="delivery-option">
+    <div class="delivery-option" v-show="requiredInfoSaved">
    <h3> Please make a selection: </h3>
       <div class="form-group delivery">
         <label for="isDelivery" id="customer-info" class="delivery-option">Delivery</label>
@@ -48,7 +48,7 @@
         <input id="paymentInfo" class="input-box" v-model="customerDetails.paymentInfo" type="text" placeholder="1234 5678 9012 3456" />
       </div>
       <div class="submit-button">
-      <button type="submit" id="submit" value="submit">Save Billing Information</button>
+      <button type="submit" id="submit" :disabled="!formEmpty" v-bind:class="readyToSubmit" value="submit">Save Billing Information</button>
       </div>
     </form>
   </div>
@@ -73,6 +73,19 @@ export default {
    }
   },
   computed: {
+      requiredInfoSaved() {
+        if(this.customerDetails.orderName !== '' && this.customerDetails.phoneNumber !== '' && this.customerDetails.emailAddress !== ''){
+          return true;
+        }
+        return false;
+      },
+      formEmpty(){
+        if(this.customerDetails.orderName !== '' && this.customerDetails.phoneNumber !== '' && this.customerDetails.emailAddress
+        !== '' && this.customerDetails.paymentInfo !== '' && this.customerDetails.emailAddress !== ''){
+          return true;
+        }
+        return false;
+      }
   
   },
   methods: {
@@ -102,22 +115,27 @@ export default {
 
 #customer-info {
   font-family: 'Cooper Hewitt Book', sans-serif;
-  font-size: 25px;
+  font-size: 1em;
+  
 }
 h1, h3, #submit {
-  font-size: 30px;
+  font-size: 1.59em;
    font-family: "Cooper Hewitt Bold", sans-serif;
   margin-bottom: 38px;
   border-bottom: 1px solid lightgray;
   text-transform: uppercase;
-  opacity: .75;
+ 
 }
 h1 {
   margin-left: 10px;
+  font-size: 1.59em;
+  color: #AC685B;
   
 }
 h3 {
   width: 100%;
+  font-size: 1.45em;
+  color: #AC685B;
 }
 
 .form-container {
@@ -126,7 +144,7 @@ h3 {
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   background-color: #e6ee741a; 
-  opacity: .80;
+
 }
 .form-container {
   display: flex;
@@ -141,14 +159,13 @@ h3 {
 .form-group {
   margin-bottom: 20px; 
   height: auto;
+  padding-top: 10px;
+  padding-bottom: 1px;
 }
 
-.grid-container {
-  display: grid;
-}
 
 ::placeholder {
-  font-size: 25px;
+  font-size: 20px;
   color: lightgray;
   opacity: .75;
 
@@ -166,9 +183,10 @@ input[type="email"],
 input[type="tel"] {
   width: 100%;
   padding: 12px;
-  border: 1px solid #ccc;
+  border: 1px solid #AC685B;
   border-radius: 8px;
   font-size: 20px;
+  background-color: #FFFFFF;
 }
 
 input[type="radio"] {
@@ -186,6 +204,7 @@ input[type="radio"] {
   justify-content: baseline;
   flex-wrap: wrap;
   margin: 10px;
+  font-size: 1.3em;
 }
 .delivery {
   margin-right: auto;
@@ -217,6 +236,7 @@ button {
 .submit-button {
   margin: auto 15%
 }
+
 
 
 </style>

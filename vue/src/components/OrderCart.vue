@@ -14,6 +14,7 @@
             </div>
         </div>
     </div>
+    <span id="total-pizza-cost">Total: ${{ total }}</span>
   </div>
 </div>
 </template>
@@ -22,10 +23,11 @@
 import ToppingService from '../services/ToppingService';
 
 export default {
+    name: 'Cart',
     data(){
         return {
             pizzas:[],
-            toppings:[]
+            toppings:[],
         }
     },
     created(){
@@ -41,10 +43,18 @@ export default {
             });
         });
     },
-    computed:{
-
+    computed: {
+        total() {
+            let total = 0;
+            if(this.pizzas.length > 0){
+                this.pizzas.forEach((pizza) => {
+                    let pizzaCost = pizza.quantity * pizza.pizza_cost;
+                    total += pizzaCost;
+                })
+            }
+            return total;
+        }
     }
-
 }
 </script>
 
@@ -60,9 +70,10 @@ export default {
 }
 #cart-title{
     font-family: 'Mandalore Laser Title';
-    text-decoration: underline;
-    font-size: 28px;
+    /* text-decoration: underline; */
+    font-size: 35.2px;
     text-align: center;
+    color: #BB554A;
 }
 .cart-contents{
     max-width: 400px;
@@ -76,11 +87,10 @@ export default {
 .item{
     margin-bottom: 10px;
     border-bottom: 1px solid black;
-    /* margin: 5px; */
     padding: 5px;
 }
 .pizza-toppings{
-    text-transform: uppercase;
+    text-transform: capitalize;
     text-decoration: dashed;
 }
 .pizza-title{
@@ -90,6 +100,10 @@ export default {
 #pizza-cost{
     color: #BB554A;
 }
+#total-pizza-cost{
+    color: #BB554A;
+}
+
 /* make the cart title and cart contents a sleek looking popup once the cart button is selected */
 /* .cart-title-and-contents{
     position: fixed;

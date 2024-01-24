@@ -14,8 +14,9 @@
           <option value="medium">Medium</option>
           <option value="large">Large</option>
       </select>
-
       <br />
+      <br />
+      <div class="choose-sauce">
       <span class="sauce"> Choose Your Sauce: </span>
       <div
         class="toppings sauce"
@@ -32,11 +33,10 @@
             v-on:change="changeSauce(topping.topping_id)"
             name="sauceToppings"
           /> 
-          
-     
       </div>
-      <br /><br />
-
+      </div>
+      <br />
+       <div class="choose-crust">
       <span> Choose Your Crust: </span>
       <div
         class="toppings crust"
@@ -55,9 +55,10 @@
           />
 
       </div>
+       </div>
 
-      <br /><br />
-
+      <br />
+      <div class="choose-meats">
       <span> Choose Your Meats: </span>
       <div
         class="toppings meat"
@@ -76,7 +77,9 @@
          
         />
       </div>
+      </div>
       <br />
+      <div class="choose-cheese">
       <span> Choose Your Cheese: </span>
       <div
         class="toppings cheese"
@@ -95,7 +98,9 @@
           :disabled="isMaxToppingsMet && !topping.isOnPizza"
         />
       </div>
+      </div>
       <br />
+       <div class="choose-veggies">
       <span> Choose Your Veggies: </span>
       <div
         class="toppings veggies"
@@ -114,9 +119,10 @@
           :disabled="isMaxToppingsMet && !topping.isOnPizza"
         />
       </div>
+       </div>
 
       <br />
-      <br />
+       <div class="choose-fruit">
       <span> Choose Your Fruit: </span>
       <div
         class="toppings fruit"
@@ -135,25 +141,25 @@
           :disabled="isMaxToppingsMet && !topping.isOnPizza"
         />
       </div>
+       </div>
 
+      <div class="price-quantity">
       <label>Qty: </label>
-      <input type="number" v-model="pizza.quantity">
+      <input type="number" v-model="pizza.quantity" min="0" max="10">
 
       <h4>Price: ${{ totalCost }}</h4>
-
-     
+      </div>
+     <br /><br />
       <div class="buttons">
         <button id="back" v-on:click="changePizzaId">Go Back</button>
-
-        
         <input
           id="submit"
           value="Add to Cart"
           type="submit"
-           />
-        
+           /> 
       </div>
     </div>
+    
   </form>
 </template>
 
@@ -431,12 +437,14 @@ export default {
 * {
   font-family: "Cooper Hewitt Bold", sans-serif;
 }
+
 h1{
   font-family: 'Mandalore Laser Title';
 }
-input[type="checkbox" i] {
-  accent-color: #BB554A;;
 
+input[type="checkbox" i] {
+  accent-color: #45A049;
+  
 }
 
 #submit {
@@ -450,8 +458,10 @@ input[type="checkbox" i] {
   transition: background-color 0.2s ease-in-out;
 }
 .buttons {
-  padding-left: 10%;
+  padding-left: 5%;
+  
 }
+
 
 .topping-card {
   
@@ -459,7 +469,7 @@ input[type="checkbox" i] {
   background-color: #b2bb333a;
   border-radius: 8px;
   margin: 20px;
-  padding: 80px;
+  padding: 130px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease-in-out;
   text-align: center;
@@ -473,26 +483,97 @@ input[type="checkbox" i] {
 .select-header{
  color: #BB554A;
  text-align: center;
+ padding: 10px;
 }
 .pizza-size{
   margin-bottom: 8px;
   text-align: center;
-  font-size: 18px;
+  font-size: 20px;
+  
 }
 .sauce{
   margin-top: 10px;
 }
+.choose-sauce{
+   border: 1px solid brown;
+   background-color:  #AC685B;
+   color: cornsilk;
+   border-radius: 5px;
+   padding: 15px ;
+   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  
+}
+.choose-crust{
+   border: 1px solid brown;
+   background-color:   #AC685B;;
+   color: cornsilk;
+   border-radius: 5px;
+   padding: 15px ;
+   margin-top: 20px;
+   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+.choose-meats{
+  border: 1px solid brown;
+   background-color:  #AC685B;
+   color: cornsilk;
+   border-radius: 5px;
+   padding: 15px ;
+   margin-top: 20px;
+   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+.choose-cheese{
+  border: 1px solid brown;
+   background-color: #AC685B;
+   color: cornsilk;
+   border-radius: 5px;
+    padding: 15px ;
+   margin-top: 20px;
+   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+
+}
+.choose-veggies{
+  border: 1px solid brown;
+   background-color:  #AC685B;
+   color: cornsilk;
+   border-radius: 5px;
+    padding: 15px ;
+   margin-top: 20px;
+   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+.choose-fruit{
+  border: 1px solid brown;
+   background-color: #AC685B;
+   color: cornsilk;
+   border-radius: 5px;
+   padding: 20px ;
+   margin-top: 20px;
+   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+   
+}
+.price-quantity{
+  margin-top: 80px;
+  border: 1px solid brown;
+   background-color:  #AC685B;
+   color: cornsilk;
+   border-radius: 5px;
+   padding: 5px ;
+   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+
+}
+
+
 .value{
   color: rgb(226, 223, 223);
-  background-color: #BB554A
+  background-color: #BB554A;
+  padding: 8px;
+  font-size: 15px;
+  border-radius: 10px;
   
 }
 
 
-
-
 input[type='radio'] {
-    accent-color: #BB554A;
+    accent-color: #45A049;
   
 }
 .topping-selection {
@@ -524,6 +605,11 @@ input[type='radio'] {
 .topping label {
   cursor: pointer;
 }
+.value option:hover{
+  background-color: seagreen;
+}
+
+
 
 @media (min-width: 600px) {
   .toppings {
