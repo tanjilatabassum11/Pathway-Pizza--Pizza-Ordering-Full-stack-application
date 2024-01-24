@@ -1,64 +1,58 @@
 <template>
     <div class="topping-card">
         <div class="header">
-  <h2 id="BYOP">Build Your Own Pizza!</h2>
+  <h2 id="BYOP-title">Build Your Own Pizza!</h2>
         </div>
-  <div class="container" id="container">
-    <div class="topping-style">
+  <div id="container">
+    <div class="topping-container-style">
         <h3 
-            class="Crust type"> Crust Style
+            class="Crust topping-type-title"> Crust Style
         </h3>
         <div class="toppings"
             v-for="topping in crustToppings" :key="topping.topping_id">{{ topping.topping_name }} {{ topping.cost == 0 ? '':'- $' + topping.cost + ' extra' }}
         </div>
     </div>
-    <div class="topping-style">
+    <div class="topping-container-style">
         <h3 
-            class="Sauce type"> Pizza Sauces
+            class="Sauce topping-type-title"> Pizza Sauces
         </h3>
         <div class="toppings"
             v-for="topping in sauceToppings" :key="topping.topping_id">{{ topping.topping_name }}{{ topping.cost == 0 ? '':'-$' + topping.cost + ' extra' }}
         </div>
     </div>
-    <div class="topping-style">
+    <div class="topping-container-style">
         <h3 
-            class="Cheese type"> Cheeses
+            class="Cheese topping-type-title"> Cheeses
         </h3>
         <div class="toppings"
             v-for="topping in cheeseToppings" :key="topping.topping_id">{{ topping.topping_name }} - ${{ topping.cost }}
         </div>
     </div>
-    <div class="topping-style">
+    <div class="topping-container-style">
         <h3 
-            class="Meat type"> Meat Toppings
+            class="Meat topping-type-title"> Meat Toppings
         </h3>
         <div class="toppings"
             v-for="topping in meatToppings" :key="topping.topping_id">{{ topping.topping_name }} - ${{ topping.cost }}
         </div>
     </div>
-    <div class="topping-style">
+    <div class="topping-container-style">
         <h3 
-            class="Fruit type"> Fruit Toppings
+            class="Fruit topping-type-title"> Fruit Toppings
         </h3>
         
         <div class="toppings"
             v-for="topping in fruitToppings" :key="topping.topping_id">{{ topping.topping_name }} - ${{ topping.cost }}
         </div>
-        
-        <br/>
-        <br/>
-        <br/>
     </div>
-    <div class="topping-style">
+    <div class="topping-container-style">
         <h3 
-            class="Veggie type"> Veggie Toppings
+            class="Veggie topping-type-title"> Veggie Toppings
         </h3>
         
         <div class="toppings"
             v-for="topping in veggieToppings" :key="topping.topping_id">{{ topping.topping_name }} - ${{ topping.cost }} 
         </div>
-        
-      
     </div>
   </div>
 </div>
@@ -130,69 +124,68 @@ export default {
 .topping-card {
     box-sizing: border-box;
     background-color: #a18f6380;
+    border-radius: 10px;
 }
-.container {
+#container {
     width: 100%;
-    height: 50vh;
+    /* height: 65vh; */
     display: flex;
     box-sizing: border-box;
     flex-wrap: wrap;
     justify-content: space-evenly;
-    align-items: baseline;
+    align-items: stretch;
     align-content: center;
     row-gap: 1rem;
     column-gap: 1rem;
     flex-grow: 1;
     flex-shrink: 0;
-    padding-left: 15px;
-    padding-right: 15px;
+    padding: 15px;
+    /* padding-left: 15px;
+    padding-right: 15px; */
 }
-#container > * {
+/* #container > * {
     width: 25%;
     flex-grow: 1;
-}
+} */
     
-.topping-style{
+.topping-container-style{
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0, .01);
-    width: 50%;
+    width: 250px;
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
+    justify-content: space-between;
     box-sizing: border-box;
     border: 2px inset #BB554A;
+    background-color: var(--brand-lightred-color);
 }
 .toppings{
    margin: auto;
    padding: 5px 1px;
     text-transform: uppercase;
+    color: white;
 }
-#BYOP {
+#BYOP-title {
     font-family: 'Mandalore Laser Title';
     color: #BB554A;
-    background: linear-gradient(45deg, #a18f6380 50%, white 100%);
+    background: linear-gradient(45deg, #a18f6380 50%, #5FA873 100%);
     height: 100%;
+    border-radius: 5px;
 }
 
-.type {
+.topping-type-title {
     font-family: 'Mandalore Laser Title';
     text-decoration: underline;
-    color: white;
-    padding: 14px;
-    border-bottom: 1px inset black;
-    margin: 5px;
+    font-size: 25px;
+    /* border-bottom: 1px inset black; */
+    /* color: white;
+    background-color: #a18f6380;
+    color: #BB554A;
+    border-radius: 5px;
+    background-color: white; */
 }
 .toppings:not(:last-child){
     border-bottom: 1px solid black;
 }
-
-.type {
-    background-color: #a18f6380;
-    color: #BB554A;
-    border: #5FA873 2px inset;
-    border-radius: 5px;
-}
-
-
-
 </style>
