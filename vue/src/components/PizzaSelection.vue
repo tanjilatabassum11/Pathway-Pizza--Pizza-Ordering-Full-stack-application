@@ -3,16 +3,18 @@
   <div id="pizza-menu">
     <section id="specialty-pizzas">
        
-      <h1 class="menu-section-title">Specialty Pizzas :</h1>
+      <h2 class="menu-section-title">Specialty Pizzas</h2>
       <div class="pizza-card-parent">
         <div class="pizza-card" v-for="pizza in availablePizzas" :key="pizza.pizza_id">
           <h2>{{ pizza.pizza_name }}</h2>
           <p>{{ pizza.note }}</p>
+          <label>Qty:</label><input type="number" v-model="pizza.quantity">
           <div class="pizza-details">
             <!--toFixed(2) shows decimal number by 2 precision after decimal -->
             <span class="pizza-price">${{ pizza.pizza_cost.toFixed(2) }}</span>
+            
             <button class="add-to-cart-button show-toppings" v-bind:="currentPizzaId"
-           @click="changeCurrentPizzaId(pizza.pizza_id); changeStoredCurrentPizza(pizza.pizza_id)" >Add to Cart</button>
+           @click="changeCurrentPizzaId(pizza.pizza_id); changeStoredCurrentPizza(pizza.pizza_id); addPizzaToStore(pizza)" >Add to Cart</button>
           </div>
         </div>
         
@@ -44,11 +46,13 @@
 </template>
 <script>
 import PizzaService from '../services/PizzaService.js';
+import ToppingService from '../services/ToppingService.js';
 //import ToppingsView from '../views/ToppingsView.vue';
 export default {
   components: {},
   data() {
     return {
+      // toppings:[],
       availablePizzas: [],
       selectedPizzas: [],
       currentPizzaId: 0,
@@ -57,11 +61,25 @@ export default {
   methods: {
      changeCurrentPizzaId(pizza_id){
       this.currentPizzaId = pizza_id;
-      this.$router.push( {name: 'topping', params:{pizzaId: this.currentPizzaId}})
+      // this.$router.push( {name: 'topping', params:{pizzaId: this.currentPizzaId}})
     },
     changeStoredCurrentPizza(currentPizzaId){
        this.$store.commit('CHANGE_CURRENT_PIZZA_ID', currentPizzaId);
     },
+    addPizzaToStore(pizza){
+      let toppingIdArray = [];
+      ToppingService.getToppingsByPizzaId(pizza.pizza_id).then((response)=>{
+        let toppingsOnPizza = response.data;
+        toppingsOnPizza.forEach((topping)=>{
+          toppingIdArray.unshift(topping.topping_id);
+        });
+        pizza.toppings = toppingIdArray;
+
+        this.$store.commit('ADD_PIZZA_TO_STORE', {...pizza});
+        pizza.quantity = null;
+
+      });
+    }
 
   },
    created() {
@@ -69,6 +87,9 @@ export default {
         .then((response) => {
           this.availablePizzas = response.data
         });
+      // ToppingService.getAvailableToppings().then((response)=>{
+      //   this.toppings = response.data;
+      // });
   },
   computed: {
     getPizza() {
@@ -79,8 +100,19 @@ export default {
 </script>
 <style scoped>
 @import url('https://fonts.cdnfonts.com/css/cooper-hewitt-book');
+@font-face {
+    font-family: 'Mandalore Laser Title';
+    src: url('../fonts/MandaloreLaserTitle.woff2') format('woff2'),
+        url('../fonts/MandaloreLaserTitle.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
 *{
     font-family: 'Cooper Hewitt Book', sans-serif;
+}
+h1, .menu-section-title{
+  font-family: 'Mandalore Laser Title';
 }
 .pizza-menu {
   display: flex;

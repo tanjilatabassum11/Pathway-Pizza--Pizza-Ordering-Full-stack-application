@@ -29,14 +29,16 @@ export function createStore(currentToken, currentUser) {
           status: 'pending'
         },
         pizzaSelection: [
-          {
-          pizzaId: 0,
-          toppings: [],
-          quantity: 0
-        }
+        //   {
+        //   pizzaId: 0,
+        //   toppings: [],
+        //   quantity: 0
+        // }
       ]
 
       },
+      pizzaCostBySize:[8,10,12],
+      pizzaSize:["small","medium","large"]
       
     },
     mutations: {
@@ -85,6 +87,11 @@ export function createStore(currentToken, currentUser) {
          state.orderData.pizzaSelection.unshift(newPizzaSelection);
          
          
+       },
+       ADD_PIZZA_TO_STORE(state, pizza){
+        if(pizza.quantity > 0){
+          state.orderData.pizzaSelection.unshift(pizza);
+        }
        }
 
         //vv Not sure if we need this - orderId is auto-generated vv

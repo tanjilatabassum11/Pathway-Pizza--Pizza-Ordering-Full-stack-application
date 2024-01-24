@@ -9,5 +9,11 @@ export default{
     },
     updateOrder(order){
         return axios.put(`/orders/update/${order.orderId}`, order);
+    },
+    createOrder(order){
+        return axios.post(`/orders/create`, order);
+    },
+    addPizzaToOrder(orderId, pizzaId){
+        return axios.post(`/orders/addPizzaToOrder/${orderId}/${pizzaId}`);
     }
 }

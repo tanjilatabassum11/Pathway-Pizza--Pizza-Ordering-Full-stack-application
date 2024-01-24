@@ -1,9 +1,9 @@
 <template>
 <div id="back-button">
-<button id="back-button" v-on:click="this.$router.push({name: 'home'})">Go Back To Main Menu</button>
+<button id="back-button" v-on:click="$router.push({ name: 'start-order' })">Go Back To Order</button>
 </div>
   <div>
-    <h1>Select Your Toppings:</h1>
+    <!-- <h1>Select Your Toppings:</h1> -->
     <PizzaEditor />
   </div>
 </template>
