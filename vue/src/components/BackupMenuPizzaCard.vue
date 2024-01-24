@@ -7,34 +7,34 @@
         <p class="pizza-price">$ {{ pizza.pizza_cost }}</p>
       </div>
     </div>
-  </template>
-  
-  <script>
-  import PizzaService from '../services/PizzaService';
-  
-  export default {
-    data() {
-      return {
-        availablePizzas: []
-      };
-    },
-    methods: {
-      geturl(name) {
-        return new URL("../images/" + name, import.meta.url).href;
-      }
-    },
-    created() {
-      PizzaService.getAvailableSpecialtyPizzas()
-        .then(response => {
-          this.availablePizzas = response.data;
-        });
-    },
-    props: ['pizza']
-  };
-  </script>
-  
-  <style scoped>
-  .menu-pizza-card {
+</template>
+
+<script>
+import PizzaService from '../services/PizzaService';
+
+export default {
+data() {
+    return {
+    availablePizzas: []
+    };
+},
+methods: {
+    geturl(name) {
+    return new URL("../images/" + name, import.meta.url).href;
+    }
+},
+created() {
+    PizzaService.getAvailableSpecialtyPizzas()
+    .then(response => {
+        this.availablePizzas = response.data;
+    });
+},
+props: ['pizza']
+};
+</script>
+
+<style>
+.menu-pizza-card {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -47,12 +47,12 @@
     max-width: 200px;
 }
   
-  .pizza-image {
+.pizza-image {
     width: 100%;
     height: auto;
     border-radius: 10px;
     margin-bottom: 10px;
-  }
+}
   
   .pizza-info {
     width: 100%; 
@@ -69,10 +69,9 @@
     padding: 5px;
 }
   
-  .pizza-price {
-    font-size: 1.2em;
-    font-weight: bold;
-    margin: 0;
-  }
-  </style>
-  
+.pizza-price {
+font-size: 1.2em;
+font-weight: bold;
+margin: 0;
+}
+</style>

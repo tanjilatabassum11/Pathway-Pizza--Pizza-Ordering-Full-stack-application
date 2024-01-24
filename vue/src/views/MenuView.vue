@@ -70,6 +70,14 @@ export default {
 </script>
 
 <style scoped>
+@font-face {
+    font-family: 'Mandalore Laser Title';
+    src: url('../fonts/MandaloreLaserTitle.woff2') format('woff2'),
+         url('../fonts/MandaloreLaserTitle.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
 .menu-view {
     text-align: center;
     max-width: 1200px;
@@ -77,16 +85,17 @@ export default {
     padding: 20px;
 }
 
-h1, h2 {
+.menu-view h1, .menu-view h2 {
     color: var(--brand-darkred-color);
+    font-family: 'Mandalore Laser Title', sans-serif; 
 }
 
 .pizza-list {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 20px;
-    margin-top: 20px;
+    gap: 30px;
+    margin-top: 30px;
 }
 
 .pizza-card {
@@ -136,19 +145,19 @@ h1, h2 {
 
 @media (max-width: 600px) {
     .pizza-card {
-        flex-basis: 100%;
+        flex-basis: 100%; 
     }
 }
 
-@media (min-width: 601px) {
+@media (min-width: 601px) and (max-width: 900px) {
     .pizza-card {
-        flex-basis: calc(50% - 20px);
+        flex-basis: calc(50% - 30px); 
     }
 }
 
-@media (min-width: 900px) {
+@media (min-width: 901px) {
     .pizza-card {
-        flex-basis: calc(33.33% - 20px);
+        flex-basis: calc(33.33% - 30px); 
     }
 }
 </style>
