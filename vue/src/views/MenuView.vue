@@ -85,8 +85,8 @@ h1, h2 {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 20px;
-    margin-top: 20px;
+    gap: 30px;
+    margin-top: 30px;
 }
 
 .pizza-card {
@@ -136,19 +136,19 @@ h1, h2 {
 
 @media (max-width: 600px) {
     .pizza-card {
-        flex-basis: 100%;
+        flex-basis: 100%; 
     }
 }
 
-@media (min-width: 601px) {
+@media (min-width: 601px) and (max-width: 900px) {
     .pizza-card {
-        flex-basis: calc(50% - 20px);
+        flex-basis: calc(50% - 30px); 
     }
 }
 
-@media (min-width: 900px) {
+@media (min-width: 901px) {
     .pizza-card {
-        flex-basis: calc(33.33% - 20px);
+        flex-basis: calc(33.33% - 30px); 
     }
 }
 </style>

@@ -38,37 +38,41 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 10px;
+    margin: 15px; 
     border-radius: 15px;
     background-color: var(--brand-lightred-color);
     color: var(--brand-white-color);
     text-align: center;
-    width: 200px; 
-  }
+    width: 100%; 
+    padding: 7px;
+    max-width: 200px;
+}
   
   .pizza-image {
     width: 100%;
-    max-width: 200px; 
     height: auto;
     border-radius: 10px;
     margin-bottom: 10px;
   }
   
   .pizza-info {
-    margin-top: 10px;
-  }
-  
-  .pizza-name {
+    width: 100%; 
+    padding: 0 10px; 
+}
+
+.pizza-name {
     font-size: 1.5em;
-  }
-  
-  .pizza-desc {
-    margin: 10px 0;
-  }
+    margin: 0; 
+}
+
+.pizza-desc {
+    margin: 10px 0; 
+}
   
   .pizza-price {
     font-size: 1.2em;
     font-weight: bold;
+    margin: 0;
   }
   </style>
   
