@@ -69,14 +69,12 @@ button:hover {
     background-color: var(--brand-green-color);
 }
 
-.pizza-card {
+.pizza-card-container {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-template-columns: repeat(2, 1fr); 
     gap: 20px;
-    margin-top: 20px;
     width: 100%;
-    max-width: 1200px; 
-    padding: 10px;
+    max-width: 1200px;
 }
 
 .pizza-card img {
@@ -88,6 +86,11 @@ button:hover {
 .pizza-card h3,
 .pizza-card p {
     margin: 5px 0;
+}
+@media (max-width: 600px) {
+    #home .pizza-card-container {
+        grid-template-columns: 1fr; 
+    }
 }
 </style>
 
