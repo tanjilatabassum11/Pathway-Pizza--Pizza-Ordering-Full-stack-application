@@ -99,6 +99,7 @@ export default {
     },
     saveCustomerInfo() {
      this.$store.commit('UPDATE_ORDER_DATA', this.customerDetails);
+     window.scrollTo(0,0);
     }
   }
 };
@@ -118,7 +119,6 @@ export default {
   
 }
 h1, h3, #submit {
-  font-size: 1.59em;
    font-family: "Cooper Hewitt Bold", sans-serif;
   margin-bottom: 38px;
   border-bottom: 1px solid lightgray;
@@ -127,13 +127,13 @@ h1, h3, #submit {
 }
 h1 {
   margin-left: 10px;
-  font-size: 1.59em;
+  font-size: 1.7em;
   color: #AC685B;
   
 }
 h3 {
   width: 100%;
-  font-size: 1.45em;
+  font-size: 1.4em;
   color: #AC685B;
 }
 
@@ -203,7 +203,6 @@ input[type="radio"] {
   justify-content: baseline;
   flex-wrap: wrap;
   margin: 10px;
-  font-size: 1.3em;
 }
 .delivery {
   margin-right: auto;

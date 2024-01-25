@@ -8,7 +8,7 @@
     </div>
     <MenuBYOPizza></MenuBYOPizza>
 
-    <button v-on:click="$router.push({ name: 'start-order' })" class="order-button">Place Your Order</button>
+    <button v-on:click="goToOrderPage()" class="order-button">Place Your Order</button>
   </div>
 </template>
 
@@ -51,7 +51,8 @@ export default {
       }
     },
     goToOrderPage() {
-      this.$router.push({ name: 'OrderPage' });
+      this.$router.push({ name: 'start-order' });
+      window.scrollTo(0,0);
     }
   }
 };

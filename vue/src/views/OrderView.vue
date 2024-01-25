@@ -97,6 +97,7 @@ export default {
   methods: {
     byoPizza(){
       this.$router.push({name: 'topping', params:{pizzaId: ''}})
+      window.scrollTo(0,0);
 
     },
     updateCustomerInfo(customerInfo) {
@@ -146,6 +147,7 @@ export default {
       });
       this.orderPlaced = true;
       this.$store.commit('CLEAR_ORDER', 0);
+      window.scrollTo(0,0);
       
 
     },
