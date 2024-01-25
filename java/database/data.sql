@@ -16,7 +16,7 @@ VALUES
 ('Three Cheese Blend', 'medium', true, 15.00, 5, true, 'All three cheeses. Yes, there are only three.', 'A cheese lover’s dream with a blend of three premium cheeses, melted to perfection.', 'Three Cheese Blend.png'),
 ('Supreme', 'large', true, 15.00, 7, true, 'Best treat for post interview jitters', 'We know you nailed that interview. Now celebrate with this supreme treat', 'Supreme.png'),
 ('Sweet Dreams', 'small', true, 10.00, 7, true, 'Pizza equivalent of eating a tub of ice-cream', 'Even if you didn''t ace that interview, we''re sure you''ll get back on you''re feet', 'Sweet Dreams.png'),
-('The B-Yo', 'medium', true, 12.00, 8, true, 'The B-Yo we know give the best career advice', 'Named after our esteemed owner and career guide. Also baby yoda.', 'The B-Yo.png'),
+('The B-Yo', 'medium', true, 12.00, 8, true, 'The B-Yo we know gives the best career advice', 'Named after our esteemed owner and career guide. Also baby yoda.', 'The B-Yo.png'),
 ('Buffalo Chicken', 'large', true, 12.00, 4, true, 'No buffalos were harmed in the making of this pizza', 'Spicy sauce, melty cheese, grill seared chicken. Just make sure to get something else for your spice intolerant friends', 'Buffalo Chicken.png'),
 ('Chickie Bakie Ranch', 'large', true, 12.00, 5, true, 'It''s not even trying to be healthy', 'Creamy Ranch, Crispy Applewood smoked bacon, tender chicken, and a massive (like, "should I book a doctor''s appointment?") amount of cheese', 'Chicken Bacon Ranch.png'),
 ('Margherita', 'medium', true, 10.00, 6, true, 'A true classic', 'From the hills Napoli, this recipe has been handed down through the generations', 'Margherita.png'),
