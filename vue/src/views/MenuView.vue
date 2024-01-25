@@ -2,23 +2,11 @@
   <div class="menu-view">
     <h1>Welcome to Our Menu</h1>
 
-    <!-- Specialty Pizza List -->
     <h2>Specialty Pizzas</h2>
     <div class="pizza-list">
       <MenuPizzaCard v-for="pizza in pizzas" :key="pizza.pizza_id" :pizza="pizza"/>
     </div>
     <MenuBYOPizza></MenuBYOPizza>
-
-    <!-- Toppings List
-    <h2>Choose Your Toppings</h2>
-    <UserToppingsForm />
-    <div class="toppings-section">
-      <ul class="toppings-list">
-        <li v-for="topping in toppings" :key="topping.topping_id">
-          {{ topping.topping_name }}
-        </li>
-      </ul>
-    </div> -->
 
     <button v-on:click="$router.push({ name: 'start-order' })" class="order-button">Place Your Order</button>
   </div>
