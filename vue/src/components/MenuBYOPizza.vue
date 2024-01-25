@@ -33,7 +33,7 @@
             class="Meat topping-type-title"> Meat Toppings
         </h3>
         <div class="toppings"
-            v-for="topping in meatToppings" :key="topping.topping_id">{{ topping.topping_name }} {{topping.topping_name }} {{ topping.cost == 0 ? '':'- $' + topping.cost}}
+            v-for="topping in meatToppings" :key="topping.topping_id">{{ topping.topping_name }} {{ topping.cost == 0 ? '':'- $' + topping.cost}}
         </div>
     </div>
     <div class="topping-container-style">
@@ -42,7 +42,7 @@
         </h3>
         
         <div class="toppings"
-            v-for="topping in fruitToppings" :key="topping.topping_id">{{ topping.topping_name }} {{ topping.topping_name }} {{ topping.cost == 0 ? '':'- $' + topping.cost}}
+            v-for="topping in fruitToppings" :key="topping.topping_id">{{ topping.topping_name }} {{ topping.cost == 0 ? '':'- $' + topping.cost}}
         </div>
     </div>
     <div class="topping-container-style">
@@ -51,7 +51,7 @@
         </h3>
         
         <div class="toppings"
-            v-for="topping in veggieToppings" :key="topping.topping_id">{{ topping.topping_name }} {{ topping.topping_name }} {{ topping.cost == 0 ? '':'- $' + topping.cost}} 
+            v-for="topping in veggieToppings" :key="topping.topping_id">{{ topping.topping_name }} {{ topping.cost == 0 ? '':'- $' + topping.cost}} 
         </div>
     </div>
   </div>
