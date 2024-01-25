@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import MenuPizzaCard from '../components/menupizzacard.vue';
+import MenuPizzaCard from '../components/MenuPizzaCard.vue';
 import PizzaService from '../services/PizzaService';
 import ToppingService from '../services/ToppingService.js';
 import MenuBYOPizza from '../components/MenuBYOPizza.vue';
