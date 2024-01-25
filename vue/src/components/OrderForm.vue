@@ -99,7 +99,6 @@ export default {
     },
     saveCustomerInfo() {
      this.$store.commit('UPDATE_ORDER_DATA', this.customerDetails);
-     //alert("Thanks! Please continue with your order");
     }
   }
 };
@@ -236,7 +235,4 @@ button {
 .submit-button {
   margin: auto 15%
 }
-
-
-
 </style>

@@ -82,7 +82,6 @@ export default {
 }
 #cart-title{
     font-family: 'Mandalore Laser Title';
-    /* text-decoration: underline; */
     font-size: 35.2px;
     text-align: center;
     color: #BB554A;
@@ -115,13 +114,4 @@ export default {
 #total-pizza-cost{
     color: #BB554A;
 }
-.delete-pizza-button{
-
-}
-
-/* make the cart title and cart contents a sleek looking popup once the cart button is selected */
-/* .cart-title-and-contents{
-    position: fixed;
-    z-index: 100;
-} */
 </style>

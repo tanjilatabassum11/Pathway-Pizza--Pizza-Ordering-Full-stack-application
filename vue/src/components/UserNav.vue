@@ -3,7 +3,6 @@
         <button id="pizzas" @click="pizzaClick()">Pizzas</button>
         <button id="toppings" @click="toppingClick()">Toppings</button>
         <button id="orders" @click="ordersClick()">Orders</button>
-        <!-- <button id="users">Users</button> -->
     </div>
   
 </template>

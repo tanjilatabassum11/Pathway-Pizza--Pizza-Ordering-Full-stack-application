@@ -168,17 +168,8 @@ import ToppingService from "../services/ToppingService.js";
 import PizzaService from "../services/PizzaService.js";
 
 export default {
-  // props: ["currentPizzaId"],
   data() {
     return {
-      //allToppings holds all available toppings and they get filterd 
-      //through the arrays below by "type"
-      //includedToppings are the getToppingsByPizzaId() result
-      //currentToppings holds the current customer selection for the 
-      //topping choices selected. It will need to be sent to the store
-      //upon clicking "submit"
-
-
       allToppings: [],
       includedToppings: [],
       currentToppings: [],
@@ -186,22 +177,10 @@ export default {
       isNoPathVariable: false,
       costBySize:[8,10,12],
       sizeArray:["small","medium","large"]
-      // pathvar: 0
-
-      
+    
     };
   },
   computed: {
-    //Not currently using this. Got available toppings from
-    //the database instead, but might use it for future.
-    // allAvailableToppings() {
-    //   return this.allToppings.filter((topping) => {
-    //     return topping.isAvailable;
-    //   });
-    // },
-    // currentSauceId() {
-    //   return this.currentPizzaId
-    // }
     crust(){
       return this.allToppings.filter((topping) => {
         return topping.type == 'crust';
@@ -262,36 +241,6 @@ export default {
 
       return (sizeCost + toppingCost) * this.pizza.quantity;
     },
-    // selectedToppings(){
-    //   return this.allToppings.filter((topping)=>{
-    //     return topping.isOnPizza;
-    //   });
-    // }
-    // indexOfSize(){
-    //   return this.sizeArray.indexOf(this.pizza.pizza_size);
-    // },
-    // totalCost(){
-      
-    //   let toppingCost = 0;
-    //   let sizePrice = 0;
-    //   if(this.pizzaCostBySize[this.indexOfSize]){
-    //     sizePrice = this.pizzaCostBySize[this.indexOfSize];
-    //     this.allToppings.forEach((topping) => {
-    //     if(topping.isOnPizza){
-    //       toppingCost += topping.cost;
-    //     }
-    //     });
-
-    //     return (sizePrice + toppingCost) * this.pizza.quantity;
-    //   } else{
-    //     return 0;
-    //   }
-      
-      
-    // }
-
-
-
   },
 
   methods: {
@@ -330,67 +279,11 @@ export default {
       })
     },
   },
-
- /* ****Below Methods are for when the page loads**** */
- /* ********************************************************* */
-
- //gets toppings that are specific to the pizza id
-//     async getToppings() {
-//       try {
-//         const response = await ToppingService.getToppingsByPizzaId(this.currentPizzaId);
-//           this.includedToppings = response.data;
-//           this.allToppings.forEach((topping) => {
-//             let contains = this.includedToppings.find((pizzaTopping) => {
-//               return topping.topping_id == pizzaTopping.topping_id;
-//             })
-//             if(contains != undefined){
-//               topping.isOnPizza = true;
-//             }
-//             else {
-//               topping.isOnPizza = false;
-//             }
-//           })
-          
-//       } catch (error) {
-//             console.error('There was an error getting the pizza or toppings', error)
-//       }
-//        },
-//   //gets all available toppings from the database 
-//     async getAllToppings() {
-//       try {
-//         const response = await ToppingService.getAvailableToppings();
-//         this.allToppings = response.data;
-
-//       } catch (error) {
-//         console.erorr('Unexpected Error Getting Toppings', error)
-//       }
-     
-     
-//     },
-//    //should add includedToppings on pizza to currentToppings
-//    //comes back 'undefined'  
-//     addCurrentToppings() {
-//       this.includedToppings.forEach((topping) => {
-//           this.currentToppings.push(topping.topping_id);
-//       });
-//     },
-//   },
-//  async mounted() {
-   
-//    await  this.getAllToppings();
-//    await this.getToppings();
-//   },
-
   created() {
-    // this.costBySize = this.$store.state.pizzaCostBySize;
-    // this.sizeArray = this.$store.state.pizzaSize;
-
-
     ToppingService.getAvailableToppings().then((response)=>{
       this.allToppings = response.data;
     });
     let pizzaId = this.$route.params.pizzaId;
-    // this.pathvar = pizzaId;
     if(pizzaId !== ""){
       PizzaService.getAvailablePizza(pizzaId).then((response)=>{
         this.pizza = response.data;
@@ -560,8 +453,6 @@ input[type="checkbox" i] {
    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 
 }
-
-
 .value{
   color: rgb(226, 223, 223);
   background-color: #BB554A;
@@ -570,8 +461,6 @@ input[type="checkbox" i] {
   border-radius: 10px;
   
 }
-
-
 input[type='radio'] {
     accent-color: #45A049;
   
@@ -608,9 +497,6 @@ input[type='radio'] {
 .value option:hover{
   background-color: seagreen;
 }
-
-
-
 @media (min-width: 600px) {
   .toppings {
     justify-content: flex-start;

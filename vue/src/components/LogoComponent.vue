@@ -123,7 +123,6 @@ p{
     }
     #large-screen-only{
         display: block;
-        /* background-color: #BB554A ; */
         background: linear-gradient(0.25turn, white, #BB554A);
         flex-grow: 1;
         height: 1.1em;
