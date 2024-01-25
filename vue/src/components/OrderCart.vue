@@ -8,7 +8,7 @@
                 <span>Quantity: {{ pizza.quantity }}</span>
                 <span id="pizza-cost"> - ${{ pizza.pizza_cost * pizza.quantity }}</span>
                 <br />
-                 <button @click="increaseQuantity(pizza)">More Quantity</button>
+                 <button @click="increaseQuantity(pizza)">Increase Quantity</button>
                 <button @click="removePizza(pizza.pizza_id)">Remove</button>
             </div>
         <div>
@@ -58,9 +58,11 @@ export default {
         }
     },
     methods: {
+
         removePizza(pizza_id) {
             this.$store.commit("DELETE_PIZZA", pizza_id)
-        },
+            
+    },
         increaseQuantity(pizza) {
         if (pizza.quantity < 10) {
             pizza.quantity += 1;
@@ -68,6 +70,7 @@ export default {
 }
     }
 }
+
 </script>
 
 <style scoped>
@@ -82,7 +85,6 @@ export default {
 }
 #cart-title{
     font-family: 'Mandalore Laser Title';
-    /* text-decoration: underline; */
     font-size: 35.2px;
     text-align: center;
     color: #BB554A;
@@ -115,13 +117,4 @@ export default {
 #total-pizza-cost{
     color: #BB554A;
 }
-.delete-pizza-button{
-
-}
-
-/* make the cart title and cart contents a sleek looking popup once the cart button is selected */
-/* .cart-title-and-contents{
-    position: fixed;
-    z-index: 100;
-} */
 </style>

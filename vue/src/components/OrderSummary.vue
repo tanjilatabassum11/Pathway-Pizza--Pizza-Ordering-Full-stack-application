@@ -1,6 +1,5 @@
 <template>
     <div class="order-summary">
-      <!-- <h2>Your Order</h2> -->
       <ul>
         <li v-for="(pizza, index) in pizzas" :key="index" class="order-item">
           <div class="pizza-details">

@@ -23,7 +23,7 @@ export function createStore(currentToken, currentUser) {
           emailAddress: ''
         },
         pizzaSelection: [
-        
+      
       ]
 
       }
@@ -83,7 +83,7 @@ export function createStore(currentToken, currentUser) {
         if(pizzaIndex > -1) {
           state.orderData.pizzaSelection.splice(pizzaIndex, 1)
         }
-      
+        
        },
        CLEAR_ORDER(state, payload){
           state.orderData = {};
@@ -104,8 +104,7 @@ export function createStore(currentToken, currentUser) {
           }
        }
 
-     
-     
+    
     },
      
 

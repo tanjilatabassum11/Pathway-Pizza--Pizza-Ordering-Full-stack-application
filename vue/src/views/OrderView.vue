@@ -6,15 +6,13 @@
     
   
   <div class="order-view">
-    <OrderCart v-if="showCart && !orderPlaced" />
+    <OrderCart v-if="showCart && !orderPlaced && areItemsInCart" />
 
 
-    <!-- Order Form -->
     <OrderForm v-show="!isCustomerDataEntered && !orderPlaced" @updateCustomerInfo="updateCustomerInfo" />
 
     <div class="order" v-show="isCustomerDataEntered && !orderPlaced">
       <h1>Place Your Pizza Order</h1>
-      <!-- Specialty Pizza Selection -->
       <PizzaSelection @selectPizza="selectPizza" />
       <div class="custom-pizza-section">
         <h2>Custom Pizza</h2>
@@ -23,9 +21,6 @@
       
       <button id="confirm" @click="confirmOrder" v-show="isCustomerDataEntered && areItemsInCart && !orderPlaced">Confirm Order</button>
     </div>
-
-    <!-- Confirm Order Button -->
-    <!-- <button @click="confirmOrder" v-show="isCustomerDataEntered && areItemsInCart && !orderPlaced">Confirm Order</button> -->
     
     <div v-if="orderPlaced" id="thanks">
       <h1>Thank you for choosing Pathway Pizza!</h1>
@@ -50,7 +45,6 @@
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-// Add the solid icons to the library
 library.add(fas);
 
 
@@ -59,7 +53,6 @@ import UserOrderService from '../services/UserOrderService';
 import OrderForm from '../components/OrderForm.vue';
 import PizzaSelection from '../components/PizzaSelection.vue';
 import OrderCart from '../components/OrderCart.vue';
-//import ToppingsSelection from '../components/ToppingComponent.vue';
 import PizzaService from '../services/PizzaService';
 
 export default {
@@ -68,7 +61,6 @@ export default {
     PizzaSelection,
     OrderCart,
   
-    // ConfirmationDialog,
     FontAwesomeIcon,
   },
   data() {
@@ -107,8 +99,6 @@ export default {
       this.$router.push({name: 'topping', params:{pizzaId: ''}})
 
     },
-  
-    //everything after this might not be needed
     updateCustomerInfo(customerInfo) {
       this.orderDetails.customerInfo = customerInfo;
     },
@@ -118,10 +108,6 @@ export default {
     selectPizza(pizza) {
       this.orderDetails.pizzaSelections.push({...pizza, size: this.selectedPizzaSize});
     },
-   // selectTopping(topping) {
-      // Logic to handle topping selection
-      // Here, you'll need to define how you want to integrate selected toppings with your orderDetails
-   // },
     confirmOrder() {
       let order = this.$store.state.orderData;
       let totalCost = 0;
@@ -149,9 +135,7 @@ export default {
 
               });
             } else{
-              // pizza.toppings.forEach((toppingId)=>{
-              //   PizzaService.addToppingToPizza(pizza.pizza_id, toppingId);
-              // });
+
               UserOrderService.addPizzaToOrder(orderReceived.orderId, pizza.pizza_id, pizza.quantity);
               
             }
@@ -167,7 +151,6 @@ export default {
     },
     closeConfirmation() {
       this.showConfirmation = false;
-      // Optionally, reset order details or redirect to another page
     }
   }
 };
@@ -190,7 +173,6 @@ h1, h2, #confirm{
   font-family: 'Mandalore Laser Title';
 }
  .order-view {
-  /* display: flex; */
   flex-direction: column;
   align-items: center;
   margin-top: 20px;
@@ -210,7 +192,6 @@ h1 {
   color: var(--brand-darkred-color);
   margin-bottom: 20px;
   font-size: 2.2em;
-  /* text-decoration: underline; */
 }
 h2{
   color: var(--brand-brown-color);
@@ -252,11 +233,6 @@ button:hover {
   background-color: var(--brand-green-color);
   
 }
-
-/* button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-} */
 
 ul {
   list-style-type: none;
@@ -305,6 +281,4 @@ p {
   margin-right: 15px;
 }
 
-
-/* Additional styles can be added as per your design preference */
 </style>

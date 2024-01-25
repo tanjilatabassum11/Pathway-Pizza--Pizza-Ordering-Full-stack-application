@@ -3,7 +3,6 @@
 <button id="back-button" v-on:click="$router.push({ name: 'start-order' })">Go Back To Order</button>
 </div>
   <div>
-    <!-- <h1>Select Your Toppings:</h1> -->
     <PizzaEditor />
   </div>
 </template>

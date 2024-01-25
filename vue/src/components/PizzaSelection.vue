@@ -10,7 +10,6 @@
           <p>{{ pizza.note }}</p>
           <label>Qty: </label><input class="input-qty" type="number" v-model="pizza.quantity">
           <div class="pizza-details">
-            <!--toFixed(2) shows decimal number by 2 precision after decimal -->
             <span class="pizza-price">${{ pizza.pizza_cost.toFixed(2) }}</span>
             
             <button class="add-to-cart-button show-toppings" v-bind:="currentPizzaId"
@@ -20,39 +19,15 @@
         
       </div>
     </section>
-
-
-     <section >
-     <!-- <div>
-        <h4 id="toppingsPopUp">Select your toppings: </h4>
-     
-        <button>Close</button>
-      </div>
-    </section>
-    <ToppingsView />
-    <section>
-      <h1 class="menu-section-title">Build Your Own</h1>
-      <p v-bind:="getPizza"> {{ $store.state.currentPizzaId  }} </p>
-      -->
-      <!-- Add your Build Your Own pizza content here -->
-      
-    </section>
-
-
-
-   
-
   </div>
 </template>
 <script>
 import PizzaService from '../services/PizzaService.js';
 import ToppingService from '../services/ToppingService.js';
-//import ToppingsView from '../views/ToppingsView.vue';
 export default {
   components: {},
   data() {
     return {
-      // toppings:[],
       availablePizzas: [],
       selectedPizzas: [],
       currentPizzaId: 0,
@@ -61,7 +36,6 @@ export default {
   methods: {
      changeCurrentPizzaId(pizza_id){
       this.currentPizzaId = pizza_id;
-      // this.$router.push( {name: 'topping', params:{pizzaId: this.currentPizzaId}})
     },
     changeStoredCurrentPizza(currentPizzaId){
        this.$store.commit('CHANGE_CURRENT_PIZZA_ID', currentPizzaId);
@@ -87,9 +61,6 @@ export default {
         .then((response) => {
           this.availablePizzas = response.data
         });
-      // ToppingService.getAvailableToppings().then((response)=>{
-      //   this.toppings = response.data;
-      // });
   },
   computed: {
     getPizza() {

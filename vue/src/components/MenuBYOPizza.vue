@@ -25,7 +25,7 @@
             class="Cheese topping-type-title"> Cheeses
         </h3>
         <div class="toppings"
-            v-for="topping in cheeseToppings" :key="topping.topping_id">{{ topping.topping_name }} - ${{ topping.cost }}
+            v-for="topping in cheeseToppings" :key="topping.topping_id">{{ topping.topping_name }} {{ topping.cost == 0 ? '':'- $' + topping.cost}}
         </div>
     </div>
     <div class="topping-container-style">
@@ -33,7 +33,7 @@
             class="Meat topping-type-title"> Meat Toppings
         </h3>
         <div class="toppings"
-            v-for="topping in meatToppings" :key="topping.topping_id">{{ topping.topping_name }} - ${{ topping.cost }}
+            v-for="topping in meatToppings" :key="topping.topping_id">{{ topping.topping_name }} {{topping.topping_name }} {{ topping.cost == 0 ? '':'- $' + topping.cost}}
         </div>
     </div>
     <div class="topping-container-style">
@@ -42,7 +42,7 @@
         </h3>
         
         <div class="toppings"
-            v-for="topping in fruitToppings" :key="topping.topping_id">{{ topping.topping_name }} - ${{ topping.cost }}
+            v-for="topping in fruitToppings" :key="topping.topping_id">{{ topping.topping_name }} {{ topping.topping_name }} {{ topping.cost == 0 ? '':'- $' + topping.cost}}
         </div>
     </div>
     <div class="topping-container-style">
@@ -51,7 +51,7 @@
         </h3>
         
         <div class="toppings"
-            v-for="topping in veggieToppings" :key="topping.topping_id">{{ topping.topping_name }} - ${{ topping.cost }} 
+            v-for="topping in veggieToppings" :key="topping.topping_id">{{ topping.topping_name }} {{ topping.topping_name }} {{ topping.cost == 0 ? '':'- $' + topping.cost}} 
         </div>
     </div>
   </div>
@@ -71,9 +71,6 @@ export default {
         return{
             availableToppings: [],
         }
-        // isToppingFree(){
-
-        // }
     },
     computed: {
         crustToppings(){
@@ -140,13 +137,7 @@ export default {
     flex-grow: 1;
     flex-shrink: 0;
     padding: 15px;
-    /* padding-left: 15px;
-    padding-right: 15px; */
 }
-/* #container > * {
-    width: 25%;
-    flex-grow: 1;
-} */
     
 .topping-container-style{
     border-radius: 10px;
@@ -190,12 +181,6 @@ export default {
     color: #BB554A;
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
-    /* border-bottom: 1px inset black; */
-    /* color: white;
-    background-color: #a18f6380;
-    color: #BB554A;
-    border-radius: 5px;
-    background-color: white; */
 }
 .toppings:not(:last-child){
     border-bottom: 1px solid black;
