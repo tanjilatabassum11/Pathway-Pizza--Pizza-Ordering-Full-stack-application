@@ -8,7 +8,7 @@
                 <span>Quantity: {{ pizza.quantity }}</span>
                 <span id="pizza-cost"> - ${{ pizza.pizza_cost * pizza.quantity }}</span>
                 <br />
-                 <button @click="increaseQuantity(pizza)">More Quantity</button>
+                 <button @click="increaseQuantity(pizza)">Increase Quantity</button>
                 <button @click="removePizza(pizza.pizza_id)">Remove</button>
             </div>
         <div>
