@@ -6,7 +6,7 @@
     
   
   <div class="order-view">
-    <OrderCart v-if="showCart && !orderPlaced" />
+    <OrderCart v-if="showCart && !orderPlaced && areItemsInCart" />
 
 
     <!-- Order Form -->
