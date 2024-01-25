@@ -58,9 +58,11 @@ export default {
         }
     },
     methods: {
+
         removePizza(pizza_id) {
             this.$store.commit("DELETE_PIZZA", pizza_id)
-        },
+            
+    },
         increaseQuantity(pizza) {
         if (pizza.quantity < 10) {
             pizza.quantity += 1;
@@ -68,6 +70,7 @@ export default {
 }
     }
 }
+
 </script>
 
 <style scoped>
