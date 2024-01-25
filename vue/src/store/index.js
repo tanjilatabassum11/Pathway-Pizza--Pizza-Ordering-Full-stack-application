@@ -30,11 +30,7 @@ export function createStore(currentToken, currentUser) {
           emailAddress: ''
         },
         pizzaSelection: [
-        //   {
-        //   pizzaId: 0,
-        //   toppings: [],
-        //   quantity: 0
-        // }
+      
       ]
 
       }
@@ -99,9 +95,7 @@ export function createStore(currentToken, currentUser) {
         if(pizzaIndex > -1) {
           state.orderData.pizzaSelection.splice(pizzaIndex, 1)
         }
-        // this.pizza = this.pizza.filter((pizza_id) => {
-        // 
-        // })
+        
        },
        CLEAR_ORDER(state, payload){
           state.orderData = {};
@@ -122,12 +116,7 @@ export function createStore(currentToken, currentUser) {
           }
        }
 
-        //vv Not sure if we need this - orderId is auto-generated vv
-
-      //  UPDATE_CURRENT_ORDER_ID(state, newData){
-      //   state.currentOrderId = newData;
-      // },
-     
+    
     },
      
 
