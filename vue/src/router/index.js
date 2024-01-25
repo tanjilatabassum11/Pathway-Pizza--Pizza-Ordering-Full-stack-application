@@ -149,15 +149,6 @@ router.beforeEach((to) => {
   if (requiresAuth && store.state.token === '') {
     return {name: "login"};
 
-
-// router.beforeEach((to, from, next) => {
-//   const store = useStore();
-//   const requiresAuth = to.matched.some(route => route.meta.requiresAuth);
-
-//   if (requiresAuth && !store.getters.isAuthenticated) {
-//     next({ name: 'login' });
-//   } else {
-//     next();
   }
 });
 
