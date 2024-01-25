@@ -2,10 +2,9 @@
     <footer>
         <a href="#">about Us</a>
         <br />
-        <a href="#">Some Other Stuff</a>
+        <a href="#">Reviews</a>
         <br />
         <router-link :to="{name:'login'}">Employee Login</router-link>
-        <!-- <a href="#">Employee Login</a> -->
     </footer>
 </template>
 
@@ -54,12 +53,4 @@ a{
     font-family: 'Mandalore Laser Title';
 
 }
-
-/* @media only screen and (max-width: 600px) {
-    footer{
-        width: 90vw;
-    }
-} */
-
-
 </style>

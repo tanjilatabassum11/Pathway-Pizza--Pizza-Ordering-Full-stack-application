@@ -124,6 +124,4 @@ export default {
     background-size: cover; 
     background-position: center; 
 }
-
-/* ... other styles ... */
 </style>
