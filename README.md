@@ -1,5 +1,1 @@
-# Final Capstone
-​
-This directory contains all of the starter projects for the final capstone.
-​
-Each project contains instructions that provides information about the starting code and explains how to get started with the final capstone project.
+Designed a user-friendly pizza ordering website with a seamless experience, employing Java for backend logic, RESTful API for communication, PostgreSQL for database management, and Vue.js for dynamic front-end interactions. The website features an intuitive user interface designed with HTML, CSS, and JavaScript. Also implemented an employee portal to streamline internal processes.
